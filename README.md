@@ -702,3 +702,209 @@ fallback test result
 | MLOps CI/CD/CT | Google Cloud MLOps: CI/CD/CT |
 | DL 구현 후보 | PyTorch Tutorials |
 | AI 위험 관리 | NIST AI Risk Management Framework |
+
+---
+
+# Part 5. DE / Parser 설계
+
+<aside>
+
+**pivotSeoul Data Engineering Specification** · Section: DE / Parser · Status: `MVP CONTRACT DESIGNED`
+
+MVP의 DE 범위는 공공데이터 수집이 아니라 **Spring-FastAPI-PostgreSQL 사이에서 시뮬레이션 데이터를 정확하고 재현 가능하게 이동·저장하는 것**입니다.
+
+</aside>
+
+## 42. MVP DE 범위
+
+현재 MVP에서 Data Engineering의 핵심은 외부 공공데이터 ingestion pipeline 구현이 아니라, 사용자가 입력한 조건과 FastAPI 계산 결과를 Spring과 PostgreSQL 사이에서 일관되게 보존하는 것입니다.
+
+```text
+Onboarding/Input
+→ Session
+→ Run Orchestration
+→ FastAPI Request
+→ Result
+→ PostgreSQL
+→ API / QA / DA
+```
+
+MVP에서는 별도 batch warehouse를 필수 구성요소로 두지 않습니다.
+
+## 43. Data Contract
+
+Session, Run, Input Snapshot, Result를 핵심 dataset으로 봅니다.
+
+각 dataset은 grain, primary key, run/session 관계, schema version, 생성/완료 시각, rule version을 명시해야 합니다.
+
+| Dataset | Grain | 핵심 키 | 주요 추적 항목 |
+| --- | --- | --- | --- |
+| Session | 사용자 입력 흐름 1건 | `session_id`, `session_uuid` | created time, input schema version |
+| Run | 계산 실행 1건 | `run_id`, `session_id` | status, requestedAt, executedAt, completedAt |
+| Input Snapshot | 실행 시점 입력 1건 | `run_id` | request payload hash, rule version, service version |
+| Result | 시나리오별 결과 1건 | `result_id`, `run_id`, `scenario_id` | numeric result, threshold result, result schema version |
+
+분석을 위해 원래 입력과 결과를 `session_id`와 `run_id` 기준으로 다시 연결할 수 있어야 합니다.
+
+## 44. Operational Flow
+
+MVP의 운영 흐름은 아래처럼 정의합니다.
+
+```text
+1. Onboarding/Input에서 사용자 조건 입력
+2. Spring이 Session 생성
+3. 사용자가 실행하면 Run 생성
+4. Spring이 FastAPI로 request payload 전달
+5. FastAPI가 RIR 계산 결과 반환
+6. Spring이 Result와 Threshold Result를 PostgreSQL에 저장
+7. API, QA, DA가 같은 run_id 기준으로 결과 확인
+```
+
+이 흐름에서는 공공데이터 수집 batch가 필수 선행 단계가 아닙니다.
+
+## 45. Reproducibility
+
+같은 input snapshot과 rule/service version으로 동일 결과를 재현할 수 있어야 합니다.
+
+이를 위해 실행 단위로 아래 값을 저장합니다.
+
+| 항목 | 목적 |
+| --- | --- |
+| request payload hash | 동일 입력 여부 확인 |
+| rule version | 계산 규칙 변경 추적 |
+| service version | Spring/FastAPI 구현 version 추적 |
+| executedAt | 실제 계산 실행 시각 추적 |
+| run status | 성공, 실패, 재시도 상태 구분 |
+
+결과를 덮어쓰기보다 version/run 단위로 보존하는 방식을 우선합니다.
+
+## 46. Failure & Recovery
+
+실패는 원인별로 구분해야 합니다.
+
+| 실패 유형 | 예시 | 기록할 내용 |
+| --- | --- | --- |
+| timeout / connection failure | FastAPI 응답 지연, 연결 실패 | failedAt, error type, retry 가능 여부 |
+| invalid response | 필수 field 누락, schema mismatch | response schema version, validation error |
+| persistence failure | PostgreSQL 저장 실패 | DB error, transaction boundary |
+
+재실행 정책은 같은 run을 retry할지 새 run을 만들지 명확히 정해야 합니다.
+
+duplicate result를 방지하고, 실패 run도 원인과 timestamp를 남겨 QA/DA가 분석할 수 있게 합니다.
+
+## 47. Quality Checks
+
+MVP DE 품질 검사는 operational DB와 API response가 같은 사실을 말하는지 확인하는 데 초점을 둡니다.
+
+```text
+run key uniqueness
+required input not-null
+result-to-run relationship
+accepted status
+numeric range
+request/response schema compatibility
+operational DB와 API response reconciliation
+```
+
+이 검사는 별도 warehouse가 없어도 Spring-FastAPI-PostgreSQL 경계에서 수행할 수 있어야 합니다.
+
+## 48. MVP Parser Boundary
+
+MVP parser는 외부 공공데이터 파일을 대량 수집하는 parser가 아니라, Spring과 FastAPI 사이의 request/response payload를 안정적으로 해석하고 검증하는 boundary입니다.
+
+```text
+Spring request DTO
+→ FastAPI request schema
+→ FastAPI response schema
+→ Spring result DTO
+→ PostgreSQL result table
+```
+
+parser/validator가 확인해야 할 핵심은 아래와 같습니다.
+
+| 검증 항목 | 설명 |
+| --- | --- |
+| schema compatibility | Spring DTO와 FastAPI schema field 정합성 |
+| required field | income, deposit, monthlyRent 등 필수 계산 입력 |
+| numeric range | 음수 금액, 비정상 비율, overflow 방지 |
+| enum/status | run status, threshold status accepted values |
+| hash target | 재현성에 사용하는 request payload canonicalization |
+
+## 49. Future Warehouse Boundary
+
+v1.0 이후 analytics warehouse를 추가할 경우 `source → staging → mart` 구조로 확장하고 Airflow/dbt를 적용할 수 있습니다.
+
+다만 현재 MVP에 없는 pipeline을 구현 완료처럼 쓰지 않습니다.
+
+```text
+MVP:
+Spring-FastAPI-PostgreSQL operational flow
+
+v1.0+:
+Source API/File
+→ raw immutable load
+→ staging validation
+→ mart build
+→ analytics serving
+```
+
+## 50. v1.0 서울 공공데이터 수집 확장
+
+MVP 데이터 이동 계약은 유지하면서, v1.0에서 서울 열린데이터광장 외부 데이터를 별도 ingestion pipeline으로 추가할 수 있습니다.
+
+서울시 부동산 전월세가 정보는 `tbLnOpendataRentV` OpenAPI와 연도별 FILE을 사용합니다. 최근 3년 API 범위와 과거 FILE 범위를 구분해 적재합니다.
+
+서울 열린데이터광장은 소스에서 선정한 교육정보, 보육시설, 우리동네키움센터, 사회복지시설/복지서비스, 정책 데이터의 공식 catalog/source로 관리합니다.
+
+OpenAPI 이용안내는 인증키와 페이지 단위 호출 규칙의 구현 근거로 사용합니다.
+
+## 51. v1.0 Ingestion Parser Design
+
+v1.0 외부 데이터 parser는 아래 순서로 구성합니다.
+
+```text
+Source API/File
+→ raw immutable load
+→ schema validation
+→ district/life-stage normalization
+→ snapshot build
+→ DQ/reconciliation
+→ serving
+```
+
+각 row 또는 snapshot에는 아래 metadata를 남깁니다.
+
+| Metadata | 설명 |
+| --- | --- |
+| source_dataset | 원천 dataset 이름 |
+| source_url | 원천 API 또는 file URL |
+| source_updated_at | 원천 기준 갱신 시각 |
+| collected_at | 수집 시각 |
+| batch_id | 수집 batch 식별자 |
+| schema_version | parser/schema version |
+
+데이터셋별 스키마 차이는 raw에서 보존하고, serving 단계에서 `district_code`와 `life_stage_code` 중심으로 정규화합니다.
+
+## 52. DQ / Reconciliation
+
+v1.0 공공데이터 ingestion이 추가되면 아래 DQ를 수행합니다.
+
+```text
+필수 지역코드 null
+중복 source key
+비정상 금액
+reference date 누락
+수집 row count 급변
+serving snapshot과 raw batch reconciliation
+```
+
+외부 데이터 수집 실패는 simulation transaction과 분리하여 기존 RIR 계산을 막지 않습니다.
+
+## 53. DE 공식문서 참고
+
+| 참고 주제 | 공식문서 |
+| --- | --- |
+| workflow 개념 | Airflow Core Concepts |
+| data test | dbt Data Tests |
+| operational DB | PostgreSQL |
+| warehouse partitioning | BigQuery Partitioned Tables, warehouse 도입 시 |
