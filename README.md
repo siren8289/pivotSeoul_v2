@@ -1062,3 +1062,140 @@ v1.0에서는 기존 MVP 행동/성능 분석과 분리해 서울시 공공데�
 | event 설계 | GA4 Events |
 | 권장 event | GA4 Recommended Events |
 | 분석 쿼리 성능 | BigQuery Performance |
+
+---
+
+# Part 7. Backend 설계
+
+<aside>
+
+**pivotSeoul Backend Specification** · Section: BE · Status: `MVP BACKEND DESIGNED`
+
+pivotSeoul MVP는 Spring-FastAPI-PostgreSQL 기반 시뮬레이션 흐름이 중심입니다. 현재 문서 범위를 넘어 공공데이터 예측 시스템처럼 확장해 서술하지 않습니다.
+
+</aside>
+
+## 64. Backend Scope
+
+Backend의 핵심 흐름은 생애단계/온보딩 입력에서 시작해 session/run 생성, FastAPI housing 규칙 서비스 호출, 결과 저장, 결과 조회로 이어집니다.
+
+```text
+생애단계 / 온보딩 입력
+→ Session 생성
+→ Simulation Run 생성
+→ FastAPI housing 규칙 서비스 호출
+→ 결과 저장
+→ 결과 조회
+```
+
+Spring Backend는 orchestration, persistence, 오류/재시도 처리, Spring-FastAPI contract 호환성을 담당합니다.
+
+## 65. API Contract
+
+OpenAPI로 외부 API와 내부 contract를 함께 관리합니다.
+
+| Contract | 설명 |
+| --- | --- |
+| Session API | 생애단계/온보딩 입력 기반 session 생성 |
+| Run API | session 기준 simulation run 생성과 실행 |
+| Results API | run/result 기준 결과 조회 |
+| Spring-FastAPI internal contract | housing 계산 request/response schema |
+
+`run_id`를 correlation key로 사용하고, 요청/응답에는 `schema_version`을 둘 수 있습니다.
+
+FastAPI 내부 응답 schema가 바뀌면 Spring contract test가 실패하도록 유지합니다.
+
+## 66. Validation & Domain Rules
+
+DTO validation은 단일 입력값의 형식과 범위를 검증합니다.
+
+Service rule은 서로 연관된 조건을 검증합니다.
+
+| 검증 위치 | 예시 |
+| --- | --- |
+| DTO validation | 생애단계 필수값, 금액 양수, 기간 범위 |
+| Service rule | 보증금/월세 조합, 생애단계별 허용 입력, run 실행 가능 상태 |
+| Contract validation | FastAPI request/response field, schema version |
+
+사용자 입력 오류, 외부/내부 서비스 오류, persistence 오류는 서로 다른 status/error code로 구분합니다.
+
+## 67. Transaction & Orchestration
+
+DB transaction은 local write 단위로 제한합니다.
+
+```text
+run 생성 transaction
+FastAPI network call
+run 상태 변경 transaction
+result 저장 transaction
+```
+
+FastAPI 네트워크 호출을 긴 DB lock과 결합하지 않습니다.
+
+Run 상태는 최소한 아래처럼 명확히 관리합니다.
+
+| Status | 의미 |
+| --- | --- |
+| `CREATED` | run이 생성됐지만 아직 계산 시작 전 |
+| `RUNNING` | FastAPI 계산 호출 또는 결과 처리 중 |
+| `SUCCEEDED` | 결과 저장까지 완료 |
+| `FAILED` | timeout, invalid response, persistence failure 등으로 실패 |
+
+retry 정책은 같은 run을 재시도할지 새 run을 만들지 명확히 정의합니다.
+
+## 68. Resilience
+
+FastAPI timeout과 connection error는 retry 가능 여부를 구분합니다.
+
+중복 실행으로 result row가 복제되지 않도록 idempotency를 설계합니다.
+
+```text
+same run_id + same request payload hash
+→ duplicate result insert 방지
+→ 기존 result 또는 명확한 conflict 반환
+```
+
+결과 조회 API는 아직 완료되지 않은 run과 실패한 run을 명확히 구분합니다.
+
+## 69. Security
+
+사용자, session, run 소유권을 기준으로 BOLA를 차단합니다.
+
+적용해야 할 보안 기준은 아래와 같습니다.
+
+```text
+입력 검증
+사용자별 session/run 접근 제어
+rate limit
+error detail 노출 방지
+service-to-service authentication 또는 network boundary
+```
+
+내부 FastAPI endpoint가 외부에 노출되는 경우 별도 authentication 또는 network boundary를 둡니다.
+
+## 70. DB & Test
+
+DB index는 run/result key, 사용자별 조회, createdAt 정렬 패턴을 기준으로 검토합니다.
+
+EXPLAIN으로 실제 조회 계획을 확인하고, 불필요한 index를 남발하지 않습니다.
+
+테스트 범위는 아래를 포함합니다.
+
+```text
+controller validation test
+service orchestration test
+FastAPI contract test
+repository test
+timeout/failure test
+end-to-end run test
+```
+
+## 71. BE 공식문서 참고
+
+| 참고 주제 | 공식문서 |
+| --- | --- |
+| API contract | OpenAPI |
+| 입력 검증 | Spring Validation |
+| transaction boundary | Spring Transaction |
+| API 보안 | OWASP API Security |
+| 실행계획 확인 | PostgreSQL EXPLAIN |
