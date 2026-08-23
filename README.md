@@ -485,3 +485,220 @@ DB 효율화는 MVP 실행 경로에 맞춘 스키마 축소와 데이터 파이
 | PostgreSQL BRIN              | PostgreSQL BRIN Indexes                  |
 | PostgreSQL Materialized View | PostgreSQL Materialized Views            |
 | PostgreSQL 파티셔닝              | PostgreSQL Partitioning                  |
+
+---
+
+# Part 4. ML/DL 확장 설계
+
+<aside>
+
+**pivotSeoul ML/DL Specification** · Section: DL · Status: `DESIGNED / NOT IMPLEMENTED`
+
+도시·지역·시간 데이터 기반 수요/혼잡도 예측을 ML baseline부터 DL 후보까지 단계적으로 검증한다.
+
+</aside>
+
+## 27. 문서 개요
+
+이 섹션은 pivotSeoul의 지역·시간별 미래 수요 또는 혼잡도 예측 확장을 위한 ML/DL 설계안입니다.
+
+현재 프로젝트에는 실제 dataset, experiment log, baseline 비교, trained artifact, serving/monitoring 증거가 없으므로, DL 기능은 구현 완료가 아니라 `DESIGNED / NOT IMPLEMENTED` 상태로 둡니다.
+
+상위 기준은 PRD, SRS, SDD 및 프로젝트 데이터 소스이며, DL은 ML baseline보다 유의미한 개선이 확인될 때만 채택합니다.
+
+## 28. 문제 정의
+
+| 항목   | 내용                                      |
+| ---- | --------------------------------------- |
+| Task | forecasting/regression 또는 혼잡 단계 classification |
+| Input | 지역, 시간, 요일, 이동·시설·상권 특성, 과거 관측값       |
+| Output | 미래 구간 수요/혼잡도 또는 혼잡 단계                  |
+| 채택 기준 | baseline 대비 성능 개선과 운영 latency gate 동시 충족 |
+
+```text
+지역 + 시간 + 요일 + 공공데이터 + 과거 관측값
+→ time-aligned feature 생성
+→ 미래 horizon 수요/혼잡도 예측
+```
+
+## 29. 요구사항
+
+ML/DL 예측 기능은 아래 요구사항을 만족해야 합니다.
+
+| 요구사항        | 설명                                      |
+| ----------- | --------------------------------------- |
+| 예측 대상       | 지역, 시간 단위, prediction horizon을 명시         |
+| timestamp 추적 | input snapshot과 prediction timestamp를 분리 기록 |
+| fallback    | 데이터 지연, 누락, 모델 오류 시 baseline으로 대체        |
+| latency     | SRS NFR 기준에 맞춰 batch forecast 또는 online inference 결정 |
+| reproducibility | dataset, feature, model, seed, artifact version 보존 |
+| explainability | 운영자가 주요 feature, error segment, fallback 여부를 확인 가능해야 함 |
+
+## 30. 데이터 명세
+
+입력 데이터는 지역, 시간, 요일, 공공데이터, 과거 관측값으로 구성합니다.
+
+중요한 원칙은 `feature timestamp`와 `target timestamp`를 분리하고, 시간 순서를 보존한 split을 사용하는 것입니다.
+
+```text
+feature timestamp <= prediction timestamp < target timestamp
+```
+
+미래값 유입과 집계 window leakage를 막기 위해 아래 정보를 기록합니다.
+
+| 기록 항목 | 예시 |
+| --- | --- |
+| source | 공공데이터 API, 내부 simulation log, 외부 지역 지표 |
+| schema | feature column, type, nullable, unit |
+| snapshot | 데이터 수집 시점과 기준 시점 |
+| processing version | validation, aggregation, feature engineering version |
+
+## 31. Baseline & Model Design
+
+모델은 복잡한 DL부터 시작하지 않고 아래 순서로 검증합니다.
+
+1. 직전값 또는 계절 naive baseline
+2. 이동평균, 요일/시간대 통계 baseline
+3. regression 또는 tree-based ML 모델
+4. 충분한 sequence 데이터 확보 후 neural sequence model 비교
+
+DL 모델은 baseline과 동일한 데이터 구간, 동일한 horizon, 동일한 evaluation metric에서 비교합니다.
+
+## 32. Training & Experiment Design
+
+학습과 실험은 rolling split 또는 time-based train/validation/test split을 사용합니다.
+
+실험마다 아래 정보를 기록합니다.
+
+| 항목 | 설명 |
+| --- | --- |
+| window | 입력 과거 관측 구간 |
+| horizon | 예측 대상 미래 구간 |
+| feature set | 사용 feature 목록과 version |
+| model | baseline, ML, DL 후보 |
+| hyperparameter | 주요 탐색값과 최종값 |
+| seed/checkpoint | 재현을 위한 seed, checkpoint, artifact 위치 |
+
+## 33. Evaluation Specification
+
+forecasting/regression은 MAE, RMSE 등을 기본 metric으로 사용합니다.
+
+혼잡 단계 classification으로 전환할 경우 Precision, Recall, F1을 함께 확인합니다.
+
+전체 평균 점수만 보지 않고 아래 segment별 error analysis를 수행합니다.
+
+```text
+지역별 error
+시간대별 error
+혼잡 수준별 error
+데이터 지연/누락 구간 error
+```
+
+acceptance gate는 baseline 개선과 운영 latency를 함께 봅니다.
+
+## 34. ML/DL System Design
+
+```mermaid
+flowchart LR
+A["Urban/Public Data"] --> B["Validation"] --> C["Time-aligned Features"] --> D["Train/Evaluate"] --> E["Model Registry"] --> F["Forecast Serving"] --> G["Monitoring"]
+```
+
+시스템은 validation, time-aligned feature 생성, train/evaluate, model registry, forecast serving, monitoring 단계로 분리합니다.
+
+## 35. Serving & Integration
+
+Serving 방식은 SRS NFR 기준에 맞춰 batch forecast 또는 online inference 중 선택합니다.
+
+응답에는 최소한 아래 정보를 포함합니다.
+
+| 응답 항목 | 설명 |
+| --- | --- |
+| prediction value | 예측 수요, 혼잡도 또는 혼잡 단계 |
+| prediction horizon | 예측 대상 미래 구간 |
+| model version | 사용 모델 version |
+| feature snapshot | 입력 데이터 snapshot |
+| fallback flag | baseline fallback 여부 |
+
+데이터가 도착하지 않았거나 모델 오류가 발생하면 baseline fallback 결과를 반환합니다.
+
+## 36. QA & Validation
+
+ML/DL 파이프라인은 아래 테스트를 통과해야 합니다.
+
+```text
+timestamp 정합성 검사
+schema 변경 검사
+NULL/outlier 검사
+time leakage test
+training-serving feature parity test
+고정 기간 regression test
+fallback test
+```
+
+특히 time leakage test는 미래 target 또는 미래 집계값이 feature에 섞이지 않았는지 확인하는 핵심 검증입니다.
+
+## 37. Deployment & MLOps
+
+dataset, model, pipeline version을 함께 관리하고, 검증된 모델만 registry promotion 대상으로 삼습니다.
+
+pipeline CI/CD는 최소한 아래 흐름을 가져야 합니다.
+
+```text
+data validation
+→ feature build
+→ train/evaluate
+→ acceptance gate
+→ registry promotion
+→ serving deploy
+→ rollback 준비
+```
+
+이전 모델 rollback이 가능해야 하며, 운영 중인 model version과 feature processing version을 항상 추적할 수 있어야 합니다.
+
+## 38. Monitoring & Retraining
+
+운영 모니터링 대상은 feature drift, prediction distribution, actual 대비 error, latency, data freshness입니다.
+
+실제값이 도착한 뒤 예측 성능을 계산하고, 아래 조건을 재학습 trigger로 사용합니다.
+
+```text
+baseline 대비 성능 저하
+계절 변화 또는 이벤트성 분포 변화
+feature drift 증가
+data freshness 악화
+특정 지역/시간대 error 지속 증가
+```
+
+## 39. Responsible AI / Risk
+
+예측치는 확정적 사실이 아니라 미래 구간에 대한 추정값으로 표시해야 합니다.
+
+데이터 공백, 지역별 편향, fallback 여부는 사용자 또는 운영자가 확인할 수 있어야 합니다.
+
+자동 의사결정이 필요한 기능으로 확장할 경우 human review 경계를 별도 정의합니다.
+
+## 40. Evidence & Status
+
+아래 증거가 생기기 전까지 이 섹션의 상태는 `DESIGNED / NOT IMPLEMENTED`로 유지합니다.
+
+```text
+실제 dataset
+experiment log
+baseline comparison
+trained artifact
+model registry record
+serving endpoint
+monitoring dashboard
+fallback test result
+```
+
+## 41. ML/DL 공식문서 참고
+
+| 참고 주제 | 공식문서 |
+| --- | --- |
+| ML 개발 단계 | Google ML Development Phases |
+| 실험 관리 | Google Experiments |
+| 이해관계자와 산출물 | Google ML Project Stakeholders & Deliverables |
+| MLOps CI/CD/CT | Google Cloud MLOps: CI/CD/CT |
+| DL 구현 후보 | PyTorch Tutorials |
+| AI 위험 관리 | NIST AI Risk Management Framework |
