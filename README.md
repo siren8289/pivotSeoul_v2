@@ -1062,3 +1062,125 @@ v1.0에서는 기존 MVP 행동/성능 분석과 분리해 서울시 공공데�
 | event 설계 | GA4 Events |
 | 권장 event | GA4 Recommended Events |
 | 분석 쿼리 성능 | BigQuery Performance |
+
+---
+
+# Part 7. QA / Release Gate 설계
+
+<aside>
+
+**pivotSeoul QA Specification** · Section: QA · Status: `MVP QA DESIGNED`
+
+pivotSeoul QA는 **온보딩 → simulation → result** 핵심 MVP flow와 Spring/FastAPI/PostgreSQL 데이터 계약을 release gate로 검증합니다.
+
+</aside>
+
+## 64. QA Scope
+
+QA의 핵심 검증 대상은 공공데이터 수집이나 지역 예측 정확도가 아니라, MVP 사용자가 실제로 거치는 시뮬레이션 flow입니다.
+
+```text
+생애단계 선택
+→ 온보딩 제출
+→ Session 생성
+→ Simulation Run
+→ FastAPI housing 규칙 계산
+→ Result 저장
+→ 결과 조회
+```
+
+Spring, FastAPI, PostgreSQL 사이에서 input snapshot, run, result, version이 끊기지 않고 연결되는지를 release gate로 봅니다.
+
+## 65. Risk Priority
+
+QA 우선순위는 장애의 사용자 영향과 데이터 오염 가능성을 기준으로 나눕니다.
+
+| Priority | Risk |
+| --- | --- |
+| P0 | 잘못된 simulation result 저장, run/result 연결 실패, 권한 우회, 상태 전이 꼬임, 규칙 경계값 오류 |
+| P1 | timeout/retry, error contract, latency guardrail |
+| P2 | 비핵심 UI 개선, 분석 편의성 개선 |
+
+현재 범위에서 공공데이터 수집, 지역 순위, 지역 예측 테스트를 P0로 넣지 않습니다.
+
+## 66. Test Levels
+
+테스트는 아래 수준으로 나눠 관리합니다.
+
+| Level | 검증 대상 |
+| --- | --- |
+| unit | rule/golden cases, service state transition |
+| API | Spring endpoint validation, error, auth |
+| contract | Spring-FastAPI schema/version compatibility |
+| DB | run/result persistence, relationship, duplicate 방지 |
+| E2E | 생애단계 → onboarding → run → result 확인 |
+| resilience | FastAPI timeout, invalid response, retry |
+
+각 test level은 PRD/SRS 기능과 연결되어야 하며, 미실행 테스트를 PASS로 처리하지 않습니다.
+
+## 67. Traceability
+
+Traceability는 아래 흐름으로 남깁니다.
+
+```text
+PRD/SRS 기능 ID
+→ SDD component/API
+→ test case
+→ run evidence
+```
+
+테스트 증거에는 실행 일시, 대상 branch/commit, 환경, 입력 데이터, 기대 결과, 실제 결과를 포함합니다.
+
+## 68. Data QA
+
+Data QA는 동일 run의 입력과 결과가 재현 가능하게 연결되는지 확인합니다.
+
+```text
+input snapshot ↔ run_id 연결
+result ↔ run_id 연결
+rule/service/result version 기록
+duplicate result 방지
+missing result 탐지
+failure status 기록
+API response와 DB 값 일치
+```
+
+성공 run인데 result가 없거나, 실패 run인데 result가 저장된 상태는 release blocker로 봅니다.
+
+## 69. Security QA
+
+Security QA는 OWASP API Security와 WSTG 기준을 참고합니다.
+
+| 검증 항목 | 설명 |
+| --- | --- |
+| object ownership | 다른 사용자/session/run 결과 접근 차단 |
+| authorization | 보호 API의 권한 확인 |
+| input validation | DTO와 domain rule 우회 방지 |
+| error disclosure | stack trace, 내부 URL, 민감 입력 노출 방지 |
+| rate/resource abuse | 반복 실행과 과도한 요청 방어 |
+
+BOLA 가능성은 P0 risk로 처리합니다.
+
+## 70. Release Gate
+
+Release gate는 아래 조건을 모두 확인합니다.
+
+```text
+P0 test 전부 PASS
+Spring-FastAPI contract 일치
+golden rule regression PASS
+DB reconciliation PASS
+timeout/fallback 증거 확보
+rollback 가능성 확인
+미실행 테스트 PASS 처리 금지
+```
+
+P1 실패는 release risk로 기록하고, 사용자 영향과 rollback 가능성을 기준으로 release 여부를 판단합니다.
+
+## 71. QA 공식문서 참고
+
+| 참고 주제 | 공식문서 |
+| --- | --- |
+| 테스트 기본 원칙 | ISTQB CTFL v4.0 |
+| 품질 특성 | ISO/IEC 25010 |
+| 웹/API 보안 테스트 | OWASP WSTG |
