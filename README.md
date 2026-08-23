@@ -1184,3 +1184,170 @@ P1 실패는 release risk로 기록하고, 사용자 영향과 rollback 가능�
 | 테스트 기본 원칙 | ISTQB CTFL v4.0 |
 | 품질 특성 | ISO/IEC 25010 |
 | 웹/API 보안 테스트 | OWASP WSTG |
+
+---
+
+# Part 8. 파일 / 폴더 구조
+
+```text
+pivotSeoul_portfolio/
+├── README.md
+├── build.gradle
+├── settings.gradle
+├── docker-compose.yml
+├── gradlew
+├── gradlew.bat
+├── pivotSeoul.code-workspace
+│
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+│
+├── docs/
+│   ├── PRD-MVP.md
+│   ├── SRS-MVP.md
+│   ├── SDD-MVP.md
+│   ├── TEST-QAQC-MVP.md
+│   ├── OPERATION-MVP.md
+│   ├── DEPLOYMENT-MVP.md
+│   └── DATA-EFFICIENCY-MVP.md
+│
+├── deploy/
+│   └── setup-oracle-linux.sh
+│
+├── analytics/
+│   ├── airflow/
+│   │   └── pivot_mvp_pipeline.py
+│   └── spark/
+│       └── refresh_fact.py
+│
+├── fastapi/
+│   ├── README.md
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── requirements.txt
+│   ├── main.py
+│   │
+│   └── housing/
+│       ├── __init__.py
+│       ├── schema.py
+│       ├── rir.py
+│       ├── router.py
+│       ├── preprocessing.py
+│       ├── result_builder.py
+│       └── service.py
+│
+├── front/
+│   ├── README.md
+│   ├── ATTRIBUTIONS.md
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── next.config.ts
+│   ├── tsconfig.json
+│   ├── postcss.config.mjs
+│   ├── next-env.d.ts
+│   │
+│   ├── pages/
+│   │   ├── _app.tsx
+│   │   └── [[...slug]].tsx
+│   │
+│   ├── guidelines/
+│   │   └── Guidelines.md
+│   │
+│   └── src/
+│       ├── App.tsx
+│       ├── routes.tsx
+│       │
+│       ├── api/
+│       │   └── mvp-api.ts
+│       │
+│       ├── pages/
+│       │   ├── Home.tsx
+│       │   ├── StageSelection.tsx
+│       │   ├── Onboarding.tsx
+│       │   ├── SimulationRun.tsx
+│       │   └── Results.tsx
+│       │
+│       ├── components/
+│       │   ├── Layout.tsx
+│       │   ├── RunButton.tsx
+│       │   ├── LoadingState.tsx
+│       │   ├── SimulationErrorCard.tsx
+│       │   ├── GaugeChart.tsx
+│       │   ├── AiProgressCard.tsx
+│       │   └── ui-use-mobile.ts
+│       │
+│       ├── context/
+│       │   ├── PivotContext.tsx
+│       │   └── ThemeContext.tsx
+│       │
+│       └── styles/
+│           ├── fonts.css
+│           ├── index.css
+│           ├── tailwind.css
+│           └── theme.css
+│
+└── back/
+    ├── build.gradle
+    ├── Dockerfile
+    ├── gradlew
+    ├── gradlew.bat
+    │
+    ├── app/
+    │   └── PivotSeoulApplication.java
+    │
+    ├── simulation/
+    │   ├── controller/
+    │   ├── dto/
+    │   ├── entity/
+    │   ├── repository/
+    │   └── service/
+    │
+    ├── global/
+    │   ├── ApiResponse.java
+    │   ├── GlobalExceptionHandler.java
+    │   ├── HealthController.java
+    │   ├── config/
+    │   └── observability/
+    │
+    ├── resources/
+    │   ├── application.yml
+    │   ├── application-local.yml
+    │   ├── application-prod.yml
+    │   └── static/
+    │       └── openapi.yaml
+    │
+    ├── test/
+    │   ├── PivotSeoulApplicationTests.java
+    │   └── application-test.yml
+    │
+    └── db/
+        ├── README.md
+        ├── load.sh
+        ├── reset-demo.sh
+        │
+        ├── migration/
+        │   ├── V1__*.sql
+        │   ├── V2__*.sql
+        │   ├── V3__*.sql
+        │   ├── V4__*.sql
+        │   ├── V5__*.sql
+        │   ├── V6__*.sql
+        │   ├── V7__*.sql
+        │   └── V8__*.sql
+        │
+        ├── data/
+        │   ├── 00_reset_demo.sql
+        │   ├── 01_reference.sql
+        │   ├── 02_districts.sql
+        │   ├── 03_demo_mvp.sql
+        │   └── 06_refresh_analytics_mart.sql
+        │
+        ├── quality/
+        │   └── run_checks.sql
+        │
+        └── scripts/
+            └── explain_analyze.sql
+```
