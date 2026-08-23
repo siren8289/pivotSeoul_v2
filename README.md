@@ -908,3 +908,157 @@ serving snapshot과 raw batch reconciliation
 | data test | dbt Data Tests |
 | operational DB | PostgreSQL |
 | warehouse partitioning | BigQuery Partitioned Tables, warehouse 도입 시 |
+
+---
+
+# Part 6. DA / Analytics 설계
+
+<aside>
+
+**pivotSeoul Data Analytics Specification** · Section: DA · Status: `MVP ANALYTICS DESIGNED`
+
+분석 대상은 서울 공공데이터나 지역 순위가 아니라 **실제 MVP 사용 흐름과 RIR/시뮬레이션 결과**입니다.
+
+</aside>
+
+## 54. MVP DA 범위
+
+MVP 분석은 공공데이터 기반 지역 랭킹이나 서울 시장 예측이 아니라, 사용자가 실제 제품 흐름에서 어디까지 진행했고 시뮬레이션이 어떤 상태로 끝났는지 확인하는 데 초점을 둡니다.
+
+```text
+생애단계 선택
+→ 온보딩 제출
+→ Session 생성
+→ Simulation Run
+→ 결과 확인
+```
+
+분석 grain은 event, session, run, result를 기준으로 잡고, RIR/threshold 결과와 operational run 상태를 함께 봅니다.
+
+## 55. Core Funnel
+
+핵심 funnel은 아래 순서로 정의합니다.
+
+| Step | Event / Table | Denominator |
+| --- | --- | --- |
+| 생애단계 선택 | `life_stage_selected` | 방문 또는 funnel 시작 사용자 |
+| 온보딩 제출 | `onboarding_submitted` | 생애단계 선택 session |
+| Session 생성 | operational `simulation_session` | onboarding submitted |
+| Simulation Run | `simulation_started`, operational `simulation_run` | 생성된 session |
+| 결과 확인 | `result_viewed` | 성공한 run |
+
+단계별 denominator를 고정하고, 실패/재시도/중복 run 처리 규칙을 KPI 정의에 포함합니다.
+
+## 56. Business Questions
+
+MVP DA는 아래 질문에 답하는 것을 목표로 합니다.
+
+```text
+어느 단계에서 이탈이 가장 큰가?
+입력 유형/생애단계에 따라 run failure 또는 결과 확인률 차이가 있는가?
+simulation latency가 결과 확인/재시도 행동과 연관되는가?
+rule/result 변화가 사용자 결과 분포를 바꾸는가?
+```
+
+현재 MVP 데이터만으로 인과효과나 서울 지역 시장예측 정확도를 주장하지 않습니다.
+
+## 57. KPI
+
+기본 KPI는 아래와 같습니다.
+
+| KPI | 정의 |
+| --- | --- |
+| Onboarding Completion Rate | 온보딩 제출 수 / 생애단계 선택 수 |
+| Run Success Rate | 성공 run 수 / 시작 run 수 |
+| Result View Rate | 결과 확인 수 / 성공 run 수 |
+| Run p95 Latency | simulation_started부터 succeeded/failed까지 p95 latency |
+| Retry Rate | retry run 수 / 전체 run 수 |
+| Error Rate | failed run 수 / 시작 run 수 |
+
+SRS latency 기준과 PRD guardrail이 있다면 같은 event boundary와 측정 위치를 사용하는지 검증합니다.
+
+## 58. Event Contract
+
+행동 이벤트는 최소 집합으로 유지합니다.
+
+| Event | 의미 | 주요 parameter |
+| --- | --- | --- |
+| `life_stage_selected` | 사용자가 생애단계를 선택 | `session_id`, `life_stage` |
+| `onboarding_submitted` | 사용자가 입력을 제출 | `session_id`, `life_stage` |
+| `simulation_started` | run 실행 시작 | `session_id`, `run_id`, `result_version` |
+| `simulation_succeeded` | run 성공 | `session_id`, `run_id`, `latency_ms`, `result_version` |
+| `simulation_failed` | run 실패 | `session_id`, `run_id`, `latency_ms`, `error_code` |
+| `result_viewed` | 결과 화면 확인 | `session_id`, `run_id`, `result_version` |
+
+analytics payload에는 민감한 상세 입력을 제외합니다.
+
+입력 상세가 필요한 분석은 operational DB의 권한 통제된 데이터와 `run_id` 기준으로 결합합니다.
+
+## 59. Analysis Method
+
+MVP 분석 방법은 funnel, error segmentation, cohort/version comparison을 기본으로 합니다.
+
+```text
+funnel:
+단계별 전환율과 이탈률 확인
+
+error segmentation:
+life_stage, input type, error_code, latency bucket별 실패율 확인
+
+cohort/version comparison:
+rule version, result version, service version 변경 전후 분포 비교
+```
+
+분석 결과는 RIR/threshold 분포와 연결할 수 있지만, 외부 서울 시장 데이터의 정확도 검증으로 해석하지 않습니다.
+
+## 60. Reconciliation
+
+event count와 operational Session/Run/Result table을 날짜와 `run_id` 기준으로 비교합니다.
+
+```text
+event simulation_started count
+↔ operational simulation_run count
+
+event simulation_succeeded count
+↔ operational completed run count
+
+event result_viewed run_id
+↔ result API 조회 가능 run_id
+```
+
+이벤트 정의가 바뀌면 event schema version 또는 analytics definition version을 남겨 과거 KPI가 조용히 바뀌지 않게 합니다.
+
+## 61. v1.0 공공데이터 분석 확장
+
+v1.0에서는 기존 MVP 행동/성능 분석과 분리해 서울시 공공데이터를 지역 context 분석에 사용할 수 있습니다.
+
+주거 context는 서울시 부동산 전월세가 정보의 자치구, 법정동, 전월세구분, 보증금, 임대료, 계약년도 데이터를 기반으로 지역별 주거비 reference를 생성합니다.
+
+생활 인프라 context는 서울 열린데이터광장에서 프로젝트 소스에 선정한 교육, 보육, 우리동네키움센터, 복지시설 데이터를 생애단계별 context로 연결합니다.
+
+정책 context는 정책/복지서비스 원본 URL과 유효기간을 보존하고 결과 화면에서 근거 링크를 제공합니다.
+
+## 62. v1.0 Public Data Metric Boundary
+
+공공데이터 분석 grain은 `district × reference_period × life_stage`를 기본으로 합니다.
+
+다만 데이터셋의 실제 제공 grain보다 세밀하게 추정하지 않습니다.
+
+| Metric | 설명 |
+| --- | --- |
+| `rent_reference` | 지역/기간별 전월세 reference |
+| `facility_count` | 생애단계 관련 시설 수 |
+| `data_freshness_days` | 원천 또는 snapshot 기준 경과일 |
+| `source_coverage_rate` | 지역/기간별 source coverage |
+
+서로 다른 기준일의 데이터를 단일 시점 값처럼 해석하지 않습니다.
+
+모든 파생지표는 dataset, version, source URL을 통해 재현 가능해야 합니다.
+
+## 63. DA 공식문서 참고
+
+| 참고 주제 | 공식문서 |
+| --- | --- |
+| event 설계 | GA4 Events |
+| 권장 event | GA4 Recommended Events |
+| 분석 쿼리 성능 | BigQuery Performance |
