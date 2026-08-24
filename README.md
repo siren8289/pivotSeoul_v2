@@ -1065,7 +1065,129 @@ v1.0에서는 기존 MVP 행동/성능 분석과 분리해 서울시 공공데�
 
 ---
 
-# Part 7. Backend 설계
+# Part 7. QA / Release Gate 설계
+
+<aside>
+
+**pivotSeoul QA Specification** · Section: QA · Status: `MVP QA DESIGNED`
+
+pivotSeoul QA는 **온보딩 → simulation → result** 핵심 MVP flow와 Spring/FastAPI/PostgreSQL 데이터 계약을 release gate로 검증합니다.
+
+</aside>
+
+## 64. QA Scope
+
+QA의 핵심 검증 대상은 공공데이터 수집이나 지역 예측 정확도가 아니라, MVP 사용자가 실제로 거치는 시뮬레이션 flow입니다.
+
+```text
+생애단계 선택
+→ 온보딩 제출
+→ Session 생성
+→ Simulation Run
+→ FastAPI housing 규칙 계산
+→ Result 저장
+→ 결과 조회
+```
+
+Spring, FastAPI, PostgreSQL 사이에서 input snapshot, run, result, version이 끊기지 않고 연결되는지를 release gate로 봅니다.
+
+## 65. Risk Priority
+
+QA 우선순위는 장애의 사용자 영향과 데이터 오염 가능성을 기준으로 나눕니다.
+
+| Priority | Risk |
+| --- | --- |
+| P0 | 잘못된 simulation result 저장, run/result 연결 실패, 권한 우회, 상태 전이 꼬임, 규칙 경계값 오류 |
+| P1 | timeout/retry, error contract, latency guardrail |
+| P2 | 비핵심 UI 개선, 분석 편의성 개선 |
+
+현재 범위에서 공공데이터 수집, 지역 순위, 지역 예측 테스트를 P0로 넣지 않습니다.
+
+## 66. Test Levels
+
+테스트는 아래 수준으로 나눠 관리합니다.
+
+| Level | 검증 대상 |
+| --- | --- |
+| unit | rule/golden cases, service state transition |
+| API | Spring endpoint validation, error, auth |
+| contract | Spring-FastAPI schema/version compatibility |
+| DB | run/result persistence, relationship, duplicate 방지 |
+| E2E | 생애단계 → onboarding → run → result 확인 |
+| resilience | FastAPI timeout, invalid response, retry |
+
+각 test level은 PRD/SRS 기능과 연결되어야 하며, 미실행 테스트를 PASS로 처리하지 않습니다.
+
+## 67. Traceability
+
+Traceability는 아래 흐름으로 남깁니다.
+
+```text
+PRD/SRS 기능 ID
+→ SDD component/API
+→ test case
+→ run evidence
+```
+
+테스트 증거에는 실행 일시, 대상 branch/commit, 환경, 입력 데이터, 기대 결과, 실제 결과를 포함합니다.
+
+## 68. Data QA
+
+Data QA는 동일 run의 입력과 결과가 재현 가능하게 연결되는지 확인합니다.
+
+```text
+input snapshot ↔ run_id 연결
+result ↔ run_id 연결
+rule/service/result version 기록
+duplicate result 방지
+missing result 탐지
+failure status 기록
+API response와 DB 값 일치
+```
+
+성공 run인데 result가 없거나, 실패 run인데 result가 저장된 상태는 release blocker로 봅니다.
+
+## 69. Security QA
+
+Security QA는 OWASP API Security와 WSTG 기준을 참고합니다.
+
+| 검증 항목 | 설명 |
+| --- | --- |
+| object ownership | 다른 사용자/session/run 결과 접근 차단 |
+| authorization | 보호 API의 권한 확인 |
+| input validation | DTO와 domain rule 우회 방지 |
+| error disclosure | stack trace, 내부 URL, 민감 입력 노출 방지 |
+| rate/resource abuse | 반복 실행과 과도한 요청 방어 |
+
+BOLA 가능성은 P0 risk로 처리합니다.
+
+## 70. Release Gate
+
+Release gate는 아래 조건을 모두 확인합니다.
+
+```text
+P0 test 전부 PASS
+Spring-FastAPI contract 일치
+golden rule regression PASS
+DB reconciliation PASS
+timeout/fallback 증거 확보
+rollback 가능성 확인
+미실행 테스트 PASS 처리 금지
+```
+
+P1 실패는 release risk로 기록하고, 사용자 영향과 rollback 가능성을 기준으로 release 여부를 판단합니다.
+
+## 71. QA 공식문서 참고
+
+| 참고 주제 | 공식문서 |
+| --- | --- |
+| 테스트 기본 원칙 | ISTQB CTFL v4.0 |
+| 품질 특성 | ISO/IEC 25010 |
+| 웹/API 보안 테스트 | OWASP WSTG |
+
+---
+
+# Part 8. Backend 설계
 
 <aside>
 
@@ -1075,7 +1197,7 @@ pivotSeoul MVP는 Spring-FastAPI-PostgreSQL 기반 시뮬레이션 흐름이 중
 
 </aside>
 
-## 64. Backend Scope
+## 72. Backend Scope
 
 Backend의 핵심 흐름은 생애단계/온보딩 입력에서 시작해 session/run 생성, FastAPI housing 규칙 서비스 호출, 결과 저장, 결과 조회로 이어집니다.
 
@@ -1090,7 +1212,7 @@ Backend의 핵심 흐름은 생애단계/온보딩 입력에서 시작해 sessio
 
 Spring Backend는 orchestration, persistence, 오류/재시도 처리, Spring-FastAPI contract 호환성을 담당합니다.
 
-## 65. API Contract
+## 73. API Contract
 
 OpenAPI로 외부 API와 내부 contract를 함께 관리합니다.
 
@@ -1101,11 +1223,13 @@ OpenAPI로 외부 API와 내부 contract를 함께 관리합니다.
 | Results API | run/result 기준 결과 조회 |
 | Spring-FastAPI internal contract | housing 계산 request/response schema |
 
+FastAPI는 `POST /api/v1/housing/analyze`에서 RIR = 월주거비 / 월소득을 계산한다. RIR > 0.4이면 `is_red_zone=true`, `housing_status=danger`다. Spring은 이 응답을 검증·저장하고, FastAPI 장애 시 Run을 실패로 기록한다.
+
 `run_id`를 correlation key로 사용하고, 요청/응답에는 `schema_version`을 둘 수 있습니다.
 
 FastAPI 내부 응답 schema가 바뀌면 Spring contract test가 실패하도록 유지합니다.
 
-## 66. Validation & Domain Rules
+## 74. Validation & Domain Rules
 
 DTO validation은 단일 입력값의 형식과 범위를 검증합니다.
 
@@ -1119,7 +1243,7 @@ Service rule은 서로 연관된 조건을 검증합니다.
 
 사용자 입력 오류, 외부/내부 서비스 오류, persistence 오류는 서로 다른 status/error code로 구분합니다.
 
-## 67. Transaction & Orchestration
+## 75. Transaction & Orchestration
 
 DB transaction은 local write 단위로 제한합니다.
 
@@ -1143,7 +1267,7 @@ Run 상태는 최소한 아래처럼 명확히 관리합니다.
 
 retry 정책은 같은 run을 재시도할지 새 run을 만들지 명확히 정의합니다.
 
-## 68. Resilience
+## 76. Resilience
 
 FastAPI timeout과 connection error는 retry 가능 여부를 구분합니다.
 
@@ -1157,7 +1281,7 @@ same run_id + same request payload hash
 
 결과 조회 API는 아직 완료되지 않은 run과 실패한 run을 명확히 구분합니다.
 
-## 69. Security
+## 77. Security
 
 사용자, session, run 소유권을 기준으로 BOLA를 차단합니다.
 
@@ -1173,7 +1297,7 @@ service-to-service authentication 또는 network boundary
 
 내부 FastAPI endpoint가 외부에 노출되는 경우 별도 authentication 또는 network boundary를 둡니다.
 
-## 70. DB & Test
+## 78. DB & Test
 
 DB index는 run/result key, 사용자별 조회, createdAt 정렬 패턴을 기준으로 검토합니다.
 
@@ -1190,7 +1314,7 @@ timeout/failure test
 end-to-end run test
 ```
 
-## 71. BE 공식문서 참고
+## 79. BE 공식문서 참고
 
 | 참고 주제 | 공식문서 |
 | --- | --- |
@@ -1199,3 +1323,174 @@ end-to-end run test
 | transaction boundary | Spring Transaction |
 | API 보안 | OWASP API Security |
 | 실행계획 확인 | PostgreSQL EXPLAIN |
+
+---
+
+# Part 9. 파일 / 폴더 구조
+
+```text
+pivotSeoul_portfolio/
+├── README.md
+├── build.gradle
+├── settings.gradle
+├── docker-compose.yml
+├── gradlew
+├── gradlew.bat
+├── pivotSeoul.code-workspace
+│
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+│
+├── docs/
+│   ├── PRD-MVP.md
+│   ├── SRS-MVP.md
+│   ├── SDD-MVP.md
+│   ├── TEST-QAQC-MVP.md
+│   ├── OPERATION-MVP.md
+│   ├── DEPLOYMENT-MVP.md
+│   └── DATA-EFFICIENCY-MVP.md
+│
+├── deploy/
+│   └── setup-oracle-linux.sh
+│
+├── analytics/
+│   ├── airflow/
+│   │   └── pivot_mvp_pipeline.py
+│   └── spark/
+│       └── refresh_fact.py
+│
+├── fastapi/
+│   ├── README.md
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── requirements.txt
+│   ├── main.py
+│   │
+│   ├── housing/
+│   │   ├── __init__.py
+│   │   ├── schema.py
+│   │   ├── rir.py
+│   │   ├── router.py
+│   │   ├── preprocessing.py
+│   │   ├── result_builder.py
+│   │   └── service.py
+│   │
+│   └── tests/
+│       ├── test_rir.py
+│       └── test_analyze_api.py
+│
+├── front/
+│   ├── README.md
+│   ├── ATTRIBUTIONS.md
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── next.config.ts
+│   ├── tsconfig.json
+│   ├── postcss.config.mjs
+│   ├── next-env.d.ts
+│   │
+│   ├── pages/
+│   │   ├── _app.tsx
+│   │   └── [[...slug]].tsx
+│   │
+│   ├── guidelines/
+│   │   └── Guidelines.md
+│   │
+│   └── src/
+│       ├── App.tsx
+│       ├── routes.tsx
+│       │
+│       ├── api/
+│       │   └── mvp-api.ts
+│       │
+│       ├── pages/
+│       │   ├── Home.tsx
+│       │   ├── StageSelection.tsx
+│       │   ├── Onboarding.tsx
+│       │   ├── SimulationRun.tsx
+│       │   └── Results.tsx
+│       │
+│       ├── components/
+│       │   ├── Layout.tsx
+│       │   ├── RunButton.tsx
+│       │   ├── LoadingState.tsx
+│       │   ├── SimulationErrorCard.tsx
+│       │   ├── GaugeChart.tsx
+│       │   ├── AiProgressCard.tsx
+│       │   └── ui-use-mobile.ts
+│       │
+│       ├── context/
+│       │   ├── PivotContext.tsx
+│       │   └── ThemeContext.tsx
+│       │
+│       └── styles/
+│           ├── fonts.css
+│           ├── index.css
+│           ├── tailwind.css
+│           └── theme.css
+│
+└── back/
+    ├── build.gradle
+    ├── Dockerfile
+    ├── gradlew
+    ├── gradlew.bat
+    │
+    ├── app/
+    │   └── PivotSeoulApplication.java
+    │
+    ├── simulation/
+    │   ├── controller/
+    │   ├── dto/
+    │   ├── entity/
+    │   ├── repository/
+    │   └── service/
+    │
+    ├── global/
+    │   ├── ApiResponse.java
+    │   ├── GlobalExceptionHandler.java
+    │   ├── HealthController.java
+    │   ├── config/
+    │   └── observability/
+    │
+    ├── resources/
+    │   ├── application.yml
+    │   ├── application-local.yml
+    │   ├── application-prod.yml
+    │   └── static/
+    │       └── openapi.yaml
+    │
+    ├── test/
+    │   ├── PivotSeoulApplicationTests.java
+    │   └── application-test.yml
+    │
+    └── db/
+        ├── README.md
+        ├── load.sh
+        ├── reset-demo.sh
+        │
+        ├── migration/
+        │   ├── V1__*.sql
+        │   ├── V2__*.sql
+        │   ├── V3__*.sql
+        │   ├── V4__*.sql
+        │   ├── V5__*.sql
+        │   ├── V6__*.sql
+        │   ├── V7__*.sql
+        │   └── V8__*.sql
+        │
+        ├── data/
+        │   ├── 00_reset_demo.sql
+        │   ├── 01_reference.sql
+        │   ├── 02_districts.sql
+        │   ├── 03_demo_mvp.sql
+        │   └── 06_refresh_analytics_mart.sql
+        │
+        ├── quality/
+        │   └── run_checks.sql
+        │
+        └── scripts/
+            └── explain_analyze.sql
+```
