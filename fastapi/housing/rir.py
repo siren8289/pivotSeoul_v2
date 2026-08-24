@@ -1,4 +1,9 @@
-def calculate_rir(monthly_income: int | None, monthly_housing_cost: int | None) -> float | None:
+from __future__ import annotations
+
+from typing import Optional, Tuple
+
+
+def calculate_rir(monthly_income: Optional[int], monthly_housing_cost: Optional[int]) -> Optional[float]:
     """RIR = 월 주거비 / 월 소득"""
     if monthly_income is None or monthly_housing_cost is None:
         return None
@@ -7,7 +12,7 @@ def calculate_rir(monthly_income: int | None, monthly_housing_cost: int | None) 
     return round(monthly_housing_cost / monthly_income, 4)
 
 
-def classify_housing_status(rir: float | None) -> tuple[str, bool]:
+def classify_housing_status(rir: Optional[float]) -> Tuple[str, bool]:
     if rir is None:
         return "unknown", False
     if rir <= 0.30:
@@ -17,7 +22,7 @@ def classify_housing_status(rir: float | None) -> tuple[str, bool]:
     return "danger", True
 
 
-def calculate_housing_risk_score(rir: float | None) -> int:
+def calculate_housing_risk_score(rir: Optional[float]) -> int:
     if rir is None:
         return 0
     if rir <= 0.30:
@@ -27,7 +32,7 @@ def calculate_housing_risk_score(rir: float | None) -> int:
     return 80
 
 
-def calculate_confidence_score(rir: float | None) -> float:
+def calculate_confidence_score(rir: Optional[float]) -> float:
     if rir is None:
         return 0.3
     return 0.85

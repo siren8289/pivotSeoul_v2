@@ -15,6 +15,9 @@ fastapi/
 ```bash
 pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 8000
+pytest
 ```
 
 Spring Back은 `POST /api/v1/housing/analyze` 를 내부 호출합니다.
+
+PRD 수용 기준: 월소득 5,000,000원 / 주거비 2,250,000원 → `rir=0.45`, `is_red_zone=true`, `housing_status=danger`.

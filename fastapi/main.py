@@ -1,5 +1,7 @@
 """MVP RIR AI 엔진 — Spring Back이 내부 호출합니다."""
 
+from typing import Dict
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,10 +25,10 @@ app.include_router(housing_router, prefix="/api/v1")
 
 
 @app.get("/health")
-def health() -> dict[str, str]:
+def health() -> Dict[str, str]:
     return {"status": "ok", "service": "fastapi"}
 
 
 @app.get("/")
-def root() -> dict[str, str]:
+def root() -> Dict[str, str]:
     return {"message": "Pivot Seoul AI 엔진이 작동 중입니다."}
