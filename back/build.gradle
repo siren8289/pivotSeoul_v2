@@ -37,7 +37,8 @@ tasks.named('test') {
 }
 
 processResources {
-    from('db/migration') {
+    // Flyway SQL lives in repo-root db/migration (classpath:db/migration).
+    from("${rootProject.projectDir}/db/migration") {
         into 'db/migration'
     }
 }

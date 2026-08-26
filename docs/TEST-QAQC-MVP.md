@@ -113,7 +113,7 @@ PRD-MVP → SRS-MVP → SDD-MVP → Test/QAQC-MVP → Release
 
 **시드 의존:** `V6__mvp_seed_data.sql` — `life_stage`(YOUTH/FAMILY/SENIOR), `threshold_type`(HOUSING) 필수.
 
-**데모 DB 적재:** Flyway 이후 `./back/db/load.sh` — 상세 `back/db/README.md`.
+**데모 DB 적재:** Flyway 이후 `./db/load.sh` — 상세 `db/README.md`.
 
 ---
 

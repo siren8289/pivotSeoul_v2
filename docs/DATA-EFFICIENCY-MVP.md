@@ -11,7 +11,7 @@
 | 0 | 지표 측정 | ✅ | Micrometer `pivot.query.duration`, `pivot.http.server.requests`, Actuator `/actuator/prometheus` |
 | 1 | 데이터 모델 정리 | ✅ | V7 미사용 테이블·wide 컬럼 제거 |
 | 2 | Star Schema | ✅ | V8 `analytics.dim_*`, `analytics.fact_simulation_run` |
-| 3 | 실행계획 확인 | ✅ | `back/db/scripts/explain_analyze.sql`, `load.sh --explain` |
+| 3 | 실행계획 확인 | ✅ | `db/scripts/explain_analyze.sql`, `load.sh --explain` |
 | 4 | SQL 최적화 | ✅ | `ScenarioResultQueryRepository` JOIN 1회 (N+1 제거) |
 | 5 | 인덱스 | ✅ | V7 + V8 복합 인덱스 |
 | 6 | Partial Index | ✅ | V8 `idx_simulation_run_completed`, `idx_threshold_result_red_zone` 등 |
@@ -21,7 +21,7 @@
 | 10 | 증분 처리 | ✅ | `updated_at` 컬럼, `etl_watermark`, mart UPSERT, `load.sh --incremental` |
 | 11 | CDC | ✅ | V8 trigger → `analytics.simulation_change_log` (Debezium-lite) |
 | 12 | Spark 튜닝 | ✅ | `analytics/spark/refresh_fact.py` (cache, shuffle partitions, Kryo) |
-| 13 | 품질 테스트 | ✅ | `back/db/quality/run_checks.sql` (unique/not_null/FK/accepted_values) |
+| 13 | 품질 테스트 | ✅ | `db/quality/run_checks.sql` (unique/not_null/FK/accepted_values) |
 | 14 | Airflow | ✅ | `analytics/airflow/dags/pivot_mvp_pipeline.py` |
 | 15 | 관측성 | ✅ | `analytics.pipeline_run_log`, `PipelineRunLogService`, Actuator metrics |
 
@@ -48,13 +48,13 @@ updated_at 워터마크 기반 증분 mart 갱신, CDC-lite 변경 로그, Airfl
 docker compose up -d db back
 
 # 마스터 + 데모 + 마트 + 품질
-./back/db/load.sh
+./db/load.sh
 
 # 증분만
-./back/db/load.sh --incremental
+./db/load.sh --incremental
 
 # 실행계획
-./back/db/load.sh --explain
+./db/load.sh --explain
 
 # 메트릭
 curl http://localhost:8080/actuator/prometheus | grep pivot
@@ -76,11 +76,11 @@ curl http://localhost:8080/actuator/prometheus | grep pivot
 ## 변경 파일
 
 ### DB
-- `back/db/migration/V8__data_efficiency_mvp.sql`
-- `back/db/data/06_refresh_analytics_mart.sql`
-- `back/db/quality/run_checks.sql`
-- `back/db/scripts/explain_analyze.sql`
-- `back/db/load.sh`
+- `db/migration/V8__data_efficiency_mvp.sql`
+- `db/data/06_refresh_analytics_mart.sql`
+- `db/quality/run_checks.sql`
+- `db/scripts/explain_analyze.sql`
+- `db/load.sh`
 
 ### Backend
 - `ScenarioResultQueryRepository`, `ScenarioResultBundle`

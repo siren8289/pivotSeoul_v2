@@ -6,6 +6,7 @@ COPY gradle gradle
 COPY build.gradle settings.gradle ./
 COPY back/build.gradle back/
 COPY back/src back/src
+COPY db/migration db/migration
 RUN chmod +x gradlew && ./gradlew :back:bootJar --no-daemon -x test
 
 FROM eclipse-temurin:17-jre-alpine

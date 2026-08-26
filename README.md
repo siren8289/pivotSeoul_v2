@@ -210,7 +210,7 @@ pivotSeoul의 DB 효율화는 V7에서 미사용 테이블과 wide 컬럼을 제
 
 ## 10. EXPLAIN으로 실행계획 확인
 
-pivotSeoul은 `back/db/scripts/explain_analyze.sql`로 핵심 조회 쿼리의 실행계획을 확인할 수 있게 했습니다.
+pivotSeoul은 `db/scripts/explain_analyze.sql`로 핵심 조회 쿼리의 실행계획을 확인할 수 있게 했습니다.
 
 ```text id="bx23ji"
 느낌으로 빠르다 판단
@@ -423,8 +423,8 @@ pivotSeoul의 Spark 배치는 fact refresh 과정에서 cache와 shuffle partiti
 ```bash id="ojkmju"
 # Flyway V1~V8 + 데모 + mart + EXPLAIN
 docker compose up -d db back
-./apps/pivotSeoul/back/db/load.sh
-./apps/pivotSeoul/back/db/load.sh --explain
+./apps/pivotSeoul/db/load.sh
+./apps/pivotSeoul/db/load.sh --explain
 
 # Prometheus 메트릭
 curl http://localhost:8080/actuator/prometheus | grep pivot
@@ -1465,32 +1465,32 @@ pivotSeoul_portfolio/
     ├── test/
     │   ├── PivotSeoulApplicationTests.java
     │   └── application-test.yml
+
+└── db/
+    ├── README.md
+    ├── load.sh
+    ├── reset-demo.sh
     │
-    └── db/
-        ├── README.md
-        ├── load.sh
-        ├── reset-demo.sh
-        │
-        ├── migration/
-        │   ├── V1__*.sql
-        │   ├── V2__*.sql
-        │   ├── V3__*.sql
-        │   ├── V4__*.sql
-        │   ├── V5__*.sql
-        │   ├── V6__*.sql
-        │   ├── V7__*.sql
-        │   └── V8__*.sql
-        │
-        ├── data/
-        │   ├── 00_reset_demo.sql
-        │   ├── 01_reference.sql
-        │   ├── 02_districts.sql
-        │   ├── 03_demo_mvp.sql
-        │   └── 06_refresh_analytics_mart.sql
-        │
-        ├── quality/
-        │   └── run_checks.sql
-        │
-        └── scripts/
-            └── explain_analyze.sql
+    ├── migration/
+    │   ├── V1__*.sql
+    │   ├── V2__*.sql
+    │   ├── V3__*.sql
+    │   ├── V4__*.sql
+    │   ├── V5__*.sql
+    │   ├── V6__*.sql
+    │   ├── V7__*.sql
+    │   └── V8__*.sql
+    │
+    ├── data/
+    │   ├── 00_reset_demo.sql
+    │   ├── 01_reference.sql
+    │   ├── 02_districts.sql
+    │   ├── 03_demo_mvp.sql
+    │   └── 06_refresh_analytics_mart.sql
+    │
+    ├── quality/
+    │   └── run_checks.sql
+    │
+    └── scripts/
+        └── explain_analyze.sql
 ```

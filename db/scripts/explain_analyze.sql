@@ -1,5 +1,5 @@
 -- §0·§3 실행계획 확인 — MVP 핵심 쿼리 EXPLAIN ANALYZE
--- Usage: psql -f back/db/scripts/explain_analyze.sql
+-- Usage: psql -f db/scripts/explain_analyze.sql
 
 \echo '=== F-003 getResult (JOIN 1회) ==='
 EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT)
