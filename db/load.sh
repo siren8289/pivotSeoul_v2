@@ -23,7 +23,7 @@ for arg in "$@"; do
     --explain) MODE="explain" ;;
     --help|-h)
       cat <<'EOF'
-Usage: ./back/db/load.sh [options]
+Usage: ./db/load.sh [options]
 
   (default)         reference + districts + demo + mart refresh + quality
   --reference-only  01_reference + 02_districts

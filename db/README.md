@@ -1,10 +1,10 @@
-# DB (`back/db/`)
+# DB (`db/`)
 
-스키마·데모 적재를 **한 폴더**에서 관리합니다.
+스키마·데모 적재를 **최상위 `db/` 폴더**에서 관리합니다.
 
 ```
-back/db/
-  migration/     # Flyway V1~V7 → 빌드 시 classpath:db/migration
+db/
+  migration/     # Flyway V1~V8 → 빌드 시 classpath:db/migration
   data/          # 개발·QA 데모 SQL
   load.sh        # data 적재
   reset-demo.sh  # demo-*만 삭제
@@ -17,14 +17,16 @@ back/db/
 | `quality/` | DBQC SQL (`run_checks.sql`) |
 | `scripts/` | `EXPLAIN ANALYZE` (`explain_analyze.sql`) |
 
+백엔드 기동 시 Gradle이 `db/migration/`을 `classpath:db/migration`으로 패키징하고, Flyway가 적용합니다.
+
 ## 사용법
 
 ```bash
 docker compose up -d db back   # Flyway migrate
-./back/db/load.sh              # 데모 + 마트 + 품질
-./back/db/load.sh --incremental
-./back/db/load.sh --explain    # EXPLAIN ANALYZE
-./back/db/reset-demo.sh && ./back/db/load.sh --demo-only
+./db/load.sh                   # 데모 + 마트 + 품질
+./db/load.sh --incremental
+./db/load.sh --explain         # EXPLAIN ANALYZE
+./db/reset-demo.sh && ./db/load.sh --demo-only
 ```
 
 ## 데모 세션

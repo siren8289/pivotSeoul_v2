@@ -31,27 +31,27 @@ with DAG(
 ) as dag:
     load_reference = BashOperator(
         task_id="load_reference",
-        bash_command="cd /opt/pivotseoul && ./back/db/load.sh --reference-only",
+        bash_command="cd /opt/pivotseoul && ./db/load.sh --reference-only",
     )
 
     load_demo = BashOperator(
         task_id="load_demo",
-        bash_command="cd /opt/pivotseoul && ./back/db/load.sh --demo-only",
+        bash_command="cd /opt/pivotseoul && ./db/load.sh --demo-only",
     )
 
     refresh_mart = BashOperator(
         task_id="refresh_analytics_mart",
-        bash_command="cd /opt/pivotseoul && ./back/db/load.sh --mart-only",
+        bash_command="cd /opt/pivotseoul && ./db/load.sh --mart-only",
     )
 
     run_quality = BashOperator(
         task_id="run_quality_checks",
-        bash_command="cd /opt/pivotseoul && ./back/db/load.sh --quality",
+        bash_command="cd /opt/pivotseoul && ./db/load.sh --quality",
     )
 
     explain_queries = BashOperator(
         task_id="explain_key_queries",
-        bash_command="cd /opt/pivotseoul && ./back/db/load.sh --explain",
+        bash_command="cd /opt/pivotseoul && ./db/load.sh --explain",
     )
 
     load_reference >> load_demo >> refresh_mart >> run_quality >> explain_queries
