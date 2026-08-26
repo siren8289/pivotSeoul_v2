@@ -1,7 +1,7 @@
 """
 §14 Airflow DAG — DB 적재 → 마트 갱신 → 품질 검증
 
-Local: AIRFLOW_HOME=analytics/airflow airflow dags test pivot_mvp_pipeline 2026-07-02
+Local: AIRFLOW_HOME=da/airflow airflow dags test pivot_mvp_pipeline 2026-07-02
 """
 
 from __future__ import annotations

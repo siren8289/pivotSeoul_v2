@@ -196,7 +196,7 @@ After:
 | BRIN              | `calculation_log.logged_at` 시계열 로그                | `V8__data_efficiency_mvp.sql`         |
 | 파티셔닝              | `pipeline_run_log`, `simulation_change_log` RANGE | `V8__data_efficiency_mvp.sql`         |
 | Star Schema       | `analytics.dim_*`, `fact_simulation_run`          | `V8__data_efficiency_mvp.sql`         |
-| Materialized View | `analytics.mv_district_rir_summary`               | `V8`, `analytics/sql/06_refresh_analytics_mart.sql` |
+| Materialized View | `analytics.mv_district_rir_summary`               | `V8`, `da/sql/06_refresh_analytics_mart.sql` |
 | 증분 ETL            | `etl_watermark`, `updated_at`, mart UPSERT        | `load.sh --incremental`               |
 | CDC-lite          | trigger → `simulation_change_log`                 | `V8`                                  |
 | 품질 검사             | unique, not_null, FK, accepted_values             | `run_checks.sql`                      |
@@ -1349,16 +1349,17 @@ pivotSeoul_portfolio/
 │   ├── SDD-MVP.md
 │   ├── TEST-QAQC-MVP.md
 │   ├── OPERATION-MVP.md
-│   ├── DEPLOYMENT-MVP.md
-│   └── DATA-EFFICIENCY-MVP.md
+│   └── DEPLOYMENT-MVP.md
 │
 ├── deploy/
 │   └── setup-oracle-linux.sh
 │
-├── analytics/
+├── da/
 │   ├── airflow/
 │   │   └── dags/
 │   │       └── pivot_mvp_pipeline.py
+│   ├── docs/
+│   │   └── DATA-EFFICIENCY-MVP.md
 │   ├── sql/
 │   │   └── 06_refresh_analytics_mart.sql
 │   └── spark/

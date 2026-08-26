@@ -5,7 +5,7 @@ Requires: pyspark, PostgreSQL JDBC driver on Spark classpath.
 
   spark-submit \
     --packages org.postgresql:postgresql:42.7.3 \
-    analytics/spark/refresh_fact.py \
+    da/spark/refresh_fact.py \
     --jdbc-url jdbc:postgresql://localhost:5432/pivotseoul \
     --db-user pivotseoul \
     --db-password pivotseoul

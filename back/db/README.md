@@ -1,6 +1,6 @@
 # DB (`back/db/`)
 
-스키마·데모 적재는 `back/db/`, 분석 마트 갱신 SQL은 `analytics/sql/`에서 관리합니다.
+스키마·데모 적재는 `back/db/`, DA 산출물은 `da/`에서 관리합니다.
 
 ```
 back/db/
@@ -9,7 +9,10 @@ back/db/
   load.sh        # data 적재
   reset-demo.sh  # demo-*만 삭제
 
-analytics/
+da/
+  docs/          # 데이터 효율화/분석 문서
+  airflow/dags/  # Airflow DAG
+  spark/         # Spark 배치
   sql/           # 분석 마트 갱신 SQL
 ```
 
@@ -19,7 +22,7 @@ analytics/
 | `data/` | 마스터·자치구·데모 SQL |
 | `quality/` | DBQC SQL (`run_checks.sql`) |
 | `scripts/` | `EXPLAIN ANALYZE` (`explain_analyze.sql`) |
-| `../../analytics/sql/` | 분석 마트 갱신 SQL (`06_refresh_analytics_mart.sql`) |
+| `../../da/` | DA 문서·파이프라인·SQL 산출물 |
 
 ## 사용법
 
