@@ -17,7 +17,7 @@
 | 6 | Partial Index | ✅ | V8 `idx_simulation_run_completed`, `idx_threshold_result_red_zone` 등 |
 | 7 | 파티셔닝 | ✅ | V8 `pipeline_run_log`, `simulation_change_log` RANGE 파티션 |
 | 8 | 클러스터링 | ✅ | V8 `calculation_log` BRIN(`logged_at`) — PG 시계열 군집 |
-| 9 | Materialized View | ✅ | V8 `analytics.mv_district_rir_summary` + `06_refresh_analytics_mart.sql` |
+| 9 | Materialized View | ✅ | V8 `analytics.mv_district_rir_summary` + `analytics/sql/06_refresh_analytics_mart.sql` |
 | 10 | 증분 처리 | ✅ | `updated_at` 컬럼, `etl_watermark`, mart UPSERT, `load.sh --incremental` |
 | 11 | CDC | ✅ | V8 trigger → `analytics.simulation_change_log` (Debezium-lite) |
 | 12 | Spark 튜닝 | ✅ | `analytics/spark/refresh_fact.py` (cache, shuffle partitions, Kryo) |
@@ -77,7 +77,7 @@ curl http://localhost:8080/actuator/prometheus | grep pivot
 
 ### DB
 - `back/db/migration/V8__data_efficiency_mvp.sql`
-- `back/db/data/06_refresh_analytics_mart.sql`
+- `analytics/sql/06_refresh_analytics_mart.sql`
 - `back/db/quality/run_checks.sql`
 - `back/db/scripts/explain_analyze.sql`
 - `back/db/load.sh`

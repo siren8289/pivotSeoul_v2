@@ -95,7 +95,7 @@ BEGIN
     SELECT COUNT(*) INTO fact_count FROM analytics.fact_simulation_run;
 
     IF op_count > 0 AND fact_count = 0 THEN
-        RAISE WARNING 'DBQC-007 warn: completed runs exist but fact table empty — run 06_refresh_analytics_mart.sql';
+        RAISE WARNING 'DBQC-007 warn: completed runs exist but fact table empty — run analytics/sql/06_refresh_analytics_mart.sql';
     END IF;
 END $$;
 

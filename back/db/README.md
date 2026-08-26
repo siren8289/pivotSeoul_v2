@@ -1,21 +1,25 @@
 # DB (`back/db/`)
 
-스키마·데모 적재를 **한 폴더**에서 관리합니다.
+스키마·데모 적재는 `back/db/`, 분석 마트 갱신 SQL은 `analytics/sql/`에서 관리합니다.
 
 ```
 back/db/
-  migration/     # Flyway V1~V7 → 빌드 시 classpath:db/migration
+  migration/     # Flyway V1~V8 → 빌드 시 classpath:db/migration
   data/          # 개발·QA 데모 SQL
   load.sh        # data 적재
   reset-demo.sh  # demo-*만 삭제
+
+analytics/
+  sql/           # 분석 마트 갱신 SQL
 ```
 
 | 하위 | 역할 |
 |------|------|
 | `migration/` | Flyway V1~V8 (스키마 + 데이터 효율화) |
-| `data/` | 마스터·자치구·데모·**마트 갱신** |
+| `data/` | 마스터·자치구·데모 SQL |
 | `quality/` | DBQC SQL (`run_checks.sql`) |
 | `scripts/` | `EXPLAIN ANALYZE` (`explain_analyze.sql`) |
+| `../../analytics/sql/` | 분석 마트 갱신 SQL (`06_refresh_analytics_mart.sql`) |
 
 ## 사용법
 

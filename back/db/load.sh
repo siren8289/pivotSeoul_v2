@@ -6,6 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DATA_DIR="$SCRIPT_DIR/data"
 QUALITY_DIR="$SCRIPT_DIR/quality"
 SCRIPTS_DIR="$SCRIPT_DIR/scripts"
+ANALYTICS_SQL_DIR="$SCRIPT_DIR/../../analytics/sql"
 
 CONTAINER="${PIVOT_DB_CONTAINER:-pivotseoul-db}"
 DB_USER="${POSTGRES_USER:-pivotseoul}"
@@ -29,7 +30,7 @@ Usage: ./back/db/load.sh [options]
   --reference-only  01_reference + 02_districts
   --demo-only       03_demo_mvp
   --incremental     reference + districts + demo + mart (skip full quality)
-  --mart-only       06_refresh_analytics_mart
+  --mart-only       analytics/sql/06_refresh_analytics_mart
   --quality         quality/run_checks.sql
   --explain         scripts/explain_analyze.sql
 EOF
@@ -62,7 +63,7 @@ case "$MODE" in
       "$DATA_DIR/01_reference.sql"
       "$DATA_DIR/02_districts.sql"
       "$DATA_DIR/03_demo_mvp.sql"
-      "$DATA_DIR/06_refresh_analytics_mart.sql"
+      "$ANALYTICS_SQL_DIR/06_refresh_analytics_mart.sql"
       "$QUALITY_DIR/run_checks.sql"
     )
     ;;
@@ -77,11 +78,11 @@ case "$MODE" in
       "$DATA_DIR/01_reference.sql"
       "$DATA_DIR/02_districts.sql"
       "$DATA_DIR/03_demo_mvp.sql"
-      "$DATA_DIR/06_refresh_analytics_mart.sql"
+      "$ANALYTICS_SQL_DIR/06_refresh_analytics_mart.sql"
     )
     ;;
   mart)
-    files=("$DATA_DIR/06_refresh_analytics_mart.sql")
+    files=("$ANALYTICS_SQL_DIR/06_refresh_analytics_mart.sql")
     ;;
   quality)
     files=("$QUALITY_DIR/run_checks.sql")

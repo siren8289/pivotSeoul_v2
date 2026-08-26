@@ -196,7 +196,7 @@ After:
 | BRIN              | `calculation_log.logged_at` 시계열 로그                | `V8__data_efficiency_mvp.sql`         |
 | 파티셔닝              | `pipeline_run_log`, `simulation_change_log` RANGE | `V8__data_efficiency_mvp.sql`         |
 | Star Schema       | `analytics.dim_*`, `fact_simulation_run`          | `V8__data_efficiency_mvp.sql`         |
-| Materialized View | `analytics.mv_district_rir_summary`               | `V8`, `06_refresh_analytics_mart.sql` |
+| Materialized View | `analytics.mv_district_rir_summary`               | `V8`, `analytics/sql/06_refresh_analytics_mart.sql` |
 | 증분 ETL            | `etl_watermark`, `updated_at`, mart UPSERT        | `load.sh --incremental`               |
 | CDC-lite          | trigger → `simulation_change_log`                 | `V8`                                  |
 | 품질 검사             | unique, not_null, FK, accepted_values             | `run_checks.sql`                      |
@@ -1357,7 +1357,10 @@ pivotSeoul_portfolio/
 │
 ├── analytics/
 │   ├── airflow/
-│   │   └── pivot_mvp_pipeline.py
+│   │   └── dags/
+│   │       └── pivot_mvp_pipeline.py
+│   ├── sql/
+│   │   └── 06_refresh_analytics_mart.sql
 │   └── spark/
 │       └── refresh_fact.py
 │
@@ -1486,7 +1489,6 @@ pivotSeoul_portfolio/
         │   ├── 01_reference.sql
         │   ├── 02_districts.sql
         │   ├── 03_demo_mvp.sql
-        │   └── 06_refresh_analytics_mart.sql
         │
         ├── quality/
         │   └── run_checks.sql
