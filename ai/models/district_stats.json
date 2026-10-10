@@ -1,0 +1,802 @@
+[
+  {
+    "district": "강남구",
+    "house_type": "apartment",
+    "deal_count": 3387,
+    "median_monthly_cost": 341.7,
+    "median_area_m2": 74.5,
+    "jeonse_ratio": 0.294
+  },
+  {
+    "district": "강남구",
+    "house_type": "house",
+    "deal_count": 1124,
+    "median_monthly_cost": 84.2,
+    "median_area_m2": 33.0,
+    "jeonse_ratio": 0.294
+  },
+  {
+    "district": "강남구",
+    "house_type": "officetel",
+    "deal_count": 840,
+    "median_monthly_cost": 99.2,
+    "median_area_m2": 25.1,
+    "jeonse_ratio": 0.294
+  },
+  {
+    "district": "강남구",
+    "house_type": "villa",
+    "deal_count": 1452,
+    "median_monthly_cost": 114.2,
+    "median_area_m2": 30.2,
+    "jeonse_ratio": 0.294
+  },
+  {
+    "district": "강동구",
+    "house_type": "apartment",
+    "deal_count": 2471,
+    "median_monthly_cost": 236.9,
+    "median_area_m2": 60.0,
+    "jeonse_ratio": 0.475
+  },
+  {
+    "district": "강동구",
+    "house_type": "house",
+    "deal_count": 1291,
+    "median_monthly_cost": 61.7,
+    "median_area_m2": 35.0,
+    "jeonse_ratio": 0.475
+  },
+  {
+    "district": "강동구",
+    "house_type": "officetel",
+    "deal_count": 737,
+    "median_monthly_cost": 82.9,
+    "median_area_m2": 25.2,
+    "jeonse_ratio": 0.475
+  },
+  {
+    "district": "강동구",
+    "house_type": "villa",
+    "deal_count": 1601,
+    "median_monthly_cost": 93.3,
+    "median_area_m2": 34.7,
+    "jeonse_ratio": 0.475
+  },
+  {
+    "district": "강북구",
+    "house_type": "apartment",
+    "deal_count": 573,
+    "median_monthly_cost": 157.5,
+    "median_area_m2": 59.9,
+    "jeonse_ratio": 0.616
+  },
+  {
+    "district": "강북구",
+    "house_type": "house",
+    "deal_count": 1040,
+    "median_monthly_cost": 48.3,
+    "median_area_m2": 32.0,
+    "jeonse_ratio": 0.616
+  },
+  {
+    "district": "강북구",
+    "house_type": "officetel",
+    "deal_count": 176,
+    "median_monthly_cost": 78.5,
+    "median_area_m2": 22.4,
+    "jeonse_ratio": 0.616
+  },
+  {
+    "district": "강북구",
+    "house_type": "villa",
+    "deal_count": 668,
+    "median_monthly_cost": 64.2,
+    "median_area_m2": 41.2,
+    "jeonse_ratio": 0.616
+  },
+  {
+    "district": "강서구",
+    "house_type": "apartment",
+    "deal_count": 2770,
+    "median_monthly_cost": 141.4,
+    "median_area_m2": 59.8,
+    "jeonse_ratio": 0.493
+  },
+  {
+    "district": "강서구",
+    "house_type": "house",
+    "deal_count": 821,
+    "median_monthly_cost": 54.2,
+    "median_area_m2": 36.0,
+    "jeonse_ratio": 0.493
+  },
+  {
+    "district": "강서구",
+    "house_type": "officetel",
+    "deal_count": 2758,
+    "median_monthly_cost": 80.8,
+    "median_area_m2": 24.0,
+    "jeonse_ratio": 0.493
+  },
+  {
+    "district": "강서구",
+    "house_type": "villa",
+    "deal_count": 1731,
+    "median_monthly_cost": 83.3,
+    "median_area_m2": 36.0,
+    "jeonse_ratio": 0.493
+  },
+  {
+    "district": "관악구",
+    "house_type": "apartment",
+    "deal_count": 1153,
+    "median_monthly_cost": 188.1,
+    "median_area_m2": 59.9,
+    "jeonse_ratio": 0.659
+  },
+  {
+    "district": "관악구",
+    "house_type": "house",
+    "deal_count": 3443,
+    "median_monthly_cost": 57.2,
+    "median_area_m2": 20.9,
+    "jeonse_ratio": 0.659
+  },
+  {
+    "district": "관악구",
+    "house_type": "officetel",
+    "deal_count": 862,
+    "median_monthly_cost": 75.8,
+    "median_area_m2": 19.8,
+    "jeonse_ratio": 0.659
+  },
+  {
+    "district": "관악구",
+    "house_type": "villa",
+    "deal_count": 1091,
+    "median_monthly_cost": 88.3,
+    "median_area_m2": 32.8,
+    "jeonse_ratio": 0.659
+  },
+  {
+    "district": "광진구",
+    "house_type": "apartment",
+    "deal_count": 746,
+    "median_monthly_cost": 277.7,
+    "median_area_m2": 75.1,
+    "jeonse_ratio": 0.499
+  },
+  {
+    "district": "광진구",
+    "house_type": "house",
+    "deal_count": 2567,
+    "median_monthly_cost": 65.1,
+    "median_area_m2": 30.0,
+    "jeonse_ratio": 0.499
+  },
+  {
+    "district": "광진구",
+    "house_type": "officetel",
+    "deal_count": 483,
+    "median_monthly_cost": 93.3,
+    "median_area_m2": 19.9,
+    "jeonse_ratio": 0.499
+  },
+  {
+    "district": "광진구",
+    "house_type": "villa",
+    "deal_count": 1513,
+    "median_monthly_cost": 100.0,
+    "median_area_m2": 29.9,
+    "jeonse_ratio": 0.499
+  },
+  {
+    "district": "구로구",
+    "house_type": "apartment",
+    "deal_count": 2622,
+    "median_monthly_cost": 143.8,
+    "median_area_m2": 64.9,
+    "jeonse_ratio": 0.587
+  },
+  {
+    "district": "구로구",
+    "house_type": "house",
+    "deal_count": 931,
+    "median_monthly_cost": 45.8,
+    "median_area_m2": 30.0,
+    "jeonse_ratio": 0.587
+  },
+  {
+    "district": "구로구",
+    "house_type": "officetel",
+    "deal_count": 945,
+    "median_monthly_cost": 74.2,
+    "median_area_m2": 27.2,
+    "jeonse_ratio": 0.587
+  },
+  {
+    "district": "구로구",
+    "house_type": "villa",
+    "deal_count": 638,
+    "median_monthly_cost": 72.5,
+    "median_area_m2": 39.8,
+    "jeonse_ratio": 0.587
+  },
+  {
+    "district": "금천구",
+    "house_type": "apartment",
+    "deal_count": 613,
+    "median_monthly_cost": 126.3,
+    "median_area_m2": 59.6,
+    "jeonse_ratio": 0.662
+  },
+  {
+    "district": "금천구",
+    "house_type": "house",
+    "deal_count": 866,
+    "median_monthly_cost": 48.3,
+    "median_area_m2": 30.0,
+    "jeonse_ratio": 0.662
+  },
+  {
+    "district": "금천구",
+    "house_type": "officetel",
+    "deal_count": 1389,
+    "median_monthly_cost": 83.0,
+    "median_area_m2": 25.9,
+    "jeonse_ratio": 0.662
+  },
+  {
+    "district": "금천구",
+    "house_type": "villa",
+    "deal_count": 602,
+    "median_monthly_cost": 83.2,
+    "median_area_m2": 32.7,
+    "jeonse_ratio": 0.662
+  },
+  {
+    "district": "노원구",
+    "house_type": "apartment",
+    "deal_count": 3094,
+    "median_monthly_cost": 118.3,
+    "median_area_m2": 50.1,
+    "jeonse_ratio": 0.521
+  },
+  {
+    "district": "노원구",
+    "house_type": "house",
+    "deal_count": 663,
+    "median_monthly_cost": 49.2,
+    "median_area_m2": 23.0,
+    "jeonse_ratio": 0.521
+  },
+  {
+    "district": "노원구",
+    "house_type": "officetel",
+    "deal_count": 88,
+    "median_monthly_cost": 63.2,
+    "median_area_m2": 30.0,
+    "jeonse_ratio": 0.521
+  },
+  {
+    "district": "노원구",
+    "house_type": "villa",
+    "deal_count": 320,
+    "median_monthly_cost": 59.2,
+    "median_area_m2": 36.1,
+    "jeonse_ratio": 0.521
+  },
+  {
+    "district": "도봉구",
+    "house_type": "apartment",
+    "deal_count": 974,
+    "median_monthly_cost": 129.2,
+    "median_area_m2": 59.8,
+    "jeonse_ratio": 0.689
+  },
+  {
+    "district": "도봉구",
+    "house_type": "house",
+    "deal_count": 559,
+    "median_monthly_cost": 47.1,
+    "median_area_m2": 36.0,
+    "jeonse_ratio": 0.689
+  },
+  {
+    "district": "도봉구",
+    "house_type": "officetel",
+    "deal_count": 291,
+    "median_monthly_cost": 81.3,
+    "median_area_m2": 29.7,
+    "jeonse_ratio": 0.689
+  },
+  {
+    "district": "도봉구",
+    "house_type": "villa",
+    "deal_count": 475,
+    "median_monthly_cost": 69.2,
+    "median_area_m2": 43.5,
+    "jeonse_ratio": 0.689
+  },
+  {
+    "district": "동대문구",
+    "house_type": "apartment",
+    "deal_count": 1559,
+    "median_monthly_cost": 201.2,
+    "median_area_m2": 59.9,
+    "jeonse_ratio": 0.565
+  },
+  {
+    "district": "동대문구",
+    "house_type": "house",
+    "deal_count": 1804,
+    "median_monthly_cost": 57.1,
+    "median_area_m2": 21.7,
+    "jeonse_ratio": 0.565
+  },
+  {
+    "district": "동대문구",
+    "house_type": "officetel",
+    "deal_count": 1213,
+    "median_monthly_cost": 91.3,
+    "median_area_m2": 23.9,
+    "jeonse_ratio": 0.565
+  },
+  {
+    "district": "동대문구",
+    "house_type": "villa",
+    "deal_count": 624,
+    "median_monthly_cost": 90.4,
+    "median_area_m2": 29.5,
+    "jeonse_ratio": 0.565
+  },
+  {
+    "district": "동작구",
+    "house_type": "apartment",
+    "deal_count": 1512,
+    "median_monthly_cost": 275.0,
+    "median_area_m2": 84.3,
+    "jeonse_ratio": 0.471
+  },
+  {
+    "district": "동작구",
+    "house_type": "house",
+    "deal_count": 2120,
+    "median_monthly_cost": 58.2,
+    "median_area_m2": 20.7,
+    "jeonse_ratio": 0.471
+  },
+  {
+    "district": "동작구",
+    "house_type": "officetel",
+    "deal_count": 154,
+    "median_monthly_cost": 84.2,
+    "median_area_m2": 21.5,
+    "jeonse_ratio": 0.471
+  },
+  {
+    "district": "동작구",
+    "house_type": "villa",
+    "deal_count": 1107,
+    "median_monthly_cost": 98.3,
+    "median_area_m2": 37.8,
+    "jeonse_ratio": 0.471
+  },
+  {
+    "district": "마포구",
+    "house_type": "apartment",
+    "deal_count": 2202,
+    "median_monthly_cost": 262.1,
+    "median_area_m2": 60.0,
+    "jeonse_ratio": 0.495
+  },
+  {
+    "district": "마포구",
+    "house_type": "house",
+    "deal_count": 1242,
+    "median_monthly_cost": 72.2,
+    "median_area_m2": 31.7,
+    "jeonse_ratio": 0.495
+  },
+  {
+    "district": "마포구",
+    "house_type": "officetel",
+    "deal_count": 1195,
+    "median_monthly_cost": 84.2,
+    "median_area_m2": 20.5,
+    "jeonse_ratio": 0.495
+  },
+  {
+    "district": "마포구",
+    "house_type": "villa",
+    "deal_count": 1575,
+    "median_monthly_cost": 93.3,
+    "median_area_m2": 30.0,
+    "jeonse_ratio": 0.495
+  },
+  {
+    "district": "서대문구",
+    "house_type": "apartment",
+    "deal_count": 1303,
+    "median_monthly_cost": 229.2,
+    "median_area_m2": 60.0,
+    "jeonse_ratio": 0.618
+  },
+  {
+    "district": "서대문구",
+    "house_type": "house",
+    "deal_count": 1455,
+    "median_monthly_cost": 60.8,
+    "median_area_m2": 23.0,
+    "jeonse_ratio": 0.618
+  },
+  {
+    "district": "서대문구",
+    "house_type": "officetel",
+    "deal_count": 398,
+    "median_monthly_cost": 92.2,
+    "median_area_m2": 20.3,
+    "jeonse_ratio": 0.618
+  },
+  {
+    "district": "서대문구",
+    "house_type": "villa",
+    "deal_count": 740,
+    "median_monthly_cost": 74.2,
+    "median_area_m2": 39.0,
+    "jeonse_ratio": 0.618
+  },
+  {
+    "district": "서초구",
+    "house_type": "apartment",
+    "deal_count": 2440,
+    "median_monthly_cost": 341.2,
+    "median_area_m2": 79.5,
+    "jeonse_ratio": 0.391
+  },
+  {
+    "district": "서초구",
+    "house_type": "house",
+    "deal_count": 755,
+    "median_monthly_cost": 79.2,
+    "median_area_m2": 35.0,
+    "jeonse_ratio": 0.391
+  },
+  {
+    "district": "서초구",
+    "house_type": "officetel",
+    "deal_count": 556,
+    "median_monthly_cost": 97.5,
+    "median_area_m2": 24.1,
+    "jeonse_ratio": 0.391
+  },
+  {
+    "district": "서초구",
+    "house_type": "villa",
+    "deal_count": 1354,
+    "median_monthly_cost": 120.3,
+    "median_area_m2": 33.0,
+    "jeonse_ratio": 0.391
+  },
+  {
+    "district": "성동구",
+    "house_type": "apartment",
+    "deal_count": 1535,
+    "median_monthly_cost": 301.3,
+    "median_area_m2": 64.2,
+    "jeonse_ratio": 0.407
+  },
+  {
+    "district": "성동구",
+    "house_type": "house",
+    "deal_count": 874,
+    "median_monthly_cost": 62.0,
+    "median_area_m2": 29.8,
+    "jeonse_ratio": 0.407
+  },
+  {
+    "district": "성동구",
+    "house_type": "officetel",
+    "deal_count": 533,
+    "median_monthly_cost": 80.4,
+    "median_area_m2": 28.1,
+    "jeonse_ratio": 0.407
+  },
+  {
+    "district": "성동구",
+    "house_type": "villa",
+    "deal_count": 499,
+    "median_monthly_cost": 90.2,
+    "median_area_m2": 29.5,
+    "jeonse_ratio": 0.407
+  },
+  {
+    "district": "성북구",
+    "house_type": "apartment",
+    "deal_count": 1372,
+    "median_monthly_cost": 221.7,
+    "median_area_m2": 60.0,
+    "jeonse_ratio": 0.585
+  },
+  {
+    "district": "성북구",
+    "house_type": "house",
+    "deal_count": 1380,
+    "median_monthly_cost": 58.3,
+    "median_area_m2": 28.0,
+    "jeonse_ratio": 0.585
+  },
+  {
+    "district": "성북구",
+    "house_type": "officetel",
+    "deal_count": 138,
+    "median_monthly_cost": 79.2,
+    "median_area_m2": 23.2,
+    "jeonse_ratio": 0.585
+  },
+  {
+    "district": "성북구",
+    "house_type": "villa",
+    "deal_count": 860,
+    "median_monthly_cost": 76.8,
+    "median_area_m2": 35.2,
+    "jeonse_ratio": 0.585
+  },
+  {
+    "district": "송파구",
+    "house_type": "apartment",
+    "deal_count": 3408,
+    "median_monthly_cost": 308.3,
+    "median_area_m2": 82.4,
+    "jeonse_ratio": 0.388
+  },
+  {
+    "district": "송파구",
+    "house_type": "house",
+    "deal_count": 1015,
+    "median_monthly_cost": 67.5,
+    "median_area_m2": 36.6,
+    "jeonse_ratio": 0.388
+  },
+  {
+    "district": "송파구",
+    "house_type": "officetel",
+    "deal_count": 1489,
+    "median_monthly_cost": 104.2,
+    "median_area_m2": 26.2,
+    "jeonse_ratio": 0.388
+  },
+  {
+    "district": "송파구",
+    "house_type": "villa",
+    "deal_count": 3439,
+    "median_monthly_cost": 96.3,
+    "median_area_m2": 36.5,
+    "jeonse_ratio": 0.388
+  },
+  {
+    "district": "양천구",
+    "house_type": "apartment",
+    "deal_count": 1944,
+    "median_monthly_cost": 229.2,
+    "median_area_m2": 70.7,
+    "jeonse_ratio": 0.532
+  },
+  {
+    "district": "양천구",
+    "house_type": "house",
+    "deal_count": 552,
+    "median_monthly_cost": 57.2,
+    "median_area_m2": 36.0,
+    "jeonse_ratio": 0.532
+  },
+  {
+    "district": "양천구",
+    "house_type": "officetel",
+    "deal_count": 247,
+    "median_monthly_cost": 89.2,
+    "median_area_m2": 32.6,
+    "jeonse_ratio": 0.532
+  },
+  {
+    "district": "양천구",
+    "house_type": "villa",
+    "deal_count": 1125,
+    "median_monthly_cost": 81.4,
+    "median_area_m2": 37.5,
+    "jeonse_ratio": 0.532
+  },
+  {
+    "district": "영등포구",
+    "house_type": "apartment",
+    "deal_count": 2137,
+    "median_monthly_cost": 212.5,
+    "median_area_m2": 60.0,
+    "jeonse_ratio": 0.474
+  },
+  {
+    "district": "영등포구",
+    "house_type": "house",
+    "deal_count": 1370,
+    "median_monthly_cost": 54.1,
+    "median_area_m2": 28.2,
+    "jeonse_ratio": 0.474
+  },
+  {
+    "district": "영등포구",
+    "house_type": "officetel",
+    "deal_count": 2174,
+    "median_monthly_cost": 97.9,
+    "median_area_m2": 26.4,
+    "jeonse_ratio": 0.474
+  },
+  {
+    "district": "영등포구",
+    "house_type": "villa",
+    "deal_count": 813,
+    "median_monthly_cost": 93.3,
+    "median_area_m2": 28.5,
+    "jeonse_ratio": 0.474
+  },
+  {
+    "district": "용산구",
+    "house_type": "apartment",
+    "deal_count": 1033,
+    "median_monthly_cost": 304.2,
+    "median_area_m2": 84.4,
+    "jeonse_ratio": 0.378
+  },
+  {
+    "district": "용산구",
+    "house_type": "house",
+    "deal_count": 553,
+    "median_monthly_cost": 77.5,
+    "median_area_m2": 39.7,
+    "jeonse_ratio": 0.378
+  },
+  {
+    "district": "용산구",
+    "house_type": "officetel",
+    "deal_count": 467,
+    "median_monthly_cost": 137.5,
+    "median_area_m2": 30.0,
+    "jeonse_ratio": 0.378
+  },
+  {
+    "district": "용산구",
+    "house_type": "villa",
+    "deal_count": 1027,
+    "median_monthly_cost": 108.3,
+    "median_area_m2": 29.8,
+    "jeonse_ratio": 0.378
+  },
+  {
+    "district": "은평구",
+    "house_type": "apartment",
+    "deal_count": 1927,
+    "median_monthly_cost": 150.8,
+    "median_area_m2": 60.0,
+    "jeonse_ratio": 0.556
+  },
+  {
+    "district": "은평구",
+    "house_type": "house",
+    "deal_count": 872,
+    "median_monthly_cost": 56.2,
+    "median_area_m2": 39.6,
+    "jeonse_ratio": 0.556
+  },
+  {
+    "district": "은평구",
+    "house_type": "officetel",
+    "deal_count": 584,
+    "median_monthly_cost": 67.2,
+    "median_area_m2": 22.8,
+    "jeonse_ratio": 0.556
+  },
+  {
+    "district": "은평구",
+    "house_type": "villa",
+    "deal_count": 1352,
+    "median_monthly_cost": 83.3,
+    "median_area_m2": 41.1,
+    "jeonse_ratio": 0.556
+  },
+  {
+    "district": "종로구",
+    "house_type": "apartment",
+    "deal_count": 393,
+    "median_monthly_cost": 170.5,
+    "median_area_m2": 59.7,
+    "jeonse_ratio": 0.633
+  },
+  {
+    "district": "종로구",
+    "house_type": "house",
+    "deal_count": 582,
+    "median_monthly_cost": 62.1,
+    "median_area_m2": 26.4,
+    "jeonse_ratio": 0.633
+  },
+  {
+    "district": "종로구",
+    "house_type": "officetel",
+    "deal_count": 459,
+    "median_monthly_cost": 92.2,
+    "median_area_m2": 23.6,
+    "jeonse_ratio": 0.633
+  },
+  {
+    "district": "종로구",
+    "house_type": "villa",
+    "deal_count": 389,
+    "median_monthly_cost": 82.2,
+    "median_area_m2": 42.1,
+    "jeonse_ratio": 0.633
+  },
+  {
+    "district": "중구",
+    "house_type": "apartment",
+    "deal_count": 696,
+    "median_monthly_cost": 260.6,
+    "median_area_m2": 59.9,
+    "jeonse_ratio": 0.547
+  },
+  {
+    "district": "중구",
+    "house_type": "house",
+    "deal_count": 301,
+    "median_monthly_cost": 65.1,
+    "median_area_m2": 32.5,
+    "jeonse_ratio": 0.547
+  },
+  {
+    "district": "중구",
+    "house_type": "officetel",
+    "deal_count": 584,
+    "median_monthly_cost": 104.2,
+    "median_area_m2": 24.6,
+    "jeonse_ratio": 0.547
+  },
+  {
+    "district": "중구",
+    "house_type": "villa",
+    "deal_count": 365,
+    "median_monthly_cost": 102.8,
+    "median_area_m2": 29.8,
+    "jeonse_ratio": 0.547
+  },
+  {
+    "district": "중랑구",
+    "house_type": "apartment",
+    "deal_count": 1678,
+    "median_monthly_cost": 95.9,
+    "median_area_m2": 49.8,
+    "jeonse_ratio": 0.546
+  },
+  {
+    "district": "중랑구",
+    "house_type": "house",
+    "deal_count": 1522,
+    "median_monthly_cost": 57.1,
+    "median_area_m2": 35.0,
+    "jeonse_ratio": 0.546
+  },
+  {
+    "district": "중랑구",
+    "house_type": "officetel",
+    "deal_count": 307,
+    "median_monthly_cost": 87.5,
+    "median_area_m2": 29.8,
+    "jeonse_ratio": 0.546
+  },
+  {
+    "district": "중랑구",
+    "house_type": "villa",
+    "deal_count": 950,
+    "median_monthly_cost": 93.0,
+    "median_area_m2": 33.6,
+    "jeonse_ratio": 0.546
+  }
+]

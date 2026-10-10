@@ -1,47 +1,23 @@
 .DS_Store
-
-# Environment secrets — never commit
-.env
-*.env.local
-
-node_modules/
-**/node_modules/
-.next/
-**/.next/
-
-.expo/
-dist/
-web-build/
-
-.gradle/
-build/
-out/
-
 .idea/
 *.iml
 
-# Gradle `eclipse` task — contains machine-specific paths; regenerate with `./gradlew :back:eclipse`
-back/.classpath
-back/.project
-back/.settings/
+# 비밀값 (키는 .env 에만 둔다)
+.env
+*.env.local
 
-# Python / FastAPI
+# 파이썬
+.venv/
 __pycache__/
 *.py[cod]
-*$py.class
-.venv/
-venv/
-*.egg-info/
 .pytest_cache/
-.mypy_cache/
 
-# Generated backend artifacts
-back/bin/
+# 프론트·백엔드 빌드 결과
+node_modules/
+dist/
+.gradle/
+build/
+bin/
 
-# Local AI/FastAPI datasets. Keep manifests/docs in source, not raw bulk data.
-# FastAPI local data (if added later)
-fastapi/data/*
-!fastapi/data/.gitkeep
-
-# Figma/imported image drops should be stored externally unless actively referenced.
-front/src/imports/
+# 공공데이터 원본(용량이 커서 제외). 전처리 결과(data/processed)와 학습된 모델(ai/models)은 올린다.
+data/raw/
