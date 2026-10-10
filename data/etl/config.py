@@ -1,8 +1,9 @@
 """데이터 수집 설정값을 한 곳에 모아 둔다.
 
-- 공공데이터포털(국토교통부) API 4종 + 서울 열린데이터광장 API 1종 주소
-- 서울 25개 자치구 법정동 코드(LAWD_CD 앞 5자리)
-- 결과 파일을 저장할 폴더
+사용하는 공공데이터 API 6개
+  1~4. 국토교통부 전월세 실거래가 (아파트 / 연립다세대 / 오피스텔 / 단독다가구)
+  5. 행정안전부 법정동코드 (서울 25개 구 코드를 받아 옴)
+  6. 국토교통부 회계감사보고서 (구별 아파트 관리 투명도)
 """
 import os
 from pathlib import Path
@@ -17,15 +18,19 @@ PROCESSED_DIR = DATA_DIR / "processed"  # 전처리가 끝난 CSV를 저장하�
 # data/.env 파일에서 인증키를 읽는다. (.env는 git에 올리지 않는다)
 load_dotenv(DATA_DIR / ".env")
 SERVICE_KEY = os.getenv("DATA_GO_KR_KEY", "")
-SEOUL_API_KEY = os.getenv("SEOUL_API_KEY", "")
 
-# 국토교통부 실거래가 API 4종
+# 1~4. 국토교통부 전월세 실거래가
 # house_type 은 우리 서비스에서 쓰는 주택 유형 이름이다.
-APIS = {
+RENT_APIS = {
     "apt_rent": {
         "name": "아파트 전월세",
         "url": "https://apis.data.go.kr/1613000/RTMSDataSvcAptRent/getRTMSDataSvcAptRent",
         "house_type": "apartment",
+    },
+    "rh_rent": {
+        "name": "연립다세대 전월세",
+        "url": "https://apis.data.go.kr/1613000/RTMSDataSvcRHRent/getRTMSDataSvcRHRent",
+        "house_type": "villa",
     },
     "offi_rent": {
         "name": "오피스텔 전월세",
@@ -37,26 +42,23 @@ APIS = {
         "url": "https://apis.data.go.kr/1613000/RTMSDataSvcSHRent/getRTMSDataSvcSHRent",
         "house_type": "house",
     },
-    "apt_trade": {
-        "name": "아파트 매매",
-        "url": "https://apis.data.go.kr/1613000/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade",
-        "house_type": "apartment",
-    },
 }
 
-# 서울 열린데이터광장 '서울시 부동산 전월세가 정보'
-# 국토부 API에는 연립·다세대(빌라) 전월세가 없어서, 이 API에서 연립다세대만 골라 쓴다.
-# 주소 형식: {SEOUL_RENT_URL}/{인증키}/json/tbLnOpendataRentV/{시작번호}/{끝번호}/{접수연도}/{자치구코드}
-SEOUL_RENT = {
-    "name": "서울시 전월세(연립다세대)",
-    "url": "http://openapi.seoul.go.kr:8088",
-    "service": "tbLnOpendataRentV",
-    "building_use": "연립다세대",
-    "house_type": "villa",
+# 5. 법정동코드. locatadd_nm=서울특별시 로 서울 전체(구+동)를 받은 뒤, 구만 고른다.
+STAN_REGIN = {
+    "name": "법정동코드",
+    "url": "https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList",
 }
 
-# 서울 25개 자치구 코드
-SEOUL_DISTRICTS = {
+# 6. 회계감사보고서 목록. bjdCode 에 자치구 코드 5자리를 넣는다.
+AUDIT = {
+    "name": "회계감사보고서",
+    "url": "https://apis.data.go.kr/1613000/AptAccnutReportService2/getAccnutReportList2",
+}
+
+# API가 잠깐 안 될 때를 위한 서울 25개 구 코드(법정동 앞 5자리).
+# 실제 수집 때는 법정동코드 API 결과를 우선 사용한다.
+FALLBACK_DISTRICTS = {
     "11110": "종로구", "11140": "중구", "11170": "용산구", "11200": "성동구",
     "11215": "광진구", "11230": "동대문구", "11260": "중랑구", "11290": "성북구",
     "11305": "강북구", "11320": "도봉구", "11350": "노원구", "11380": "은평구",
@@ -72,3 +74,6 @@ CONVERSION_RATE = 0.05
 
 # 한 번 호출할 때 받을 최대 건수
 ROWS_PER_PAGE = 1000
+
+# 이 해부터의 회계감사를 "최근"으로 본다. (관리 투명도 계산용)
+RECENT_AUDIT_YEAR = 2023

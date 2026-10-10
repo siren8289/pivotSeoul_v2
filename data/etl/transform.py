@@ -4,13 +4,14 @@
   1. 숫자 문자열 정리 ("10,000" → 10000, 빈칸 → NaN)
   2. 필요한 컬럼만 고르고 이름을 통일
   3. 결측치 처리 (건축년도·층이 없으면 채우기)
-  4. 잘못된 값 제거 (면적 0, 해제된 거래 등)
-  5. 파생 변수 만들기 (월 환산 주거비, 건물 나이)
-  6. 이상치 제거 (상하위 1%)
+  4. 잘못된 값 제거 (서울 밖, 면적 5㎡ 이하)
+  5. 파생 변수 만들기 (월 환산 주거비, 건물 나이, 전세/월세)
+  6. 이상치 제거 (주택 유형별 상하위 1%)
+  7. 자치구 통계 + 회계감사 단지 수
 """
 import pandas as pd
 
-from data.etl.config import CONVERSION_RATE, SEOUL_DISTRICTS
+from data.etl.config import CONVERSION_RATE, FALLBACK_DISTRICTS, RECENT_AUDIT_YEAR
 
 
 def to_number(series):
@@ -24,18 +25,30 @@ def calc_monthly_cost(deposit, monthly_rent):
     return monthly_rent + deposit * CONVERSION_RATE / 12
 
 
-def clean_rent(rows, house_type):
-    """전월세 원본(딕셔너리 리스트)을 깔끔한 표(DataFrame)로 만든다."""
+def district_from_address(address):
+    """'서울특별시 마포구 공덕동 ...' 에서 구 이름만 꺼낸다."""
+    for part in str(address).split():
+        if part.endswith("구"):
+            return part
+    return None
+
+
+def clean_rent(rows, house_type, districts=None):
+    """전월세 원본(딕셔너리 리스트)을 깔끔한 표(DataFrame)로 만든다.
+
+    아파트·연립다세대·오피스텔은 전용면적(excluUseAr)을 쓰고,
+    단독/다가구는 계약면적(totalFloorAr)을 쓴다. 컬럼 이름만 다를 뿐 처리 방법은 같다.
+    """
+    districts = districts or FALLBACK_DISTRICTS
     raw = pd.DataFrame(rows)
     if raw.empty:
         return pd.DataFrame()
 
     df = pd.DataFrame()
     df["district_code"] = raw["sggCd"].astype(str)
-    df["district"] = df["district_code"].map(SEOUL_DISTRICTS)
+    df["district"] = df["district_code"].map(districts)
     df["house_type"] = house_type
 
-    # 아파트·오피스텔은 전용면적(excluUseAr), 단독/다가구는 계약면적(totalFloorAr)을 쓴다.
     area_column = "excluUseAr" if "excluUseAr" in raw else "totalFloorAr"
     df["area_m2"] = to_number(raw[area_column])
 
@@ -70,46 +83,31 @@ def clean_rent(rows, house_type):
     return df.drop_duplicates()
 
 
-def clean_seoul_rent(rows, house_type):
-    """서울시 전월세 원본을 국토부 전월세와 '같은 컬럼'으로 맞춘다.
+def clean_audit(rows, districts=None):
+    """회계감사보고서 목록을 정리한다.
 
-    컬럼 이름이 달라서 먼저 이름표를 바꿔 준 뒤, 위의 clean_rent()를 그대로 재사용한다.
-      CGG_CD → sggCd, RENT_AREA → excluUseAr, GRFE → deposit, RTFE → monthlyRent,
-      ARCH_YR → buildYear, FLR → floor, CTRT_DAY(20260914) → dealYear(2026)·dealMonth(9)
+    원본 컬럼
+      kaptAddr, doroJuso, kaptCode, kaptName, audtYear
+    → district, kapt_code, kapt_name, audt_year
     """
-    renamed = []
-    for row in rows:
-        day = str(row.get("CTRT_DAY", ""))
-        renamed.append({
-            "sggCd": row.get("CGG_CD"),
-            "excluUseAr": row.get("RENT_AREA"),
-            "deposit": row.get("GRFE"),
-            "monthlyRent": row.get("RTFE") or "0",  # 전세는 월세 칸이 비어 있을 수 있다.
-            "buildYear": row.get("ARCH_YR"),
-            "floor": row.get("FLR"),
-            "dealYear": day[:4],
-            "dealMonth": day[4:6],
-        })
-    return clean_rent(renamed, house_type)
-
-
-def clean_trade(rows):
-    """아파트 매매 원본을 정리한다. 계약이 해제된 거래(cdealType='O')는 뺀다."""
+    districts = districts or FALLBACK_DISTRICTS
     raw = pd.DataFrame(rows)
     if raw.empty:
         return pd.DataFrame()
 
-    if "cdealType" in raw:
-        raw = raw[raw["cdealType"].fillna("").str.strip() != "O"]
-
     df = pd.DataFrame()
-    df["district_code"] = raw["sggCd"].astype(str)
-    df["district"] = df["district_code"].map(SEOUL_DISTRICTS)
-    df["area_m2"] = to_number(raw["excluUseAr"])
-    df["price"] = to_number(raw["dealAmount"])  # 만원
-    df = df.dropna(subset=["district", "area_m2", "price"])
-    df = df[df["area_m2"] > 5]
-    df["price_per_m2"] = (df["price"] / df["area_m2"]).round(1)
+    df["kapt_code"] = raw.get("kaptCode", pd.Series(dtype=str)).astype(str)
+    df["kapt_name"] = raw.get("kaptName", pd.Series(dtype=str))
+    df["audt_year"] = to_number(raw.get("audtYear", pd.Series(dtype=str)))
+    df["district"] = raw.get("kaptAddr", pd.Series(dtype=str)).map(district_from_address)
+
+    # 주소에서 구를 못 찾으면 코드로 다시 붙여 본다. (수집할 때 district_code를 넣어 둔 경우)
+    if "district_code" in raw:
+        missing = df["district"].isna()
+        df.loc[missing, "district"] = raw.loc[missing, "district_code"].astype(str).map(districts)
+
+    df = df.dropna(subset=["district", "kapt_code", "audt_year"])
+    df = df[df["kapt_code"].str.startswith("A")]
     return df.drop_duplicates()
 
 
@@ -123,11 +121,11 @@ def remove_outliers(df, column, group_column):
     return pd.concat(kept_parts, ignore_index=True)
 
 
-def make_district_stats(rent_df, trade_df):
+def make_district_stats(rent_df, audit_df):
     """자치구 × 주택유형별 요약 통계를 만든다. (추천 기능에서 사용)
 
-    jeonse_ratio(전세가율) = 아파트 전세보증금(㎡당) ÷ 아파트 매매가(㎡당)
-    전세가율이 80%를 넘으면 '깡통전세' 위험이 커진다고 본다.
+    audit_count  = 최근 회계감사 보고서가 있는 아파트 단지수
+                   (클수록 관리 투명도가 높다고 본다)
     """
     stats = (
         rent_df.groupby(["district", "house_type"])
@@ -138,14 +136,14 @@ def make_district_stats(rent_df, trade_df):
         )
         .reset_index()
     )
-
-    # 아파트 전세만 골라 ㎡당 보증금 중앙값을 구한다.
-    jeonse = rent_df[(rent_df["house_type"] == "apartment") & (rent_df["rent_type"] == "jeonse")]
-    jeonse_per_m2 = (jeonse["deposit"] / jeonse["area_m2"]).groupby(jeonse["district"]).median()
-    trade_per_m2 = trade_df.groupby("district")["price_per_m2"].median()
-    jeonse_ratio = (jeonse_per_m2 / trade_per_m2).round(3).rename("jeonse_ratio")
-
-    stats = stats.merge(jeonse_ratio, left_on="district", right_index=True, how="left")
     stats["median_monthly_cost"] = stats["median_monthly_cost"].round(1)
     stats["median_area_m2"] = stats["median_area_m2"].round(1)
+
+    if audit_df is None or audit_df.empty:
+        stats["audit_count"] = pd.NA
+        return stats
+
+    recent = audit_df[audit_df["audt_year"] >= RECENT_AUDIT_YEAR]
+    audit_count = recent.groupby("district")["kapt_code"].nunique().rename("audit_count")
+    stats = stats.merge(audit_count, left_on="district", right_index=True, how="left")
     return stats

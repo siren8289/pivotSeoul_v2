@@ -60,8 +60,8 @@ export default function ResultPage() {
         {result.districtMedianCost !== null && (
           <p className="text-sm text-gray-500">{result.district} 같은 유형 실거래 중앙값: {result.districtMedianCost}만원</p>
         )}
-        {result.jeonseRatio !== null && (
-          <p className="text-sm text-gray-500">{result.district} 아파트 전세가율: {Math.round(result.jeonseRatio * 100)}%</p>
+        {result.auditCount !== null && (
+          <p className="text-sm text-gray-500">{result.district} 아파트 회계감사 단지: {result.auditCount}곳 (관리 투명도)</p>
         )}
       </section>
 

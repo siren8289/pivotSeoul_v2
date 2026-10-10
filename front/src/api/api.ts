@@ -30,7 +30,7 @@ export type Diagnosis = DiagnoseInput & {
   marketPrice: number;          // 두 모델 평균
   priceGapPercent: number;      // 시세 대비 차이(%)
   districtMedianCost: number | null;
-  jeonseRatio: number | null;
+  auditCount: number | null;    // 최근 회계감사 단지수
   explanation: string;          // LLM 설명
   explanationSource: string;    // gemini / basic
 };
@@ -54,7 +54,7 @@ export type DistrictItem = {
   is_red_zone: boolean;
   within_budget: boolean;
   deal_count: number | null;
-  jeonse_ratio: number | null;
+  audit_count: number | null;
 };
 
 export type Recommendation = {

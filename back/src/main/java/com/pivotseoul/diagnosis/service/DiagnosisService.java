@@ -65,7 +65,7 @@ public class DiagnosisService {
         diagnosis.setMarketPrice(ai.path("market_price").asDouble());
         diagnosis.setPriceGapPercent(ai.path("price_gap_percent").asDouble());
         diagnosis.setDistrictMedianCost(readNumber(ai, "district_median_cost"));
-        diagnosis.setJeonseRatio(readNumber(ai, "jeonse_ratio"));
+        diagnosis.setAuditCount(readInteger(ai, "audit_count"));
         diagnosis.setExplanation(ai.path("explanation").asText());
         diagnosis.setExplanationSource(ai.path("explanation_source").asText());
 
@@ -90,6 +90,14 @@ public class DiagnosisService {
         JsonNode value = node.path(field);
         if (value.isNumber()) {
             return value.asDouble();
+        }
+        return null;
+    }
+
+    private Integer readInteger(JsonNode node, String field) {
+        JsonNode value = node.path(field);
+        if (value.isNumber()) {
+            return value.asInt();
         }
         return null;
     }

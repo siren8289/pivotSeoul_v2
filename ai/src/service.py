@@ -13,6 +13,16 @@ from src.ml_model import predict_ml
 from src.rir import SAFE_LIMIT, calculate_rir, classify, monthly_cost
 
 
+def to_int_or_none(value):
+    """통계 JSON의 숫자를 int로 바꾼다. 없거나 비어 있으면 None."""
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def predict_price(input_frame):
     """ML·DL 두 모델의 예측값과 평균값을 함께 돌려준다."""
     ml_prices = predict_ml(input_frame)
@@ -51,7 +61,7 @@ def diagnose(request):
         "price_gap_percent": gap_percent,
         "district_median_cost": stat.get("median_monthly_cost"),
         "district_deal_count": stat.get("deal_count"),
-        "jeonse_ratio": stat.get("jeonse_ratio"),
+        "audit_count": to_int_or_none(stat.get("audit_count")),
     }
 
     # 3) LLM: 결과를 문장으로 설명
@@ -88,7 +98,7 @@ def recommend(request, limit=5):
             "is_red_zone": is_red_zone,
             "within_budget": price <= budget,
             "deal_count": stat.get("deal_count"),
-            "jeonse_ratio": stat.get("jeonse_ratio"),
+            "audit_count": to_int_or_none(stat.get("audit_count")),
         })
 
     items.sort(key=lambda item: item["predicted_cost"])

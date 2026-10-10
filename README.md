@@ -1,7 +1,7 @@
 # pivotSeoul v2
 
 서울에서 **내 월세·전세가 소득에 비해 적정한지** 진단하고, **예산에 맞는 자치구**를 추천하는 서비스입니다.
-공공데이터 API 5개를 모아서 전처리하고, 머신러닝·딥러닝·LLM을 모두 사용합니다.
+공공데이터 API 6개를 모아서 전처리하고, 머신러닝·딥러닝·LLM을 모두 사용합니다.
 
 ## 메인 기능 2개
 
@@ -12,8 +12,11 @@
 
 - RIR 30% 이하 `안정` / 40% 이하 `주의` / 40% 초과 `위험(Red Zone)`
 - 월 환산 주거비 = 월세 + 보증금 × 5% ÷ 12 (전월세 전환율 5%)
+- 아파트는 회계감사 단지 수(관리 투명도)를 같이 보여 줍니다.
 
 ## 폴더 구조
+
+IF_v2 처럼 역할별로 나눴습니다. (`ai` / `front` / `back` / `data`)
 
 ```text
 pivotSeoul_v2/
@@ -34,7 +37,7 @@ pivotSeoul_v2/
 │   └── tests/
 ├── back/                  백엔드 (Spring Boot, Java)
 │   └── src/main/java/com/pivotseoul/
-│       ├── diagnosis/     기능 1: 진단 (controller, service, entity, dto)
+│       ├── diagnosis/     기능 1: 진단
 │       ├── recommend/     기능 2: 추천
 │       ├── ai/            AI 서버 호출
 │       └── global/        오류 처리, 설정
@@ -49,25 +52,26 @@ pivotSeoul_v2/
 
 데이터 흐름: `공공데이터 API → data(전처리) → ai(학습) → ai 서버 ← back(Spring) ← front(Vite)`
 
-## 사용한 공공데이터 API 5개
+## 사용한 공공데이터 API 6개
 
 | # | API | 용도 |
 | --- | --- | --- |
 | 1 | 국토교통부 아파트 전월세 실거래가 | 학습 데이터 (apartment) |
-| 2 | 국토교통부 오피스텔 전월세 실거래가 | 학습 데이터 (officetel) |
-| 3 | 국토교통부 단독/다가구 전월세 실거래가 | 학습 데이터 (house) |
-| 4 | 서울시 부동산 전월세가 정보 (연립다세대만 사용) | 학습 데이터 (villa). 국토부 API에는 연립·다세대가 없어서 보완 |
-| 5 | 국토교통부 아파트 매매 실거래가 | 자치구별 전세가율(깡통전세 위험) 계산 |
+| 2 | 국토교통부 연립다세대 전월세 실거래가 | 학습 데이터 (villa) |
+| 3 | 국토교통부 오피스텔 전월세 실거래가 | 학습 데이터 (officetel) |
+| 4 | 국토교통부 단독/다가구 전월세 실거래가 | 학습 데이터 (house) |
+| 5 | 행정안전부 법정동코드 | 서울 25개 구 코드 |
+| 6 | 국토교통부 회계감사보고서 | 구별 아파트 관리 투명도 |
 
 ### 전처리 순서 (`data/etl/transform.py`)
 
 1. 숫자 문자열 정리 (`"10,000"` → `10000`)
-2. 필요한 컬럼만 고르고 이름 통일 (국토부·서울시 컬럼명이 달라서 같은 이름으로 맞춤)
+2. 필요한 컬럼만 고르고 이름 통일
 3. 결측치 채우기 (건축년도는 같은 구의 중앙값, 층은 1층)
-4. 잘못된 값 제거 (서울 밖, 면적 5㎡ 이하, 해제된 매매 거래)
+4. 잘못된 값 제거 (서울 밖, 면적 5㎡ 이하)
 5. 파생 변수 만들기 (월 환산 주거비, 건물 나이, 전세/월세 구분)
 6. 이상치 제거 (주택 유형별 상하위 1%)
-7. 자치구 × 주택유형 통계 만들기
+7. 자치구 × 주택유형 통계 + 최근 회계감사 단지수
 
 ## AI 모델
 
@@ -95,12 +99,12 @@ cp ai/.env.example ai/.env         # (선택) Gemini 키
 
 `data/.env`에 넣을 키
 - `DATA_GO_KR_KEY`: 공공데이터포털(data.go.kr) 일반 인증키 (Decoding)
-- `SEOUL_API_KEY`: 서울 열린데이터광장 인증키
 
 ### 1. 데이터 수집·전처리 (저장소 루트에서)
 
 ```bash
-python -m data.etl.run --months 3     # 최근 3개월
+python -m data.etl.run --months 2     # 최근 2개월 전월세 + 법정동 + 회계감사
+python -m data.etl.run --skip-rent    # 전월세 CSV는 그대로 두고 법정동·회계감사만 다시 받기
 ```
 
 ### 2. 모델 학습
@@ -128,11 +132,17 @@ cd front && npm install && npm run dev
 ### Docker로 한 번에 실행
 
 ```bash
-cp .env.example .env      # DB_PASSWORD 입력
+cp .env.example .env      # DB_PASSWORD, (선택) GEMINI_API_KEY 입력
 docker compose up --build
+# 또는 서버에서
+bash scripts/deploy.sh
 ```
 
-http://localhost 접속.
+http://localhost 접속. 컨테이너 안에서는 front(nginx)가 `/api`를 Spring으로 넘긴다.
+
+## CI
+
+푸시하면 GitHub Actions가 data / ai / back / front 테스트와 `docker compose config`를 실행한다. (`.github/workflows/ci.yml`)
 
 ## API
 

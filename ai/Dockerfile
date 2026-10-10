@@ -1,5 +1,8 @@
+# syntax=docker/dockerfile:1
 FROM python:3.12-slim
 WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
 # torch는 크고 잘 안 바뀌어서 먼저 설치한다. (CPU 버전)

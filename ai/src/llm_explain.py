@@ -39,6 +39,7 @@ def make_prompt(request, result):
         f"소득 대비 주거비 비율(RIR): {result['rir_percent']}% → {STATUS_NAMES[result['status']]}",
         f"AI 예상 시세(ML {result['ml_price']}만원, DL {result['dl_price']}만원, 평균 {result['market_price']}만원)",
         f"시세 대비 차이: {result['price_gap_percent']}%",
+        f"이 구 아파트 회계감사 단지 수(관리 투명도): {result.get('audit_count')}",
     ])
 
 
@@ -57,7 +58,7 @@ def explain(request, result):
             http_options=types.HttpOptions(timeout=15000),  # 15초
         )
         response = client.models.generate_content(
-            model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+            model=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
             contents=make_prompt(request, result),
         )
         if response.text:

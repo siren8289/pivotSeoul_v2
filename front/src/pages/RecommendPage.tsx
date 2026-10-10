@@ -108,6 +108,7 @@ export default function RecommendPage() {
                 <th className="py-2">구</th>
                 <th>예상 주거비</th>
                 <th>소득 대비</th>
+                <th>회계감사 단지</th>
                 <th>단계</th>
               </tr>
             </thead>
@@ -119,6 +120,7 @@ export default function RecommendPage() {
                     <td className="py-2 font-medium">{item.district}</td>
                     <td>{item.predicted_cost}만원</td>
                     <td>{item.rir_percent}%</td>
+                    <td>{item.audit_count ?? "-"}</td>
                     <td>
                       <span className={`px-2 py-0.5 rounded-full text-xs ${status.color}`}>{status.label}</span>
                     </td>

@@ -41,7 +41,7 @@ class DiagnosisControllerTest {
         given(aiClient.diagnose(any())).willReturn(objectMapper.readTree("""
                 {"monthly_cost":84.2,"rir_percent":28.1,"status":"stable","is_red_zone":false,
                  "ml_price":90.0,"dl_price":88.0,"market_price":89.0,"price_gap_percent":-5.4,
-                 "district_median_cost":95.0,"jeonse_ratio":0.55,
+                 "district_median_cost":95.0,"audit_count":101,
                  "explanation":"안정 단계입니다.","explanation_source":"basic"}
                 """));
 

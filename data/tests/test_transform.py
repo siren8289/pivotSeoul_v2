@@ -1,6 +1,12 @@
 """전처리 함수 테스트. 실행: python -m pytest data/tests"""
-from data.etl.fetch import parse_xml
-from data.etl.transform import calc_monthly_cost, clean_rent, clean_seoul_rent, clean_trade
+from data.etl.fetch import as_list, parse_xml
+from data.etl.transform import (
+    calc_monthly_cost,
+    clean_audit,
+    clean_rent,
+    district_from_address,
+    make_district_stats,
+)
 
 SAMPLE_XML = """<?xml version="1.0" encoding="utf-8"?>
 <response><header><resultCode>000</resultCode><resultMsg>OK</resultMsg></header>
@@ -15,6 +21,12 @@ def test_parse_xml():
     items, total = parse_xml(SAMPLE_XML)
     assert total == 1
     assert items[0]["deposit"] == "10,000"
+
+
+def test_as_list():
+    assert as_list(None) == []
+    assert as_list({"a": 1}) == [{"a": 1}]
+    assert as_list([1, 2]) == [1, 2]
 
 
 def test_monthly_cost():
@@ -32,6 +44,19 @@ def test_clean_rent():
     assert row["rent_type"] == "wolse"
 
 
+def test_clean_villa_uses_same_columns():
+    """연립다세대 API도 아파트와 같은 컬럼(excluUseAr, deposit ...)을 쓴다."""
+    rows = [{
+        "sggCd": "11710", "excluUseAr": "30.16", "deposit": "4,301", "monthlyRent": "10",
+        "buildYear": "2023", "floor": "3", "dealYear": "2026", "dealMonth": "8",
+    }]
+    df = clean_rent(rows, "villa")
+    row = df.iloc[0]
+    assert row["district"] == "송파구"
+    assert row["house_type"] == "villa"
+    assert row["rent_type"] == "wolse"
+
+
 def test_clean_rent_fills_missing_build_year_and_floor():
     rows = [
         {"sggCd": "11440", "totalFloorAr": "40", "deposit": "5,000", "monthlyRent": "50",
@@ -42,27 +67,30 @@ def test_clean_rent_fills_missing_build_year_and_floor():
     df = clean_rent(rows, "house")
     assert df["build_year"].isna().sum() == 0
     assert (df["floor"] == 1).all()
+    assert set(df["rent_type"]) == {"wolse", "jeonse"}
 
 
-def test_clean_seoul_rent_uses_same_columns():
-    rows = [{
-        "CGG_CD": "11710", "RENT_AREA": 26.22, "GRFE": "17000", "RTFE": "",
-        "ARCH_YR": "2014", "FLR": 3.0, "CTRT_DAY": "20260914", "BLDG_USG": "연립다세대",
-    }]
-    df = clean_seoul_rent(rows, "villa")
-    row = df.iloc[0]
-    assert row["district"] == "송파구"
-    assert row["monthly_rent"] == 0          # 빈 월세 → 0 (전세)
-    assert row["rent_type"] == "jeonse"
-    assert row["deal_month"] == 9
-    assert row["building_age"] == 12         # 2026 - 2014
+def test_district_from_address():
+    assert district_from_address("서울특별시 마포구 공덕동 188-108") == "마포구"
 
 
-def test_clean_trade_drops_cancelled():
-    rows = [
-        {"sggCd": "11440", "excluUseAr": "84", "dealAmount": "139,000", "cdealType": "O"},
-        {"sggCd": "11440", "excluUseAr": "84", "dealAmount": "120,000", "cdealType": " "},
+def test_clean_audit_and_stats():
+    audit_rows = [
+        {"kaptAddr": "서울특별시 마포구 공덕동 1", "kaptCode": "A12102005",
+         "kaptName": "마포현대", "audtYear": "2024"},
+        {"kaptAddr": "서울특별시 마포구 공덕동 1", "kaptCode": "A12102005",
+         "kaptName": "마포현대", "audtYear": "2023"},
+        {"kaptAddr": "서울특별시 마포구 상암동 1", "kaptCode": "A12109999",
+         "kaptName": "상암", "audtYear": "2018"},  # 오래된 해 → 최근 집계에서 제외
     ]
-    df = clean_trade(rows)
-    assert len(df) == 1
-    assert df.iloc[0]["price"] == 120000
+    audit = clean_audit(audit_rows)
+    assert set(audit["district"]) == {"마포구"}
+    assert audit["kapt_code"].nunique() == 2
+
+    rent = clean_rent([
+        {"sggCd": "11440", "excluUseAr": "59", "deposit": "10,000", "monthlyRent": "80",
+         "buildYear": "2010", "floor": "5", "dealYear": "2026", "dealMonth": "8"},
+    ], "apartment")
+    stats = make_district_stats(rent, audit)
+    # 최근(2023 이후) 단지는 마포현대 1곳만 센다
+    assert int(stats.iloc[0]["audit_count"]) == 1

@@ -3,7 +3,7 @@ app:
   ai:
     base-url: http://localhost:8000
   cors:
-    allowed-origins: http://localhost:5173,http://127.0.0.1:5173
+    allowed-origins: http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174
 
 spring:
   # 로컬: H2 메모리 DB (서버를 끄면 기록이 사라진다)

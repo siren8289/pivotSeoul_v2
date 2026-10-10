@@ -3,12 +3,17 @@
 POST /api/v1/diagnose   내 주거비 진단
 POST /api/v1/recommend  예산에 맞는 자치구 추천
 """
+from pathlib import Path
 from typing import Literal
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from src.service import diagnose, recommend
+
+# ai/.env 에서 GEMINI_API_KEY 를 읽는다. (없으면 LLM 대신 기본 문장을 쓴다)
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 app = FastAPI(title="pivotSeoul AI", version="2.0.0")
 

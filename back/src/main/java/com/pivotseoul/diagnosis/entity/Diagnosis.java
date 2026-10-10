@@ -45,7 +45,7 @@ public class Diagnosis {
     private double marketPrice;      // 두 모델의 평균
     private double priceGapPercent;  // 내 주거비가 시세보다 몇 % 비싼지
     private Double districtMedianCost;
-    private Double jeonseRatio;
+    private Integer auditCount;          // 최근 회계감사 단지수 (관리 투명도)
 
     // ---- LLM 결과 ----
     @Column(length = 2000)
@@ -114,8 +114,8 @@ public class Diagnosis {
     public Double getDistrictMedianCost() { return districtMedianCost; }
     public void setDistrictMedianCost(Double districtMedianCost) { this.districtMedianCost = districtMedianCost; }
 
-    public Double getJeonseRatio() { return jeonseRatio; }
-    public void setJeonseRatio(Double jeonseRatio) { this.jeonseRatio = jeonseRatio; }
+    public Integer getAuditCount() { return auditCount; }
+    public void setAuditCount(Integer auditCount) { this.auditCount = auditCount; }
 
     public String getExplanation() { return explanation; }
     public void setExplanation(String explanation) { this.explanation = explanation; }

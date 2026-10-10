@@ -14,33 +14,54 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U pivot -d pivotseoul"]
       interval: 5s
+      timeout: 3s
       retries: 20
+    restart: unless-stopped
 
   ai:
-    build: ./ai
+    image: pivotseoul-ai:local
+    build:
+      context: ./ai
+    ports:
+      - "127.0.0.1:8000:8000"
     environment:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
 
   back:
-    build: ./back
+    image: pivotseoul-back:local
+    build:
+      context: ./back
+    ports:
+      - "127.0.0.1:8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/pivotseoul
       SPRING_DATASOURCE_USERNAME: pivot
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
       APP_AI_BASE_URL: http://ai:8000
     depends_on:
       db:
         condition: service_healthy
       ai:
         condition: service_started
+    restart: unless-stopped
 
   front:
-    build: ./front
+    image: pivotseoul-front:local
+    build:
+      context: ./front
     ports:
       - "80:80"
     depends_on:
       - back
+    restart: unless-stopped
 
 volumes:
   db-data:
