@@ -14,8 +14,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from torch import nn
 
-from ai.src.dl_model import RentMLP
-from ai.src.features import CATEGORY_COLUMNS, FEATURE_COLUMNS, NUMBER_COLUMNS, TARGET_COLUMN
+from ai.src.prediction.dl_model import RentMLP
+from ai.src.prediction.features import CATEGORY_COLUMNS, FEATURE_COLUMNS, NUMBER_COLUMNS, TARGET_COLUMN
 from ai.train.common import MODELS_DIR, load_rent_data
 
 EPOCHS = 30

@@ -4,8 +4,8 @@ GEMINI_API_KEY 를 비워서 LLM 대신 기본 설명이 나오는지 확인한�
 """
 from fastapi.testclient import TestClient
 
-from src.main import app
-from src.rir import calculate_rir, classify, monthly_cost
+from src.api.main import app
+from src.domain.rir import calculate_rir, classify, monthly_cost
 
 client = TestClient(app)
 

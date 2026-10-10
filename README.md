@@ -33,7 +33,12 @@ pivotSeoul_v2/
 ├── ai/                    AI 서버 (FastAPI, Python)
 │   ├── train/             모델 학습 코드 (ML, DL)
 │   ├── models/            학습된 모델 파일
-│   ├── src/               서버 코드 (ML·DL 예측, RIR 규칙, LLM 설명)
+│   ├── src/               서버 코드
+│   │   ├── api/           FastAPI 엔드포인트
+│   │   ├── prediction/    특성 생성, ML·DL 예측
+│   │   ├── domain/        RIR 규칙, 자치구 통계
+│   │   ├── explain/       LLM 설명 (Gemini)
+│   │   └── service.py     진단·추천 흐름 조합
 │   └── tests/
 ├── back/                  백엔드 (Spring Boot, Java)
 │   └── src/main/java/com/pivotseoul/
@@ -79,9 +84,9 @@ pivotSeoul_v2/
 
 | 구분 | 모델 | 파일 |
 | --- | --- | --- |
-| ML | scikit-learn 랜덤포레스트 | `ai/src/ml_model.py`, `ai/train/train_ml.py` |
-| DL | PyTorch 다층 신경망(MLP) | `ai/src/dl_model.py`, `ai/train/train_dl.py` |
-| LLM | Google Gemini (키가 없으면 기본 문장) | `ai/src/llm_explain.py` |
+| ML | scikit-learn 랜덤포레스트 | `ai/src/prediction/ml_model.py`, `ai/train/train_ml.py` |
+| DL | PyTorch 다층 신경망(MLP) | `ai/src/prediction/dl_model.py`, `ai/train/train_dl.py` |
+| LLM | Google Gemini (키가 없으면 기본 문장) | `ai/src/explain/llm_explain.py` |
 
 성능은 학습 후 `ai/models/metrics_ml.json`, `metrics_dl.json`에서 볼 수 있습니다. (MAE는 평균 오차(만원), R²는 1에 가까울수록 좋음)
 
@@ -118,7 +123,7 @@ python -m ai.train.train_dl
 
 ```bash
 # AI 서버 (8000)
-cd ai && python -m uvicorn src.main:app --port 8000
+cd ai && python -m uvicorn src.api.main:app --port 8000
 
 # 백엔드 (8080) - 로컬에서는 H2 메모리 DB를 쓴다
 cd back && ./gradlew bootRun

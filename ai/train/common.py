@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from ai.src.features import FEATURE_COLUMNS, TARGET_COLUMN
+from ai.src.prediction.features import FEATURE_COLUMNS, TARGET_COLUMN
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 PROCESSED_DIR = ROOT_DIR / "data" / "processed"

@@ -5,12 +5,12 @@
 """
 import pandas as pd
 
-from src.district_stats import all_districts, find_stat
-from src.dl_model import predict_dl
-from src.features import make_input_frame
-from src.llm_explain import explain
-from src.ml_model import predict_ml
-from src.rir import SAFE_LIMIT, calculate_rir, classify, monthly_cost
+from src.domain.district_stats import all_districts, find_stat
+from src.prediction.dl_model import predict_dl
+from src.prediction.features import make_input_frame
+from src.explain.llm_explain import explain
+from src.prediction.ml_model import predict_ml
+from src.domain.rir import SAFE_LIMIT, calculate_rir, classify, monthly_cost
 
 
 def to_int_or_none(value):

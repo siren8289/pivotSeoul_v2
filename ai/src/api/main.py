@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from src.service import diagnose, recommend
 
 # ai/.env 에서 GEMINI_API_KEY 를 읽는다. (없으면 LLM 대신 기본 문장을 쓴다)
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 app = FastAPI(title="pivotSeoul AI", version="2.0.0")
 
