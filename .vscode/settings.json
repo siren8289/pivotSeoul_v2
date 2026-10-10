@@ -1,8 +1,0 @@
-{
-  "java.configuration.updateBuildConfiguration": "automatic",
-  "java.import.gradle.enabled": true,
-  "java.import.gradle.wrapper.enabled": true,
-  "java.import.gradle.offline.enabled": false,
-  "java.import.generatesMetadataFilesAtProjectRoot": true,
-  "java.project.importOnFirstTimeStartup": "automatic"
-}

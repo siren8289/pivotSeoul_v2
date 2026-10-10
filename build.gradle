@@ -1,4 +1,0 @@
-// Workspace root. The Spring Boot application is module `:back`.
-plugins {
-    id 'base'
-}

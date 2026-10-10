@@ -1,31 +1,27 @@
-import { RouterProvider } from 'react-router';
-import { router } from './routes';
-import { PivotProvider } from './context/PivotContext';
-import { ThemeProvider } from './context/ThemeContext';
-import { Toaster } from 'sonner';
+import { Link, Route, Routes } from "react-router-dom";
+import DiagnosePage from "./pages/DiagnosePage";
+import RecommendPage from "./pages/RecommendPage";
+import ResultPage from "./pages/ResultPage";
 
-/**
- * 이 파일은 프런트엔드(웹 화면)의 가장 뿌리가 되는 곳입니다.
- * 
- * 비전공자를 위한 설명:
- * 사용자가 웹사이트에 접속했을 때 가장 먼저 그려지는 뼈대입니다.
- * 여러 겹의 '상자(Provider)'들이 감싸져 있는데, 각각의 상자는 앱 전체에서 
- * 공통으로 쓰이는 기능들을 담고 있습니다.
- *
- * 감싸는 순서와 의미:
- * 1) ThemeProvider: 화면의 테마(밝은 모드, 어두운 모드, 색상 등)를 관리합니다.
- * 2) PivotProvider: 앱의 핵심 데이터(사용자 정보, 시뮬레이션 결과 등)를 관리합니다.
- * 3) RouterProvider: 주소창의 주소에 따라 어떤 화면을 보여줄지 결정하는 길잡이 역할을 합니다.
- * 4) Toaster: 화면 상단에 알림 메시지(예: "저장되었습니다")를 띄워주는 도구입니다.
- */
+// 화면 뼈대: 위쪽 메뉴 + 주소(URL)에 따라 바뀌는 본문
 export default function App() {
   return (
-    <ThemeProvider>
-      <PivotProvider>
-        <RouterProvider router={router} />
-        {/* Toaster는 사용자에게 보여줄 안내 메시지 창입니다. */}
-        <Toaster position="top-center" richColors closeButton />
-      </PivotProvider>
-    </ThemeProvider>
+    <div className="min-h-screen bg-gray-50 text-slate-800">
+      <header className="bg-white border-b border-gray-200 h-16 flex items-center px-6">
+        <div className="w-full max-w-3xl mx-auto flex items-center gap-6">
+          <span className="font-bold text-xl text-emerald-700">pivotSeoul</span>
+          <Link to="/" className="text-sm hover:text-emerald-700">내 주거비 진단</Link>
+          <Link to="/recommend" className="text-sm hover:text-emerald-700">자치구 추천</Link>
+        </div>
+      </header>
+
+      <main className="max-w-3xl mx-auto p-6">
+        <Routes>
+          <Route path="/" element={<DiagnosePage />} />
+          <Route path="/recommend" element={<RecommendPage />} />
+          <Route path="/diagnoses/:id" element={<ResultPage />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
