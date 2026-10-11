@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+concurrency:
+  group: pivotseoul-production
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -11,15 +16,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SSH into EC2 and run deploy.sh
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: ${{ secrets.EC2_PORT || 22 }}
-          script: |
-            set -e
-            cd ~/pivotSeoul_v2 || cd /home/ubuntu/pivotSeoul_v2
+      - name: Check Secrets
+        run: |
+          MISSING=""
+          if [ -z "${{ secrets.EC2_HOST }}" ]; then MISSING="$MISSING EC2_HOST"; fi
+          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then MISSING="$MISSING EC2_SSH_KEY"; fi
+          if [ -z "${{ secrets.EC2_USER || secrets.EC2_USERNAME }}" ]; then MISSING="$MISSING EC2_USER(or EC2_USERNAME)"; fi
+          if [ -n "$MISSING" ]; then
+            echo "::error::[Secrets 누락] 다음 GitHub Actions Secret이 등록되지 않았습니다:$MISSING"
+            echo "https://github.com/siren8289/pivotSeoul_v2/settings/secrets/actions 에서 등록해주세요."
+            exit 1
+          fi
+
+      - name: Deploy via SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER || secrets.EC2_USERNAME || 'ubuntu' }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_PORT: ${{ secrets.EC2_PORT || '22' }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          # SSH 비공개 키 생성
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          # Host 키 등록
+          ssh-keyscan -p "$EC2_PORT" -H "$EC2_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+
+          echo "EC2 인스턴스에 접속 시도 중 ($EC2_USER@$EC2_HOST:$EC2_PORT)..."
+          ssh -i ~/.ssh/deploy_key \
+            -p "$EC2_PORT" \
+            -o ConnectTimeout=15 \
+            -o StrictHostKeyChecking=accept-new \
+            "$EC2_USER@$EC2_HOST" 'bash -se' << 'EOF'
+            set -euo pipefail
+            echo "=== 1. EC2 접속 완료 ==="
+
+            # 프로젝트 디렉토리 이동
+            if [ -d "$HOME/pivotSeoul_v2" ]; then
+              cd "$HOME/pivotSeoul_v2"
+            elif [ -d "/home/ubuntu/pivotSeoul_v2" ]; then
+              cd "/home/ubuntu/pivotSeoul_v2"
+            else
+              echo "ERROR: pivotSeoul_v2 디렉토리를 찾을 수 없습니다."
+              exit 1
+            fi
+
+            echo "=== 2. 최신 코드 동기화 ==="
+            git fetch origin main
+            git checkout main
             git pull origin main
+
+            echo "=== 3. 배포 스크립트 실행 ==="
             bash scripts/deploy.sh
+          EOF
