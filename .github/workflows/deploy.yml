@@ -42,14 +42,17 @@ jobs:
           printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          # Host 키 등록
-          ssh-keyscan -p "$EC2_PORT" -H "$EC2_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          # Host 키 등록 (최대 10초)
+          ssh-keyscan -T 10 -p "$EC2_PORT" -H "$EC2_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
 
           echo "EC2 인스턴스에 접속 시도 중 ($EC2_USER@$EC2_HOST:$EC2_PORT)..."
           ssh -i ~/.ssh/deploy_key \
             -p "$EC2_PORT" \
-            -o ConnectTimeout=15 \
+            -o ConnectTimeout=30 \
+            -o ConnectionAttempts=3 \
             -o StrictHostKeyChecking=accept-new \
+            -o PubkeyAcceptedKeyTypes=+ssh-rsa \
+            -o HostkeyAlgorithms=+ssh-rsa \
             "$EC2_USER@$EC2_HOST" 'bash -se' << 'EOF'
             set -euo pipefail
             echo "=== 1. EC2 접속 완료 ==="
