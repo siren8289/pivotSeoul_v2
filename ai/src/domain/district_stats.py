@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-STATS_PATH = Path(__file__).resolve().parent.parent / "models" / "district_stats.json"
+STATS_PATH = Path(__file__).resolve().parents[2] / "models" / "district_stats.json"
 
 _stats = None
 

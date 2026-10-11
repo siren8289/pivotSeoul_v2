@@ -10,7 +10,7 @@ import numpy as np
 import torch
 from torch import nn
 
-MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
+MODELS_DIR = Path(__file__).resolve().parents[2] / "models"
 MODEL_PATH = MODELS_DIR / "rent_mlp.pt"
 PREPROCESSOR_PATH = MODELS_DIR / "rent_mlp_preprocessor.joblib"
 

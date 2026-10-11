@@ -3,7 +3,7 @@ from pathlib import Path
 
 import joblib
 
-MODEL_PATH = Path(__file__).resolve().parent.parent / "models" / "rent_rf.joblib"
+MODEL_PATH = Path(__file__).resolve().parents[2] / "models" / "rent_rf.joblib"
 
 # 서버가 켜진 뒤 처음 한 번만 파일을 읽고, 이후에는 메모리에 있는 모델을 쓴다.
 _model = None
