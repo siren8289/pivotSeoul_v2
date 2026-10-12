@@ -4,7 +4,8 @@ name: pivotseoul
 
 services:
   db:
-    image: postgres:16-alpine
+    # pgvector 확장이 사전 내장된 공식 PostgreSQL 16 이미지 사용
+    image: pgvector/pgvector:pg16
     environment:
       POSTGRES_DB: pivotseoul
       POSTGRES_USER: pivot
@@ -27,6 +28,15 @@ services:
     environment:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
+      # RAG 주거 지원 정책 벡터 DB 연동 환경 변수
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: pivotseoul
+      DB_USER: pivot
+      DB_PASSWORD: ${DB_PASSWORD:-}
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')\""]
       interval: 10s

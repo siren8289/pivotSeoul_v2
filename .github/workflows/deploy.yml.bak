@@ -1,0 +1,118 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: pivotseoul-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Secrets
+        run: |
+          MISSING=""
+          if [ -z "${{ secrets.EC2_HOST }}" ]; then MISSING="$MISSING EC2_HOST"; fi
+          if [ -z "${{ secrets.EC2_SSH_KEY }}" ]; then MISSING="$MISSING EC2_SSH_KEY"; fi
+          if [ -z "${{ secrets.EC2_USER || secrets.EC2_USERNAME }}" ]; then MISSING="$MISSING EC2_USER(or EC2_USERNAME)"; fi
+          if [ -n "$MISSING" ]; then
+            echo "::error::[Secrets 누락] 다음 GitHub Actions Secret이 등록되지 않았습니다:$MISSING"
+            echo "https://github.com/siren8289/pivotSeoul_v2/settings/secrets/actions 에서 등록해주세요."
+            exit 1
+          fi
+
+      - name: Diagnose Network & Host
+        env:
+          RAW_HOST: ${{ secrets.EC2_HOST }}
+          EC2_PORT: ${{ secrets.EC2_PORT || '22' }}
+        run: |
+          # 앞뒤 공백 제거
+          CLEAN_HOST=$(echo "$RAW_HOST" | xargs)
+
+          echo "=== [1] 호스트 입력 형식 점검 ==="
+          if [[ "$CLEAN_HOST" =~ ^http ]]; then
+            echo "::error::EC2_HOST에 http:// 또는 https:// 가 포함되어 있습니다. 순수 IP만 입력해야 합니다."
+            exit 1
+          fi
+          if [[ "$CLEAN_HOST" =~ : ]]; then
+            echo "::error::EC2_HOST에 포트(:22 등)가 포함되어 있습니다. IP 주소만 입력해야 합니다."
+            exit 1
+          fi
+
+          # 사설 IP 대역(172.16~31., 10., 192.168.) 체크
+          if [[ "$CLEAN_HOST" =~ ^172\.(1[6-9]|2[0-9]|3[0-1])\. ]] || [[ "$CLEAN_HOST" =~ ^10\. ]] || [[ "$CLEAN_HOST" =~ ^192\.168\. ]]; then
+            echo "::error::[주의] EC2_HOST($CLEAN_HOST)가 AWS 사설(프라이빗) IP 대역입니다! 외부에서 접속할 수 있는 '퍼블릭 IPv4 주소'를 입력해야 합니다."
+            exit 1
+          fi
+
+          # IP 대역 앞자리 안전하게 출력 (식별용)
+          OCTET1=$(echo "$CLEAN_HOST" | cut -d'.' -f1)
+          OCTET2=$(echo "$CLEAN_HOST" | cut -d'.' -f2)
+          echo "등록된 대상 IP 대역: ${OCTET1}.${OCTET2}.***.*** (포트: $EC2_PORT)"
+
+          echo "=== [2] 포트 22번 TCP 연결 테스트 ==="
+          if nc -z -v -w 10 "$CLEAN_HOST" "$EC2_PORT" 2>&1; then
+            echo ">>> 포트 $EC2_PORT 연결 성공! <<<"
+          else
+            echo "::error::대상 서버($CLEAN_HOST)의 $EC2_PORT 포트로 연결할 수 없습니다 (Connection timed out)."
+            echo "확인사항:"
+            echo "1. AWS 콘솔에서 인스턴스의 '퍼블릭 IPv4 주소'가 위 대역(${OCTET1}.${OCTET2}.***.***)과 정확히 일치하는지 확인"
+            echo "2. 해당 인스턴스에 연결된 보안 그룹의 인바운드 규칙에 'SSH / 포트 22 / 0.0.0.0/0'이 저장되어 있는지 확인"
+            exit 1
+          fi
+
+      - name: Deploy via SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER || secrets.EC2_USERNAME || 'ubuntu' }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_PORT: ${{ secrets.EC2_PORT || '22' }}
+        run: |
+          CLEAN_HOST=$(echo "$EC2_HOST" | xargs)
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          # SSH 비공개 키 생성
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          # Host 키 등록
+          ssh-keyscan -T 10 -p "$EC2_PORT" -H "$CLEAN_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+
+          echo "EC2 인스턴스에 접속 시도 중 ($EC2_USER@$CLEAN_HOST:$EC2_PORT)..."
+          ssh -i ~/.ssh/deploy_key \
+            -p "$EC2_PORT" \
+            -o ConnectTimeout=30 \
+            -o ConnectionAttempts=3 \
+            -o StrictHostKeyChecking=accept-new \
+            -o PubkeyAcceptedKeyTypes=+ssh-rsa \
+            -o HostkeyAlgorithms=+ssh-rsa \
+            "$EC2_USER@$CLEAN_HOST" 'bash -se' << 'EOF'
+            set -euo pipefail
+            echo "=== 1. EC2 접속 완료 ==="
+
+            # 프로젝트 디렉토리 이동
+            if [ -d "$HOME/pivotSeoul_v2" ]; then
+              cd "$HOME/pivotSeoul_v2"
+            elif [ -d "/home/ubuntu/pivotSeoul_v2" ]; then
+              cd "/home/ubuntu/pivotSeoul_v2"
+            else
+              echo "ERROR: pivotSeoul_v2 디렉토리를 찾을 수 없습니다."
+              exit 1
+            fi
+
+            echo "=== 2. 최신 코드 동기화 ==="
+            git fetch origin main
+            git checkout main
+            git pull origin main
+
+            echo "=== 3. 배포 스크립트 실행 ==="
+            bash scripts/deploy.sh
+          EOF

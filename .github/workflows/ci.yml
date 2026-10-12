@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, refactor/ai-front-back-data]
+    branches: [main, 001-ai-housing-rag, refactor/ai-front-back-data]
   pull_request:
-    branches: [main]
+    branches: [main, 001-ai-housing-rag]
 
 jobs:
   data:
@@ -21,7 +21,7 @@ jobs:
       - run: python -m pytest data/tests -q
 
   ai:
-    name: AI (FastAPI)
+    name: AI (FastAPI - RAG & Models)
     runs-on: ubuntu-latest
     defaults:
       run:
