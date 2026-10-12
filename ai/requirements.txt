@@ -8,3 +8,8 @@ numpy>=2.0,<3
 pandas>=2.2,<3
 google-genai>=1.0,<2
 python-dotenv>=1,<2
+
+# RAG, 오케스트레이션 및 pgvector 검색 연동 패키지
+langgraph>=0.2,<1
+pgvector>=0.3,<1
+psycopg2-binary>=2.9,<3

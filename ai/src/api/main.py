@@ -1,7 +1,8 @@
 """pivotSeoul AI 서버 (FastAPI). Spring 백엔드가 내부에서 호출한다.
 
-POST /api/v1/diagnose   내 주거비 진단
-POST /api/v1/recommend  예산에 맞는 자치구 추천
+POST /api/v1/diagnose            내 주거비 진단
+POST /api/v1/recommend           예산에 맞는 자치구 추천
+POST /api/v1/housing-rag/*       RAG 기반 맞춤형 주거 지원 정책 검색 및 가이던스
 """
 from pathlib import Path
 from typing import Literal
@@ -11,11 +12,15 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from src.service import diagnose, recommend
+from src.features.housing_rag_001 import router as housing_rag_router
 
 # ai/.env 에서 GEMINI_API_KEY 를 읽는다. (없으면 LLM 대신 기본 문장을 쓴다)
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
-app = FastAPI(title="pivotSeoul AI", version="2.0.0")
+app = FastAPI(title="pivotSeoul AI", version="2.1.0")
+
+# 신규 RAG 맞춤형 주거 지원 정책 검색 및 오케스트레이션 라우터 등록
+app.include_router(housing_rag_router)
 
 LifeStage = Literal["youth", "family", "senior"]
 # apartment=아파트, officetel=오피스텔, house=단독/다가구, villa=연립/다세대
@@ -45,7 +50,7 @@ class RecommendRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "version": "2.1.0"}
 
 
 @app.post("/api/v1/diagnose")
