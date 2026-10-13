@@ -120,9 +120,9 @@ export default function DiagnosePage() {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="w-full py-3 rounded-xl bg-emerald-700 text-white font-bold disabled:opacity-50"
+        className="w-full py-3 rounded-xl bg-emerald-700 text-white font-bold disabled:opacity-50 cursor-pointer transition hover:bg-emerald-800"
       >
-        {loading ? "AI가 분석하는 중..." : "진단하기"}
+        {loading ? "진단 분석 중..." : "진단하기"}
       </button>
     </div>
   );

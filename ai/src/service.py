@@ -31,7 +31,7 @@ def predict_price(input_frame):
     return ml_prices, dl_prices, average
 
 
-def diagnose(request):
+def diagnose(request, include_explanation=True):
     """request: 사용자가 입력한 값(딕셔너리)"""
     # 1) 규칙 기반: 내가 실제로 내는 돈으로 RIR 계산
     cost = monthly_cost(request["deposit"], request["monthly_rent"])
@@ -64,11 +64,25 @@ def diagnose(request):
         "audit_count": to_int_or_none(stat.get("audit_count")),
     }
 
-    # 3) LLM: 결과를 문장으로 설명
-    explanation, source = explain(request, result)
-    result["explanation"] = explanation
-    result["explanation_source"] = source
+    # 3) LLM: include_explanation이 True일 때만 Gemini 동기 호출
+    if include_explanation:
+        explanation, source = explain(request, result)
+        result["explanation"] = explanation
+        result["explanation_source"] = source
+    else:
+        result["explanation"] = None
+        result["explanation_source"] = "pending"
+
     return result
+
+
+def generate_explanation(request, result):
+    """지표 결과를 바탕으로 LLM 설명을 생성하여 돌려준다."""
+    explanation, source = explain(request, result)
+    return {
+        "explanation": explanation,
+        "explanation_source": source,
+    }
 
 
 def recommend(request, limit=5):

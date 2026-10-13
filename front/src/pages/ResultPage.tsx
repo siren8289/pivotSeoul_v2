@@ -17,6 +17,30 @@ export default function ResultPage() {
       .catch((e) => setError(e instanceof Error ? e.message : "결과를 불러오지 못했습니다."));
   }, [id]);
 
+  // 설명이 PENDING 상태이면 백그라운드 생성이 완료될 때까지 폴링하여 업데이트
+  useEffect(() => {
+    if (!id || !result || result.explanationStatus !== "PENDING") return;
+
+    let attempts = 0;
+    const maxAttempts = 10;
+    const interval = setInterval(async () => {
+      attempts += 1;
+      try {
+        const updated = await getDiagnosis(id);
+        if (updated.explanationStatus !== "PENDING" || updated.explanation) {
+          setResult(updated);
+          clearInterval(interval);
+        } else if (attempts >= maxAttempts) {
+          clearInterval(interval);
+        }
+      } catch {
+        clearInterval(interval);
+      }
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, [id, result?.explanationStatus]);
+
   if (error) return <p className="text-red-600">{error}</p>;
   if (!result) return <p className="text-gray-500">불러오는 중...</p>;
 
@@ -67,10 +91,28 @@ export default function ResultPage() {
 
       {/* 3) LLM: 쉬운 설명 */}
       <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h3 className="font-bold mb-2">
-          AI 설명 <span className="text-xs font-normal text-gray-400">({result.explanationSource === "gemini" ? "Gemini" : "기본 문장"})</span>
+        <h3 className="font-bold mb-2 flex items-center justify-between">
+          <span>AI 맞춤 설명</span>
+          {result.explanationStatus === "PENDING" ? (
+            <span className="text-xs font-normal text-emerald-600 animate-pulse">AI 분석 작성 중...</span>
+          ) : (
+            <span className="text-xs font-normal text-gray-400">
+              ({result.explanationSource === "gemini" ? "Gemini" : "기본 문장"})
+            </span>
+          )}
         </h3>
-        <p className="text-sm leading-relaxed whitespace-pre-line">{result.explanation}</p>
+        {result.explanationStatus === "PENDING" && !result.explanation ? (
+          <div className="space-y-2 py-2">
+            <div className="h-4 bg-gray-100 rounded animate-pulse w-full"></div>
+            <div className="h-4 bg-gray-100 rounded animate-pulse w-5/6"></div>
+            <div className="h-4 bg-gray-100 rounded animate-pulse w-2/3"></div>
+            <p className="text-xs text-gray-400 pt-1">AI가 주거비 지표와 시세를 바탕으로 맞춤 리포트를 작성하고 있습니다...</p>
+          </div>
+        ) : (
+          <p className="text-sm leading-relaxed whitespace-pre-line">
+            {result.explanation || "진단 결과가 정상적으로 계산되었습니다."}
+          </p>
+        )}
       </section>
 
       <Link to="/" className="block text-center text-sm text-emerald-700">← 다시 진단하기</Link>

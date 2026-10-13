@@ -57,6 +57,25 @@ class DiagnosisControllerTest {
     }
 
     @Test
+    void createWithPendingExplanation() throws Exception {
+        given(aiClient.diagnose(any())).willReturn(objectMapper.readTree("""
+                {"monthly_cost":84.2,"rir_percent":28.1,"status":"stable","is_red_zone":false,
+                 "ml_price":90.0,"dl_price":88.0,"market_price":89.0,"price_gap_percent":-5.4,
+                 "district_median_cost":95.0,"audit_count":101,
+                 "explanation":null,"explanation_source":"pending"}
+                """));
+        given(aiClient.explain(any())).willReturn(objectMapper.readTree("""
+                {"explanation":"비동기 생성 완료","explanation_source":"gemini"}
+                """));
+
+        mockMvc.perform(post("/api/diagnoses").contentType(MediaType.APPLICATION_JSON).content(REQUEST))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.explanationStatus").value("PENDING"))
+                .andExpect(jsonPath("$.marketPrice").value(89.0));
+    }
+
+    @Test
     void invalidIncomeReturns400() throws Exception {
         String bad = REQUEST.replace("\"monthlyIncome\":300", "\"monthlyIncome\":0");
         mockMvc.perform(post("/api/diagnoses").contentType(MediaType.APPLICATION_JSON).content(bad))

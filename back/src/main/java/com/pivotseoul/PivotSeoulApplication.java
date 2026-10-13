@@ -2,6 +2,7 @@ package com.pivotseoul;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * pivotSeoul 백엔드 시작점.
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *                      ↓
  *                 DB(진단 기록 저장)
  */
+@EnableAsync
 @SpringBootApplication
 public class PivotSeoulApplication {
 

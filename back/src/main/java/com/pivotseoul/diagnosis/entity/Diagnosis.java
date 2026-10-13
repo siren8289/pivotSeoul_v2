@@ -51,6 +51,7 @@ public class Diagnosis {
     @Column(length = 2000)
     private String explanation;
     private String explanationSource; // gemini 또는 basic
+    private String explanationStatus = "COMPLETED"; // PENDING, COMPLETED, FAILED
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -122,6 +123,9 @@ public class Diagnosis {
 
     public String getExplanationSource() { return explanationSource; }
     public void setExplanationSource(String explanationSource) { this.explanationSource = explanationSource; }
+
+    public String getExplanationStatus() { return explanationStatus; }
+    public void setExplanationStatus(String explanationStatus) { this.explanationStatus = explanationStatus; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 }

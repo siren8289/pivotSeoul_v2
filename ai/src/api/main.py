@@ -5,13 +5,13 @@ POST /api/v1/recommend           예산에 맞는 자치구 추천
 POST /api/v1/housing-rag/*       RAG 기반 맞춤형 주거 지원 정책 검색 및 가이던스
 """
 from pathlib import Path
-from typing import Literal
+from typing import Literal, Dict, Any
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
-from src.service import diagnose, recommend
+from src.service import diagnose, recommend, generate_explanation
 from src.features.housing_rag_001 import router as housing_rag_router
 
 # ai/.env 에서 GEMINI_API_KEY 를 읽는다. (없으면 LLM 대신 기본 문장을 쓴다)
@@ -37,6 +37,12 @@ class DiagnoseRequest(BaseModel):
     monthly_income: float = Field(gt=0, description="월 소득(만원)")
     deposit: float = Field(ge=0, description="보증금(만원)")
     monthly_rent: float = Field(ge=0, description="월세(만원)")
+    include_explanation: bool = Field(default=True, description="LLM 설명 포함 여부 (비동기 처리 시 False)")
+
+
+class ExplainRequest(BaseModel):
+    request: DiagnoseRequest
+    result: Dict[str, Any]
 
 
 class RecommendRequest(BaseModel):
@@ -55,7 +61,12 @@ def health():
 
 @app.post("/api/v1/diagnose")
 def diagnose_api(request: DiagnoseRequest):
-    return diagnose(request.model_dump())
+    return diagnose(request.model_dump(), include_explanation=request.include_explanation)
+
+
+@app.post("/api/v1/explain")
+def explain_api(payload: ExplainRequest):
+    return generate_explanation(payload.request.model_dump(), payload.result)
 
 
 @app.post("/api/v1/recommend")

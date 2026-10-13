@@ -29,6 +29,10 @@ public class AiClient {
         return post("/api/v1/diagnose", request);
     }
 
+    public JsonNode explain(Map<String, Object> request) {
+        return post("/api/v1/explain", request);
+    }
+
     public JsonNode recommend(Map<String, Object> request) {
         return post("/api/v1/recommend", request);
     }

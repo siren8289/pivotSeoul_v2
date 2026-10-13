@@ -31,8 +31,9 @@ export type Diagnosis = DiagnoseInput & {
   priceGapPercent: number;      // 시세 대비 차이(%)
   districtMedianCost: number | null;
   auditCount: number | null;    // 최근 회계감사 단지수
-  explanation: string;          // LLM 설명
-  explanationSource: string;    // gemini / basic
+  explanation: string | null;   // LLM 설명 (비동기 생성 중이면 null 가능)
+  explanationSource: string | null; // gemini / basic / pending
+  explanationStatus?: "PENDING" | "COMPLETED" | "FAILED"; // 비동기 생성 상태
 };
 
 // 추천 요청
