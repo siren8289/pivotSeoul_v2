@@ -32,15 +32,18 @@ python qa/run_qa.py --profile required --gate
 | TC_ID | 종류 | 도구 A | 도구 B | 범위 |
 | --- | --- | --- | --- | --- |
 | QA-UNIT-DATA-001 | unit | pytest `data/tests` | `qa/tools/invariant_check.py` | 전처리 월 환산 주거비, NULL, 빈 주소 |
-| QA-UNIT-RECORD-001 | unit | pytest `qa/tests` | `qa/tools/record_selfcheck.py` | 기록 추가, PASS 조건, 게이트 |
+| QA-UNIT-RECORD-001 | unit | pytest `qa/tests/test_record.py` 외 | `qa/tools/record_selfcheck.py` | 기록 추가, PASS 조건, 게이트 |
+| QA-UNIT-FRONT-001 | unit | `node --test front/tests/front_unit.test.mjs` | `qa/tools/front_check.py` | 프론트 25개 구·생애단계·주택유형·상태 배지, API 클라이언트, 라우트·입력 가드 |
+| QA-API-CONTRACT-001 | api | pytest `qa/tests/test_api_contract.py` | `qa/tools/api_contract_check.py` | AI RIR/통계/설명 규칙 및 Spring Controller·DTO·GlobalExceptionHandler 계약 |
+| QA-INT-PIPELINE-001 | integration | pytest `qa/tests/test_integration_pipeline.py` | `qa/tools/integration_check.py` | Data ↔ AI ↔ Back ↔ Front 전환율·25개 구·필드 매핑 통합 정합성 |
+| QA-E2E-FLOW-001 | e2e | `node --test front/tests/e2e_flow.test.mjs` | `qa/tools/e2e_flow_check.py` | 진단 생성(201)·조회(200)·추천(25개 구)·오류 응답(400/404) 전체 사용자 여정 |
 | QA-SEC-SECRET-001 | security | `qa/tools/secret_scan.py` | `qa/tools/secret_grep.py` | 추적 파일의 고신뢰 비밀값 패턴 |
 | QA-SEC-AUTH-001 | security | `qa/tools/auth_surface.py` | `qa/tools/auth_grep.py` | 인증 없는 API 표면. 발견 시 RISK |
+| QA-PERF-BENCH-001 | performance | pytest `qa/tests/test_performance.py` | `qa/tools/perf_benchmark.py` | ETL 월 주거비 변환·자치구 추출(1,000회) 및 AI 25개 구 통계·RIR 판정(5,000회) 성능 |
 
 `/health`는 상태 확인용 공개 경로로 인증 표면 결함에서 제외한다. 진단·추천·RAG API는 제외하지 않는다.
 
-기존 GitHub Actions 작업(data pytest, AI pytest, Spring test, front build, compose config)은 유지한다. 그 작업만으로 해당 종류를 PASS로 기록하지 않는다. AI pytest와 Spring test는 각각 도구가 하나이므로, 두 번째 도구 없이 api PASS로 적지 않는다.
-
-프론트 `package.json`에는 test 스크립트가 없다. 프론트 unit/e2e는 실행 전까지 NOT_RUN이며 PASS로 적지 않는다.
+기존 GitHub Actions 작업(data pytest, AI pytest, Spring test, front build, compose config)은 유지한다. 그 작업만으로 해당 종류를 PASS로 기록하지 않고, 위 표의 두 도구 교차 검증을 모두 통과해야 PASS로 기록한다.
 
 ## 3. 기록 위치
 
@@ -107,7 +110,7 @@ FAIL 또는 RISK를 발견하면 코드를 고치기 전에 MD에 먼저 적고 
 - 필수 TC의 최신 최종상태가 `PASS`가 아님
 - 최신 위험이 `HIGH` 또는 `CRITICAL`이면서 `OPEN`
 
-필수 TC: `QA-UNIT-DATA-001`, `QA-UNIT-RECORD-001`, `QA-SEC-SECRET-001`, `QA-SEC-AUTH-001`.
+필수 TC: `QA-UNIT-DATA-001`, `QA-UNIT-RECORD-001`, `QA-UNIT-FRONT-001`, `QA-API-CONTRACT-001`, `QA-INT-PIPELINE-001`, `QA-E2E-FLOW-001`, `QA-SEC-SECRET-001`, `QA-SEC-AUTH-001`, `QA-PERF-BENCH-001`.
 
 CI는 이 명령을 실행하고, 실패하면 워크플로를 실패시킨다. 기존 검사 작업은 그대로 둔다.
 

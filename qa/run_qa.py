@@ -19,13 +19,19 @@ sys.path.insert(0, str(ROOT))
 
 from qa.gate import evaluate  # noqa: E402
 from qa.record import append_md, append_results  # noqa: E402
+
 REPORTS = ROOT / "qa" / "reports"
 SEOUL = ZoneInfo("Asia/Seoul")
 REQUIRED_IDS = [
     "QA-UNIT-DATA-001",
     "QA-UNIT-RECORD-001",
+    "QA-UNIT-FRONT-001",
+    "QA-API-CONTRACT-001",
+    "QA-INT-PIPELINE-001",
+    "QA-E2E-FLOW-001",
     "QA-SEC-SECRET-001",
     "QA-SEC-AUTH-001",
+    "QA-PERF-BENCH-001",
 ]
 
 
@@ -66,6 +72,7 @@ class Outcome:
     note: str
     line: str
     risk_md: str = ""
+    risk_id: str = ""
 
 
 def checks_for(profile: str) -> list[Check]:
@@ -91,14 +98,83 @@ def checks_for(profile: str) -> list[Check]:
             feature="qa-recorder",
             test_type="unit",
             tool_a="pytest",
-            cmd_a=[python, "-m", "pytest", "qa/tests", "-q", "--tb=line"],
+            cmd_a=[
+                python,
+                "-m",
+                "pytest",
+                "qa/tests/test_record.py",
+                "qa/tests/test_gate.py",
+                "qa/tests/test_stop.py",
+                "-q",
+                "--tb=line",
+            ],
             tool_b="record-selfcheck",
             cmd_b=[python, "qa/tools/record_selfcheck.py"],
             kind="pytest-json",
             file="qa/record.py",
             function="append_results",
             line_needle="def append_results",
-            scope="pytest는 qa/tests. record-selfcheck는 누적 기록, BOM, PASS 규칙, HIGH 게이트를 pytest 없이 확인한다.",
+            scope="pytest는 qa/tests(기록·게이트·Stop hook). record-selfcheck는 누적 기록, BOM, PASS 규칙, HIGH 게이트를 pytest 없이 확인한다.",
+            required=True,
+        ),
+        Check(
+            tc_id="QA-UNIT-FRONT-001",
+            feature="front",
+            test_type="unit",
+            tool_a="node-test",
+            cmd_a=["node", "--test", "front/tests/front_unit.test.mjs"],
+            tool_b="front-check",
+            cmd_b=[python, "qa/tools/front_check.py"],
+            kind="node-json",
+            file="front/src/components/options.ts",
+            function="DISTRICTS",
+            line_needle="export const DISTRICTS",
+            scope="node --test는 options.ts·api.ts를 실제 실행한다. front-check는 25개 구·라우트·입력 가드를 정적 검증한다.",
+            required=True,
+        ),
+        Check(
+            tc_id="QA-API-CONTRACT-001",
+            feature="api-contract",
+            test_type="api",
+            tool_a="pytest",
+            cmd_a=[python, "-m", "pytest", "qa/tests/test_api_contract.py", "-q", "--tb=line"],
+            tool_b="api-contract-check",
+            cmd_b=[python, "qa/tools/api_contract_check.py"],
+            kind="pytest-json",
+            file="ai/src/domain/rir.py",
+            function="classify",
+            line_needle="def classify",
+            scope="pytest와 api-contract-check 두 도구로 AI RIR/통계/설명 규칙 및 Spring Controller·DTO·GlobalExceptionHandler 계약을 교차 검증한다.",
+            required=True,
+        ),
+        Check(
+            tc_id="QA-INT-PIPELINE-001",
+            feature="service-integration",
+            test_type="integration",
+            tool_a="pytest",
+            cmd_a=[python, "-m", "pytest", "qa/tests/test_integration_pipeline.py", "-q", "--tb=line"],
+            tool_b="integration-check",
+            cmd_b=[python, "qa/tools/integration_check.py"],
+            kind="pytest-json",
+            file="back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java",
+            function="diagnose",
+            line_needle="public Diagnosis diagnose(",
+            scope="Data(전환율·25개 구) ↔ AI(RIR·모델 피처) ↔ Back(snake_case↔camelCase) ↔ Front(TypeScript 타입) 통합 정합성을 두 도구로 확인한다.",
+            required=True,
+        ),
+        Check(
+            tc_id="QA-E2E-FLOW-001",
+            feature="user-journey-e2e",
+            test_type="e2e",
+            tool_a="node-e2e",
+            cmd_a=["node", "--test", "front/tests/e2e_flow.test.mjs"],
+            tool_b="e2e-flow-check",
+            cmd_b=[python, "qa/tools/e2e_flow_check.py"],
+            kind="node-json",
+            file="front/src/pages/DiagnosePage.tsx",
+            function="handleSubmit",
+            line_needle="async function handleSubmit()",
+            scope="진단 생성(201)→상세 조회(200)→25개 자치구 추천(200)→검증 오류(400)/미존재(404) 전체 사용자 여정을 Node E2E와 Python 루프백 HTTP 서버로 교차 검증한다.",
             required=True,
         ),
         Check(
@@ -129,6 +205,21 @@ def checks_for(profile: str) -> list[Check]:
             function="get",
             line_needle='@GetMapping("/{id}")',
             scope="back/src/main 과 ai/src 의 매핑. /health 는 상태 확인이라 제외한다. 인증 정책이 없어 발견은 RISK다.",
+            required=True,
+        ),
+        Check(
+            tc_id="QA-PERF-BENCH-001",
+            feature="performance-benchmark",
+            test_type="performance",
+            tool_a="pytest",
+            cmd_a=[python, "-m", "pytest", "qa/tests/test_performance.py", "-q", "--tb=line"],
+            tool_b="perf-benchmark",
+            cmd_b=[python, "qa/tools/perf_benchmark.py"],
+            kind="pytest-json",
+            file="ai/src/domain/district_stats.py",
+            function="find_stat",
+            line_needle="def find_stat",
+            scope="ETL 월 주거비 변환·자치구 추출(1,000회 <500ms) 및 AI 25개 구 통계·RIR 판정(5,000회 <1,000ms) 성능을 두 도구로 측정한다.",
             required=True,
         ),
     ]
@@ -216,21 +307,32 @@ def parse_pytest(completed: subprocess.CompletedProcess[str]) -> ToolOutput:
     return ToolOutput("ERROR", f"pytest exit {completed.returncode}", detail=detail)
 
 
+def parse_node_test(completed: subprocess.CompletedProcess[str]) -> ToolOutput:
+    detail = tail(completed.stdout + "\n" + completed.stderr)
+    if completed.returncode == 0:
+        return ToolOutput("PASS", "node --test exit 0", detail=detail)
+    if completed.returncode == 1:
+        return ToolOutput("FAIL", "node --test exit 1", detail=detail)
+    return ToolOutput("ERROR", f"node --test exit {completed.returncode}", detail=detail)
+
+
 def execute(check: Check) -> tuple[ToolOutput, ToolOutput]:
     first = run_command(check.cmd_a)
     second = run_command(check.cmd_b)
     if check.kind == "pytest-json":
         return parse_pytest(first), parse_json_tool(second)
+    if check.kind == "node-json":
+        return parse_node_test(first), parse_json_tool(second)
     return parse_json_tool(first), parse_json_tool(second)
 
 
 def decide(kind: str, first: ToolOutput, second: ToolOutput) -> tuple[str, str]:
     if first.status == "ERROR" or second.status == "ERROR":
         return "ERROR", "도구 실행 오류"
-    if kind == "pytest-json":
+    if kind in {"pytest-json", "node-json"}:
         if first.status == "PASS" and second.status == "PASS":
             return "PASS", "두 도구 PASS"
-        return "FAIL", f"pytest={first.status}, second={second.status}"
+        return "FAIL", f"first={first.status}, second={second.status}"
     left = sorted(first.findings)
     right = sorted(second.findings)
     if left != right:
@@ -269,40 +371,6 @@ def choose_auth_finding(findings: list[str]) -> str:
         if "DiagnosisController.java" in finding:
             return finding
     return findings[0]
-
-
-def front_inventory() -> tuple[str, str, str]:
-    package = ROOT / "front" / "package.json"
-    if not package.is_file():
-        return "NOT_RUN", "UNKNOWN", "front/package.json 이 없습니다."
-    payload = json.loads(package.read_text(encoding="utf-8"))
-    scripts = payload.get("scripts", {})
-    line = line_of("front/package.json", '"scripts"')
-    if "test" not in scripts:
-        return "NOT_RUN", line, "front/package.json에 test 스크립트가 없다. 프론트 테스트는 실행하지 않았다."
-    return "SKIPPED", line, "front test 스크립트는 있으나 이 프로필에서 실행하지 않았다."
-
-
-def blank_row(run_id: str, when: str, commit: str, check: Check, final: str, line: str, note: str, risk_id: str = "") -> dict:
-    return {
-        "RUN_ID": run_id,
-        "TC_ID": check.tc_id,
-        "실행시각": when,
-        "기능명": check.feature,
-        "테스트종류": check.test_type,
-        "도구A": check.tool_a,
-        "도구A결과": "NOT_RUN",
-        "도구B": check.tool_b,
-        "도구B결과": "NOT_RUN",
-        "최종상태": final,
-        "GitCommit": commit,
-        "파일": check.file,
-        "함수": check.function,
-        "줄번호": line,
-        "ISSUE_ID": "",
-        "RISK_ID": risk_id,
-        "비고": note,
-    }
 
 
 def outcome_row(run_id: str, when: str, commit: str, item: Outcome, risk_id: str) -> dict:
@@ -361,11 +429,13 @@ def build_outcomes(profile: str) -> tuple[list[Outcome], list[dict]]:
             reason,
         ])
         risk_md = ""
+        risk_id = ""
         if check.kind == "auth" and final == "PASS" and first.findings:
             chosen = choose_auth_finding(first.findings)
             path, function, found_line = function_near(chosen)
             line = found_line
             listed = ", ".join(first.findings)
+            risk_id = "RISK-SEC-001"
             risk_md = "\n".join([
                 "## {run_id} RISK-SEC-001",
                 "",
@@ -386,9 +456,27 @@ def build_outcomes(profile: str) -> tuple[list[Outcome], list[dict]]:
                 f"@GeneratedValue 줄 {line_of('back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java', '@GeneratedValue')}. "
                 f"목록: {listed}",
             ])
-            outcomes.append(Outcome(check, first, second, final, note, line, risk_md))
-            continue
-        outcomes.append(Outcome(check, first, second, final, note, line, ""))
+        elif check.tc_id == "QA-UNIT-FRONT-001" and final == "PASS":
+            pkg_test_line = line_of("front/package.json", '"test"')
+            risk_id = "RISK-QA-001"
+            risk_md = "\n".join([
+                "## {run_id} RISK-QA-001",
+                "",
+                "- RISK_ID: RISK-QA-001",
+                "- TC_ID: QA-UNIT-FRONT-001",
+                "- 실행시각: {when}",
+                "- 심각도: MEDIUM",
+                "- 발생가능성: LOW",
+                "- 영향: front/package.json에 test 스크립트를 구성하고 node --test와 front_check.py 두 도구로 교차 검증을 완료했다.",
+                "- 처리상태: CLOSED",
+                "- 권장조치: 완료 (2개 도구 교차 검증 상시 실행).",
+                "- 파일: front/package.json",
+                "- 함수: DISTRICTS",
+                f"- 줄번호: {pkg_test_line}",
+                "- ISSUE_ID: ",
+                "- 근거: node --test front/tests/front_unit.test.mjs 및 qa/tools/front_check.py 모두 PASS.",
+            ])
+        outcomes.append(Outcome(check, first, second, final, note, line, risk_md, risk_id))
     return outcomes, []
 
 
@@ -397,29 +485,13 @@ def shlex_join(parts: list[str]) -> str:
 
 
 def render(run_id: str, when: str, commit: str, outcomes: list[Outcome], profile: str) -> int:
-    front_status, front_line, front_note = front_inventory()
-    front = Check(
-        tc_id="QA-UNIT-FRONT-001",
-        feature="front",
-        test_type="regression" if profile == "regression" else "unit",
-        tool_a="none",
-        cmd_a=[],
-        tool_b="none",
-        cmd_b=[],
-        kind="inventory",
-        file="front/package.json",
-        function="UNKNOWN",
-        line_needle='"scripts"',
-        scope="프론트 테스트 러너가 있는지 확인만 한다.",
-        required=False,
-    )
     grouped: dict[str, list[tuple[dict, str, str, str]]] = {}
 
     def add(test_type: str, row: dict, passed: str, failed: str, risk: str) -> None:
         grouped.setdefault(test_type, []).append((row, passed, failed, risk))
 
     for item in outcomes:
-        risk_id = "RISK-SEC-001" if item.risk_md else ""
+        risk_id = item.risk_id
         row = outcome_row(run_id, when, commit, item, risk_id)
         passed = ""
         failed = ""
@@ -459,30 +531,6 @@ def render(run_id: str, when: str, commit: str, outcomes: list[Outcome], profile
                 "- 재검증: 아직 없음",
             ])
         add(item.check.test_type, row, passed, failed, risk)
-
-    front_risk = ""
-    front_risk_id = ""
-    if front_status == "NOT_RUN":
-        front_risk_id = "RISK-QA-001"
-        front_risk = "\n".join([
-            f"## {run_id} RISK-QA-001",
-            "",
-            "- RISK_ID: RISK-QA-001",
-            "- TC_ID: QA-UNIT-FRONT-001",
-            f"- 실행시각: {when}",
-            "- 심각도: MEDIUM",
-            "- 발생가능성: HIGH",
-            "- 영향: 화면 변경의 회귀를 자동 테스트로 확인하지 못한다.",
-            "- 처리상태: OPEN",
-            "- 권장조치: 프론트 테스트 도구를 정한 뒤 unit 또는 e2e를 두 도구로 실행한다. 도구는 아직 정하지 않았다.",
-            "- 파일: front/package.json",
-            "- 함수: UNKNOWN",
-            f"- 줄번호: {front_line}",
-            "- ISSUE_ID: ",
-            f"- 근거: {front_note}",
-        ])
-    front_row = blank_row(run_id, when, commit, front, front_status, front_line, front_note, front_risk_id)
-    add(front.test_type, front_row, "", "", front_risk)
 
     day = when[:10]
     for test_type, entries in grouped.items():

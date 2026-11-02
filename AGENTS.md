@@ -13,7 +13,7 @@
 7. 실행한 종류만 `qa/reports/{test-type}/{YYYY-MM-DD}/`에 누적한다. 날짜는 Asia/Seoul이다. 같은 날이라도 `RUN_ID`로 추가하고 과거 기록을 덮어쓰지 않는다.
 8. FAIL 또는 RISK는 코드를 고치기 전에 `fail.md` 또는 `risk.md`에 먼저 적고 사용자에게 알린다.
 9. 수정 후 두 도구로 재검증한다. 회귀가 필요하면 `python qa/run_qa.py --profile regression --gate`를 실행한다.
-10. 최종 결과와 미해결 위험을 보고한다. 실행하지 않은 api, integration, e2e, performance는 성공이라고 말하지 않는다.
+10. 최종 결과와 미해결 위험을 보고한다. 실행하지 않은 테스트 종류는 성공이라고 말하지 않는다.
 
 ## 완료 금지
 

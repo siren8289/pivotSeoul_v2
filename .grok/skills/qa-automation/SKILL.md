@@ -21,5 +21,5 @@ python qa/run_qa.py --profile required --gate
 
 - 게이트 종료 코드가 0이 아니면 완료로 보고하지 않는다.
 - `HIGH` 또는 `CRITICAL`이면서 `OPEN`인 위험은 코드를 더 고치기 전에 `qa/reports/.../risk.md`에 적고 사용자에게 알린다.
-- api, integration, e2e, performance를 실행하지 않았으면 그 종류 폴더를 만들지 않고 PASS라고 말하지 않는다.
+- 실행하지 않은 테스트 종류가 있으면 그 종류 폴더를 만들지 않고 PASS라고 말하지 않는다.
 - 기존 `qa/reports`와 `docs/qa` 기록은 지우거나 덮어쓰지 않는다.

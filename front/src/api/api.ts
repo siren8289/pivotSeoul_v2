@@ -1,7 +1,7 @@
 // Spring 서버와 통신하는 함수를 한 곳에 모았다.
 
 // 서버 주소. .env 의 VITE_API_URL 이 없으면 로컬 주소를 쓴다.
-const API_URL: string = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
+const API_URL: string = import.meta.env?.VITE_API_URL ?? "http://localhost:8080";
 
 // ---------- 타입(데이터 모양) ----------
 
