@@ -18,21 +18,37 @@ CODE_PREFIXES = (
     "qa/run_qa.py",
     "qa/record.py",
     "qa/gate.py",
+    "qa/sheet.py",
     "qa/tools/",
     "qa/hooks/",
     "qa/tests/",
+    "qa/input/",
     ".github/workflows/",
 )
-CODE_FILES = {"compose.yaml", "compose.yaml.bak"}
+CODE_FILES = {"compose.yaml", "compose.yaml.bak", "qa-policy.md", "AGENTS.md"}
+AREA_DIRS = (
+    "01_unit_integration",
+    "02_web_api",
+    "03_security_quality",
+    "04_infra_deploy",
+)
 REASON = (
     "코드 변경 이후 QA 기록이 없습니다. "
-    "python qa/run_qa.py --profile required --gate 를 실행하고 qa/reports를 갱신한 뒤, "
+    "python qa/run_qa.py --profile required --gate 를 실행하고 qa/results/{area}/{section}/{date} 를 갱신한 뒤, "
     "미해결 HIGH/CRITICAL을 사용자에게 보고하세요. 실행하지 않은 테스트는 PASS로 적지 마세요."
 )
 
 
+def is_report_path(path: str) -> bool:
+    if path in {"qa/master_test_sheet.tsv"}:
+        return True
+    if path.startswith("qa/results/"):
+        return True
+    return False
+
+
 def is_code_path(path: str) -> bool:
-    if path.startswith("qa/reports/"):
+    if is_report_path(path):
         return False
     if path in CODE_FILES or path.startswith("compose.yaml"):
         return True
@@ -72,13 +88,20 @@ def latest_mtime(paths: list[Path]) -> float | None:
     return max(times)
 
 
+def report_files() -> list[Path]:
+    results = ROOT / "qa" / "results"
+    files: list[Path] = []
+    for area in AREA_DIRS:
+        files.extend((results / area).glob("*/*/summary.tsv"))
+    return files
+
+
 def main() -> int:
     raw = sys.stdin.read().strip()
     event = json.loads(raw) if raw else {}
     changed = changed_files()
     code_paths = [ROOT / path for path in changed if is_code_path(path)]
-    reports = list((ROOT / "qa" / "reports").glob("*/*/results.tsv")) if (ROOT / "qa" / "reports").exists() else []
-    message = should_block(event, changed, latest_mtime(reports), latest_mtime(code_paths))
+    message = should_block(event, changed, latest_mtime(report_files()), latest_mtime(code_paths))
     if message:
         json.dump({"decision": "block", "reason": message}, sys.stdout, ensure_ascii=False)
         sys.stdout.write("\n")

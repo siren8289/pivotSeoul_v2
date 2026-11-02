@@ -7,6 +7,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 BLOCKING_SEVERITY = {"HIGH", "CRITICAL"}
+AREA_DIRS = (
+    "01_unit_integration",
+    "02_web_api",
+    "03_security_quality",
+    "04_infra_deploy",
+)
 
 
 @dataclass
@@ -15,11 +21,17 @@ class GateResult:
     reasons: list[str] = field(default_factory=list)
 
 
-def _risk_sections(reports: Path) -> list[dict[str, str]]:
+def _area_roots(results_root: Path) -> list[Path]:
+    if not results_root.exists():
+        return []
+    return [results_root / name for name in AREA_DIRS if (results_root / name).is_dir()]
+
+
+def _risk_sections(results_root: Path) -> list[dict[str, str]]:
     sections: list[dict[str, str]] = []
-    if not reports.exists():
-        return sections
-    files = sorted(reports.glob("*/*/risk.md"))
+    files: list[Path] = []
+    for root in _area_roots(results_root):
+        files.extend(sorted(root.glob("*/*/risk.md")))
     for path in files:
         current: dict[str, str] | None = None
         for line in path.read_text(encoding="utf-8").splitlines():
@@ -39,20 +51,20 @@ def _risk_sections(reports: Path) -> list[dict[str, str]]:
     return sections
 
 
-def latest_risks(reports: Path) -> dict[str, dict[str, str]]:
+def latest_risks(results_root: Path) -> dict[str, dict[str, str]]:
     latest: dict[str, dict[str, str]] = {}
-    for section in _risk_sections(reports):
+    for section in _risk_sections(results_root):
         risk_id = section.get("RISK_ID", "").strip()
         if risk_id:
             latest[risk_id] = section
     return latest
 
 
-def latest_results(reports: Path) -> dict[str, dict[str, str]]:
+def latest_results(results_root: Path) -> dict[str, dict[str, str]]:
     latest: dict[str, dict[str, str]] = {}
-    if not reports.exists():
-        return latest
-    files = sorted(reports.glob("*/*/results.tsv"))
+    files: list[Path] = []
+    for root in _area_roots(results_root):
+        files.extend(sorted(root.glob("*/*/summary.tsv")))
     for path in files:
         with path.open(encoding="utf-8-sig", newline="") as handle:
             for row in csv.DictReader(handle, delimiter="\t"):
@@ -62,18 +74,18 @@ def latest_results(reports: Path) -> dict[str, dict[str, str]]:
     return latest
 
 
-def evaluate(reports: Path, required_ids: list[str]) -> GateResult:
+def evaluate(results_root: Path, required_ids: list[str]) -> GateResult:
     reasons: list[str] = []
-    results = latest_results(reports)
+    results = latest_results(results_root)
     for tc_id in required_ids:
         row = results.get(tc_id)
         if row is None:
             reasons.append(f"{tc_id} 기록이 없습니다.")
             continue
-        status = row.get("최종상태", "")
+        status = row.get("final_status", "")
         if status != "PASS":
             reasons.append(f"{tc_id} 최종상태가 {status or 'UNKNOWN'} 입니다.")
-    for risk_id, section in latest_risks(reports).items():
+    for risk_id, section in latest_risks(results_root).items():
         severity = section.get("심각도", "")
         state = section.get("처리상태", "")
         if severity in BLOCKING_SEVERITY and state == "OPEN":
