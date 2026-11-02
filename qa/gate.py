@@ -64,7 +64,7 @@ def latest_results(results_root: Path) -> dict[str, dict[str, str]]:
     latest: dict[str, dict[str, str]] = {}
     files: list[Path] = []
     for root in _area_roots(results_root):
-        files.extend(sorted(root.glob("*/*/summary.tsv")))
+        files.extend(sorted(root.glob("*/*/results.tsv")))
     for path in files:
         with path.open(encoding="utf-8-sig", newline="") as handle:
             for row in csv.DictReader(handle, delimiter="\t"):
@@ -85,6 +85,10 @@ def evaluate(results_root: Path, required_ids: list[str]) -> GateResult:
         status = row.get("final_status", "")
         if status != "PASS":
             reasons.append(f"{tc_id} 최종상태가 {status or 'UNKNOWN'} 입니다.")
+        # PASS requires evidence of both tools
+        if status == "PASS":
+            if row.get("tool_a_result") != "PASS" or row.get("tool_b_result") != "PASS":
+                reasons.append(f"{tc_id} PASS이지만 도구 결과가 불완전합니다.")
     for risk_id, section in latest_risks(results_root).items():
         severity = section.get("심각도", "")
         state = section.get("처리상태", "")

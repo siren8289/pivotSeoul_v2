@@ -23,6 +23,7 @@ CODE_PREFIXES = (
     "qa/hooks/",
     "qa/tests/",
     "qa/input/",
+    "qa/config/",
     ".github/workflows/",
 )
 CODE_FILES = {"compose.yaml", "compose.yaml.bak", "qa-policy.md", "AGENTS.md"}
@@ -40,11 +41,9 @@ REASON = (
 
 
 def is_report_path(path: str) -> bool:
-    if path in {"qa/master_test_sheet.tsv"}:
+    if path in {"qa/master_test_sheet.xlsx", "qa/history/execution_log.tsv"}:
         return True
-    if path.startswith("qa/results/"):
-        return True
-    return False
+    return path.startswith("qa/results/")
 
 
 def is_code_path(path: str) -> bool:
@@ -70,11 +69,10 @@ def should_block(event: dict, changed: list[str], report_mtime: float | None, co
 
 def changed_files() -> list[str]:
     names: set[str] = set()
-    commands = (
+    for command in (
         ["git", "diff", "--name-only", "HEAD"],
         ["git", "ls-files", "--others", "--exclude-standard"],
-    )
-    for command in commands:
+    ):
         result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True, check=False)
         if result.returncode == 0:
             names.update(line.strip() for line in result.stdout.splitlines() if line.strip())
@@ -83,16 +81,14 @@ def changed_files() -> list[str]:
 
 def latest_mtime(paths: list[Path]) -> float | None:
     times = [path.stat().st_mtime for path in paths if path.exists()]
-    if not times:
-        return None
-    return max(times)
+    return max(times) if times else None
 
 
 def report_files() -> list[Path]:
     results = ROOT / "qa" / "results"
     files: list[Path] = []
     for area in AREA_DIRS:
-        files.extend((results / area).glob("*/*/summary.tsv"))
+        files.extend((results / area).glob("*/*/results.tsv"))
     return files
 
 

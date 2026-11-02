@@ -1,31 +1,32 @@
-# 상시 작업 규칙
+# 상시 작업 규칙 (QA·Security V3)
 
-기능 추가, 수정, 유지보수, 버그 수정, 리팩터링, 배포 설정 변경은 사용자가 QA를 다시 말하지 않아도 아래를 적용한다. 기준은 `qa-policy.md`다.
+신규 기능, 수정, 유지보수, 버그 수정, 리팩터링, API·DB·UI·인프라·배포 변경마다 TC 추가/갱신과 자동 검증을 수행한다. 기준은 `qa-policy.md`다. 사용자가 매번 QA를 요청하지 않는다.
 
 ## 매 작업
 
-1. 요구사항, 변경 파일, 영향 범위를 분석한다.
-2. `qa/input/testcases.tsv`와 `qa/master_test_sheet.tsv`의 기존 TC를 재사용하고, 필요할 때만 추가한다. 실행 이력은 삭제하지 않는다.
-3. 코드를 수정한다.
-4. 관련 검사를 스크립트로 실행한다. 필수 게이트는 `python qa/run_qa.py --profile required --gate`다. 가상환경이 있으면 그 인터프리터를 쓴다. 개발 중에는 `--area` / `--section` / `--tc`로 변경 기능만 돌린다.
-5. 필수 TC는 서로 다른 도구 2개로 교차 검증한다. 미실행 검증은 PASS가 아니다.
-6. 결과를 PASS / FAIL / RISK / NOT_RUN으로 나눈다.
-7. 실행한 섹션만 `qa/results/{area}/{section}/{YYYY-MM-DD}/`에 누적한다. 날짜 폴더에는 `test_sheet.xlsx`, `pass.md`, `fail.md`, `risk.md`, `summary.tsv`만 둔다. 최상단 마스터는 `qa/master_test_sheet.tsv` 하나다(전체 Excel 중복 금지). 파일·폴더명은 영어 snake_case, 보고서 본문은 한국어다.
-8. FAIL 또는 RISK는 코드를 고치기 전에 `fail.md` 또는 `risk.md`에 먼저 적고 사용자에게 알린다.
-9. 수정 후 두 도구로 재검증한다. PR·배포 전에는 `python qa/run_qa.py --profile regression --gate`를 실행한다.
-10. 최종 결과(전체 TC 수, PASS/FAIL/RISK/NOT_RUN, 1·2차 검증, 실패 원인, 추가 필요 항목, 실행 일시·코드 위치)를 보고한다. 실행하지 않은 영역은 성공이라고 말하지 않는다.
+1. 변경 파일·영향 기능·API·DB·화면을 확인하고 `qa/input/testcases.tsv`·`qa/config/test_map.json`과 매핑한다.
+2. 신규 기능 TC는 **실행 전에** `qa/input/testcases.tsv`에 추가한다. 기존 TC는 보존하고 필요한 항목만 수정한다.
+3. 코드를 수정하고 테스트·독립 검증 명령을 함께 둔다. 명령은 `test_map.json`에 등록한다.
+4. 관련 TC를 스크립트로 실행한다: `python qa/run_qa.py --profile required --gate` (venv 우선). 개발 중에는 `--area` / `--section` / `--tc`.
+5. 서로 다른 두 검증 경로를 실행하고 명령·결과·증거를 각각 기록한다. 미실행은 PASS가 아니다.
+6. FAIL/RISK는 **코드 재수정 전에** `fail.md`/`risk.md`와 `results.tsv`에 선기록하고 사용자에게 알린다.
+7. 결과는 `qa/results/{area}/{section}/{YYYY-MM-DD}/`에만 누적한다(파일: `test_sheet.xlsx`, `pass.md`, `fail.md`, `risk.md`, `results.tsv`). 루트 Excel은 `qa/master_test_sheet.xlsx` 하나. 이력은 `qa/history/execution_log.tsv`.
+8. 수정 후 두 경로로 재검증한다. PR·배포 전 `--profile regression --gate`.
+9. 보고: 신규·수정 TC 수, 영역별 실행, 도구별 상태, PASS/FAIL/BLOCKED/ERROR/NOT_RUN/SKIPPED, 미해결 RISK, RUN_ID·경로. 실행하지 않은 영역은 성공이라 하지 않는다.
+10. Hook/CI가 실제로 검증되지 않았으면 “매 작업 자동화 완료”라고 주장하지 않는다.
 
 ## 완료 금지
 
-- 필수 게이트가 0이 아니면 완료나 병합 가능으로 보고하지 않는다.
-- `HIGH` 또는 `CRITICAL`이면서 `OPEN`인 위험이 있으면 완료나 병합 가능으로 보고하지 않는다.
-- 요구사항이 불명확하면 동작을 추측하지 않고 RISK로 남긴다.
-- 코드 위치는 확인한 값만 적고, 모르면 `UNKNOWN`이다.
+- 필수 게이트 종료 코드 ≠ 0
+- HIGH/CRITICAL + OPEN RISK
+- 새 기능에 연결된 필수 TC 또는 두 검증 증거 없음
+- 요구사항 불명확 → 추측하지 말고 RISK
+- 코드 위치 미확인 → `UNKNOWN`
 
 ## 섹션 단위 반영
 
-한 작업 안에 섹션이 여럿이면 섹션이 끝날 때마다 커밋하고 푸시한다.
+섹션이 여럿이면 섹션 끝날 때마다 커밋·푸시한다.
 
-## 기존 검사
+## 기존 CI
 
-`.github/workflows/ci.yml`의 data, AI, Spring, front build, compose 작업은 유지한다. 그 작업 하나만으로 해당 테스트 종류를 PASS로 기록하지 않는다.
+`.github/workflows/ci.yml`의 data/AI/Spring/front/compose + Semgrep + CodeQL + QA gate를 유지한다. 단일 CI job만으로 해당 영역 PASS를 기록하지 않는다.
