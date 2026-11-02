@@ -1,0 +1,124 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-FC-001	FC_구추천UI	초기입력	기본값	기능	P1	추천 폼 최초 로드	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	URL=/recommend	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	청년, 아파트, 59㎡, 건물 10년, 5층, 월소득 400만원	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-002	FC_구추천UI	정상요청	추천 받기	기능	P0	추천 성공	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본값, 서버 200	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	POST /api/recommendations, 결과 테이블 생성	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; front/src/api/api.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-003	FC_구추천UI	상태	로딩	기능	P1	느린 응답 중	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	API 3초 지연	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	25개 구를 계산하는 중... 문구 및 버튼 disabled	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-004	FC_구추천UI	상태	오류복구	기능	P1	서버 500	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	API 500 응답	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	오류 보여주고 버튼 다시 활성화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-005	FC_구추천UI	상태	재조회	기능	P1	2회 추천	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	A 조건 성공→B 조건 변경 후 재조회	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	두 번째 조건의 결과로 교체	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-006	FC_구추천UI	입력	소득 오류	기능	P0	월소득=0	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	사전 오류, API 미전송	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-007	FC_구추천UI	입력	소득 음수	기능	P1	월소득=-1	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	사전 오류, API 미전송	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-008	FC_구추천UI	입력	빈 소득	기능	P1	월소득 빈칸	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=''	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	사전 오류, API 미전송	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-009	FC_구추천UI	경계값	면적	경계	P1	면적 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=5.1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-010	FC_구추천UI	경계값	면적	예외	P1	면적 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=5	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-011	FC_구추천UI	경계값	면적 상한	경계	P1	면적 상한 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=300	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-012	FC_구추천UI	경계값	면적 상한	예외	P1	면적 상한 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=300.1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-013	FC_구추천UI	경계값	건물 나이	경계	P1	건물 나이 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-014	FC_구추천UI	경계값	건물 나이	예외	P1	건물 나이 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-015	FC_구추천UI	경계값	건물 나이 상한	경계	P1	건물 나이 상한 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=60	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-016	FC_구추천UI	경계값	건물 나이 상한	예외	P1	건물 나이 상한 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=61	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-017	FC_구추천UI	경계값	층	경계	P1	층 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-018	FC_구추천UI	경계값	층	예외	P1	층 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-019	FC_구추천UI	경계값	층 상한	경계	P1	층 상한 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=80	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-020	FC_구추천UI	경계값	층 상한	예외	P1	층 상한 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=81	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-021	FC_구추천UI	경계값	소득	경계	P1	소득 허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서버 유효성 검증 통과	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-022	FC_구추천UI	경계값	소득	예외	P1	소득 비허용경계	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	400 오류 안내 또는 UI에서 사전 차단	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx; back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-023	FC_구추천UI	필드조합	생애단계	조합	P2	추천-생애단계 youth	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	lifeStage=youth	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 결과 렌더	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-024	FC_구추천UI	필드조합	생애단계	조합	P2	추천-생애단계 family	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	lifeStage=family	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 결과 렌더	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-025	FC_구추천UI	필드조합	생애단계	조합	P2	추천-생애단계 senior	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	lifeStage=senior	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 결과 렌더	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-026	FC_구추천UI	필드조합	주택유형	조합	P2	추천-주택 유형 apartment	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	houseType=apartment	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 25개 구 계산	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-027	FC_구추천UI	필드조합	주택유형	조합	P2	추천-주택 유형 officetel	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	houseType=officetel	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 25개 구 계산	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-028	FC_구추천UI	필드조합	주택유형	조합	P2	추천-주택 유형 villa	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	houseType=villa	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 25개 구 계산	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-029	FC_구추천UI	필드조합	주택유형	조합	P2	추천-주택 유형 house	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	houseType=house	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 코드로 요청하고 25개 구 계산	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-030	FC_구추천UI	결과테이블	표시	UI/UX	P1	월 예산	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=400, budget=120	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	소득의 30%인 120만원 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-031	FC_구추천UI	결과테이블	표시	UI/UX	P1	25개 자치구	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	all_districts에 25개 항목	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	중복 없는 25개 구 테이블 행 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-032	FC_구추천UI	결과테이블	표시	UI/UX	P2	예산 이내 구수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	within_budget_count=8	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	'예산 안에 드는 구: 8곳 / 25곳' 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-033	FC_구추천UI	결과테이블	표시	UI/UX	P2	추천 테이블 컬럼	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	district/predicted_cost/rir_percent/audit_count/status	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	구/예상 주거비/소득 대비/회계감사 단지/단계 순서	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-034	FC_구추천UI	결과테이블	표시	UI/UX	P2	정렬	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	예상주거비 [70,80,90]	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	오름차순으로 70→80→90 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-035	FC_구추천UI	결과테이블	표시	UI/UX	P2	회계감사 null	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	audit_count=null	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	'-' 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-036	FC_구추천UI	결과테이블	표시	UI/UX	P2	안정 위험 구분	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	status=stable|warning|danger	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	각각 안정/주의/위험 뱃지 노출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-037	FC_구추천UI	결과테이블	표시	UI/UX	P2	구 0개 예산 충족	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	within_budget_count=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0곳과 전체 25개 리스트 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-038	FC_구추천UI	결과테이블	표시	UI/UX	P2	구 25개 예산 충족	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	within_budget_count=25	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	25곳과 전체 25개 리스트 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-039	FC_구추천UI	결과테이블	표시	UI/UX	P2	빈 추천 결과	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	all_districts=[]	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0건 처리를 오류 없이 안내	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-040	FC_구추천UI	결과테이블	표시	UI/UX	P2	긴 자치구 텍스트	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	district='가'*100	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	테이블 레이아웃 깨짐 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
+PS-FC-041	FC_구추천UI	결과테이블	표시	UI/UX	P2	모바일 표	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	375px viewport	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	테이블 가로스크롤/축약 등 가독성 보장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/pages/RecommendPage.tsx	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/pages/RecommendPage.tsx	
