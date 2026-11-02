@@ -1,0 +1,145 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-OPS-001	OPS_배포CI	CI	data pytest	인프라/CI	P1	data pytest: main push	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	main push	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	GitHub Actions data job executes pytest data/tests	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-002	OPS_배포CI	CI	AI pytest	인프라/CI	P1	AI pytest: main push	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	main push	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	AI job pytest ai/tests; cpu PyTorch installation	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-003	OPS_배포CI	CI	Spring test	인프라/CI	P1	Spring test: main push	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	main push	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Gradle test (Java 17)	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-004	OPS_배포CI	CI	Front build	인프라/CI	P1	Front build: main push	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	main push	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	npm ci + npm run build (TypeScript/Vite)	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-005	OPS_배포CI	CI	Compose config	인프라/CI	P1	Compose config: main push, DB_PASSWORD set	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	main push, DB_PASSWORD set	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	docker compose config --quiet succeeds	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-006	OPS_배포CI	CI	PR	인프라/CI	P1	PR: pull_request target main	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	pull_request target main	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	CI triggers	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-007	OPS_배포CI	CI	branch	인프라/CI	P1	branch: push 001-ai-housing-rag	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	push 001-ai-housing-rag	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	CI triggers	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-008	OPS_배포CI	CI	failure stop	인프라/CI	P1	failure stop: data pytest fail	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	data pytest fail	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	data job failed; promotion/release policy applies	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-009	OPS_배포CI	CI	secret isolation	인프라/CI	P0	secret isolation: CI logs examined	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	CI logs examined	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	DB_PASSWORD, GEMINI_API_KEY/SSH private keys never printed	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-010	OPS_배포CI	CI	lockfile	인프라/CI	P1	lockfile: npm ci	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	npm ci	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	package-lock.json reproducible	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/ci.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/ci.yml	
+PS-OPS-011	OPS_배포CI	Build	AI Docker	인프라/CI	P1	AI Docker: docker build ./ai	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	docker build ./ai	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	FastAPI image builds, model files included	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-012	OPS_배포CI	Build	Spring Docker	인프라/CI	P1	Spring Docker: docker build ./back	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	docker build ./back	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Java 17 Spring image builds	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-013	OPS_배포CI	Build	Front Docker	인프라/CI	P1	Front Docker: docker build ./front	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	docker build ./front	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	React build → Nginx static files	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-014	OPS_배포CI	Compose	DB service	인프라/CI	P1	DB service: docker compose up db	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	docker compose up db	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Postgres pgvector image and pivotseoul DB start	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-015	OPS_배포CI	Compose	DB health	인프라/CI	P1	DB health: pg_isready -U pivot	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	pg_isready -U pivot	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	healthcheck passing	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-016	OPS_배포CI	Compose	AI service	인프라/CI	P1	AI service: db healthy then ai starts	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	db healthy then ai starts	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	AI starts and /health returns 200	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-017	OPS_배포CI	Compose	Back service	인프라/CI	P1	Back service: AI started and DB healthy	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	AI started and DB healthy	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Spring startup and /api/health 200	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-018	OPS_배포CI	Compose	Front service	인프라/CI	P1	Front service: front starts	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	front starts	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	http://localhost/ returns SPA	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-019	OPS_배포CI	Compose	Nginx proxy	인프라/CI	P1	Nginx proxy: GET http://localhost/api/health	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET http://localhost/api/health	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Spring /api/health propagated through front	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml; front/nginx.conf	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-020	OPS_배포CI	Compose	SPA deep link	인프라/CI	P1	SPA deep link: refresh /diagnoses/1	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	refresh /diagnoses/1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	index.html fallback rather than Nginx 404	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml; front/nginx.conf	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-021	OPS_배포CI	Compose	bind ports	인프라/CI	P1	bind ports: netstat/lsof ports 8000/8080	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	netstat/lsof ports 8000/8080	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	AI/Spring bound only 127.0.0.1 on host	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-022	OPS_배포CI	Compose	public port	인프라/CI	P1	public port: port 80	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	port 80	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	public HTTP only through front	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-023	OPS_배포CI	Compose	env failure	인프라/CI	P0	env failure: DB_PASSWORD missing	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	DB_PASSWORD missing	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	compose config/start fails with clear message	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-024	OPS_배포CI	Compose	persistent volume	인프라/CI	P1	persistent volume: db-data after restart	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	db-data after restart	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	PostgreSQL data survives	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-025	OPS_배포CI	Compose	restart	인프라/CI	P1	restart: crash AI/back	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	crash AI/back	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	restart unless-stopped behavior	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-026	OPS_배포CI	Compose	service downtime	인프라/CI	P1	service downtime: DB container stops	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	DB container stops	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	upstream API failures surfaced and recover after restart	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-027	OPS_배포CI	Compose	resource	인프라/CI	P1	resource: memory constrained node	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	memory constrained node	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	resource budgets / failure behavior documented	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	compose.yaml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-OPS-028	OPS_배포CI	Deploy script	env create	인프라/CI	P1	env create: no .env	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	no .env	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	copy .env.example and exit1	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-029	OPS_배포CI	Deploy script	password create	인프라/CI	P1	password create: DB_PASSWORD empty	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	DB_PASSWORD empty	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	password generated and config proceeds	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-030	OPS_배포CI	Deploy script	config preflight	인프라/CI	P1	config preflight: compose config invalid	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	compose config invalid	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	script stops before build	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-031	OPS_배포CI	Deploy script	build order	인프라/CI	P1	build order: deploy.sh executed	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	deploy.sh executed	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	front/back/ai images build then up -d	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-032	OPS_배포CI	Deploy script	health check	인프라/CI	P0	health check: AI/Spring/front/forwarding all healthy	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	AI/Spring/front/forwarding all healthy	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	DEPLOYMENT SUCCESS	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-033	OPS_배포CI	Deploy script	health failure	인프라/CI	P1	health failure: AI /health remains 500	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	AI /health remains 500	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	retry limit, logs tail, non-zero exit	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-034	OPS_배포CI	Deploy script	cleanup	인프라/CI	P1	cleanup: successful deployment	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	successful deployment	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	docker image prune -f; running images unaffected	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-035	OPS_배포CI	Deploy script	rollback	인프라/CI	P0	rollback: healthcheck fail post deploy	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	healthcheck fail post deploy	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	previous working version rollback strategy evaluated	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	scripts/deploy.sh	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/scripts/deploy.sh	
+PS-OPS-036	OPS_배포CI	CD	main push	인프라/CI	P1	main push: GitHub Actions deploy.yml	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GitHub Actions deploy.yml	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Deploy to EC2 action triggers	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-037	OPS_배포CI	CD	manual deploy	인프라/CI	P1	manual deploy: workflow_dispatch	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	workflow_dispatch	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	manual EC2 deploy triggers	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-038	OPS_배포CI	CD	secret validation	인프라/CI	P1	secret validation: EC2_HOST missing	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	EC2_HOST missing	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	fail with missing secret message	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-039	OPS_배포CI	CD	host URL rejected	인프라/CI	P1	host URL rejected: EC2_HOST='https://1.2.3.4'	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	EC2_HOST='https://1.2.3.4'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	fail before SSH	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-040	OPS_배포CI	CD	private host rejected	인프라/CI	P1	private host rejected: EC2_HOST='192.168.1.2'	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	EC2_HOST='192.168.1.2'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	fail with private IPv4 warning	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-041	OPS_배포CI	CD	invalid host port	인프라/CI	P1	invalid host port: EC2_HOST='1.2.3.4:22'	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	EC2_HOST='1.2.3.4:22'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	fail before SSH	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-042	OPS_배포CI	CD	SSH port	인프라/CI	P1	SSH port: EC2_PORT='2222'	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	EC2_PORT='2222'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	nc/ssh use port 2222	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-043	OPS_배포CI	CD	SSH failure	인프라/CI	P1	SSH failure: wrong key/host	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	wrong key/host	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	deploy fails, no false success	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-044	OPS_배포CI	CD	repo path	인프라/CI	P1	repo path: ~/pivotSeoul_v2 absent and /home/ubuntu path absent	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	~/pivotSeoul_v2 absent and /home/ubuntu path absent	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	clear failure	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-045	OPS_배포CI	CD	code update	인프라/CI	P1	code update: repo exists	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	repo exists	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	git fetch/checkout/pull main	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-046	OPS_배포CI	CD	no concurrent deploy	인프라/CI	P1	no concurrent deploy: second push during first deploy	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	second push during first deploy	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	concurrency group queue, cancel-in-progress=false	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-047	OPS_배포CI	CD	host key trust	인프라/CI	P0	host key trust: ssh-keyscan + StrictHostKeyChecking accept-new	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	ssh-keyscan + StrictHostKeyChecking accept-new	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	SSH host-key verification process reviewed against MITM	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
+PS-OPS-048	OPS_배포CI	CD	public SSH	인프라/CI	P0	public SSH: EC2 sg rule 22 open 0.0.0.0/0	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	EC2 sg rule 22 open 0.0.0.0/0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	least-privilege network policy / safer alternatives reviewed	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	.github/workflows/deploy.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/.github/workflows/deploy.yml	
