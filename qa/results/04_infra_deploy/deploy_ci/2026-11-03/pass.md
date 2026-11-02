@@ -41,3 +41,11 @@
 - 줄번호: 5
 - RISK_ID: 
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-040456-dcde QA-INFRA-COMPOSE-001
+
+- TC_ID: QA-INFRA-COMPOSE-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: Compose 설정·구조. 상태/health 라이브는 smoke TC. | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/compose_check.py` services=['ai', 'back', 'db', 'front'] findings=0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/compose_grep.py` anchors checked=7 findings=0 | 두 도구 PASS
