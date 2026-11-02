@@ -141,3 +141,35 @@
 - 줄번호: 18
 - RISK_ID: 
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-040333-4843 QA-SEC-SECRET-001
+
+- TC_ID: QA-SEC-SECRET-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: 비밀정보 전용 이중 패턴. CodeQL/Semgrep과 계층이 다름. | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/secret_scan.py` secret findings: 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/secret_grep.py` git grep secret findings: 0 | 고신뢰 비밀값 패턴 없음
+
+## R20261103-040333-4843 QA-SEC-AUTH-001
+
+- TC_ID: QA-SEC-AUTH-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: 인가 누락 표면. 발견 시 RISK 등록. | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/auth_surface.py` unauthenticated mappings: 13 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/auth_grep.py` git grep unauthenticated mappings: 13 | 인증 없는 매핑 13건을 두 도구가 같이 찾음
+
+## R20261103-040333-4843 QA-SEC-SEMGREP-001
+
+- TC_ID: QA-SEC-SEMGREP-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: CodeQL은 GitHub Actions codeql job으로 2차 공식 경로. 로컬은 Semgrep+secret-grep. | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/semgrep_check.py` semgrep findings=0 exit=0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/secret_grep.py` git grep secret findings: 0 | 두 도구 PASS
+
+## R20261103-040333-4843 QA-PERF-BENCH-001
+
+- TC_ID: QA-PERF-BENCH-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: 품질 성능. k6 부하 금지(운영). | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_performance.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/perf_benchmark.py` etl_1000=6.6ms (<500ms), ai_5000=144.6ms (<1000ms) | 두 도구 PASS
