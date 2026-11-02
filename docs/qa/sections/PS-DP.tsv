@@ -1,0 +1,73 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-DP-001	DP_ETL파이프	월 목록	기본 2개월	ETL/운영	P1	기본 2개월 - 현재 2026-11 / months=2	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	현재 2026-11 / months=2	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	202610,202609 수집(현재 월 제외)	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-002	DP_ETL파이프	월 목록	연초 경계	ETL/운영	P1	연초 경계 - 2027-01, months=2	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	2027-01, months=2	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	202612,202611 순서	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-003	DP_ETL파이프	월 목록	0개월	ETL/운영	P1	0개월 - months=0	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	months=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	잘못된 인자 거부 또는 명확한 메시지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-004	DP_ETL파이프	월 목록	음수개월	ETL/운영	P1	음수개월 - months=-1	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	months=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	잘못된 인자 거부 또는 명확한 메시지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-005	DP_ETL파이프	구 목록	fallback	ETL/운영	P1	fallback - 법정동 API 실패	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	법정동 API 실패	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	FALLBACK_DISTRICTS 25개 사용	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-006	DP_ETL파이프	구 목록	정상	ETL/운영	P1	정상 - 법정동 API 성공	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	법정동 API 성공	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	반환 구 목록 CSV·후속 수집에 사용	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-007	DP_ETL파이프	원본 저장	전월세 4종	ETL/운영	P1	전월세 4종 - fetch 4 APIs	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	fetch 4 APIs	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	data/raw/apt_rent,rh_rent,offi_rent,sh_rent 저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-008	DP_ETL파이프	원본 저장	감사/구코드	ETL/운영	P1	감사/구코드 - audit,district API	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	audit,district API	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	data/raw/apt_audit, seoul_districts 저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-009	DP_ETL파이프	정제 저장	렌트	ETL/운영	P1	렌트 - rent_clean	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	rent_clean	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	data/processed/rent_clean.csv UTF-8-SIG	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-010	DP_ETL파이프	정제 저장	감사	ETL/운영	P1	감사 - apt_audit_clean	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	apt_audit_clean	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	data/processed/apt_audit_clean.csv UTF-8-SIG	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-011	DP_ETL파이프	정제 저장	서울구	ETL/운영	P1	서울구 - seoul_districts	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	seoul_districts	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	25개 구 코드 표 CSV	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-012	DP_ETL파이프	정제 저장	구별 통계	ETL/운영	P1	구별 통계 - district_stats.csv	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	district_stats.csv	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	grouped statistics CSV 저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-013	DP_ETL파이프	모델 전달	구별 JSON	ETL/운영	P1	구별 JSON - save_stats_json	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	save_stats_json	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	ai/models/district_stats.json 한글 UTF-8 정상 저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-014	DP_ETL파이프	모델 전달	JSON null	ETL/운영	P1	JSON null - 통계 NaN 존재	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	통계 NaN 존재	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	NaN이 JSON null로 직렬화되어 FastAPI 로드 가능	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-015	DP_ETL파이프	스킵 옵션	기존 rent 사용	ETL/운영	P1	기존 rent 사용 - --skip-rent, CSV 존재	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	--skip-rent, CSV 존재	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	전월세 API 재호출 없이 기존 rent_clean 사용	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-016	DP_ETL파이프	스킵 옵션	기존 CSV 없음	ETL/운영	P1	기존 CSV 없음 - --skip-rent, CSV 없음	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	--skip-rent, CSV 없음	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	전월세 API 수집 수행	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-017	DP_ETL파이프	실패 복구	법정동 실패	ETL/운영	P1	법정동 실패 - fetch_seoul_districts 오류	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	fetch_seoul_districts 오류	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	fallback으로 ETL 계속	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-018	DP_ETL파이프	실패 복구	전월세 API 장애	ETL/운영	P0	전월세 API 장애 - 4종 중 2번째 API 실패	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	4종 중 2번째 API 실패	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	불완전한 CSV/학습 데이터 덮어쓰기 방지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-019	DP_ETL파이프	실패 복구	회계감사 API 장애	ETL/운영	P0	회계감사 API 장애 - fetch_audit 장애	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	fetch_audit 장애	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	기존 rent_clean 보호, 운영 알림	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-020	DP_ETL파이프	결과 정합	학습 데이터	ETL/운영	P1	학습 데이터 - rent_clean.csv vs ai train	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	rent_clean.csv vs ai train	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 컬럼과 범주값 일치	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-021	DP_ETL파이프	결과 정합	지역 일치	ETL/운영	P1	지역 일치 - district_stats.json vs 25개 서울구	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	district_stats.json vs 25개 서울구	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	지원 가능한 구 목록 누락/차이 검출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-022	DP_ETL파이프	결과 정합	데이터 최신성	ETL/운영	P1	데이터 최신성 - 수집 실행 후 생성시각	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	수집 실행 후 생성시각	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	이전 산출물/신규 산출물 버전 추적	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-023	DP_ETL파이프	재실행	재실행 무결성	ETL/운영	P1	재실행 무결성 - 동일 raw 2회 실행	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	동일 raw 2회 실행	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	행 수/통계 동일, 중복 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
+PS-DP-024	DP_ETL파이프	보호	API 키	ETL/운영	P0	API 키 - data/.env, stdout, raw files	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	data/.env, stdout, raw files	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	인증키 로그·Git 저장소 미노출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	data/etl/run.py; data/etl/load.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/data/etl/run.py	
