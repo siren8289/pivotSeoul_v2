@@ -1,0 +1,208 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-BD-001	BD_진단API	성공	POST	기능	P0	진단 신규 생성 201	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	POST /api/diagnoses 기본 요청	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	201 Created + JSON id > 0 및 입력/AI 필드 반환	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java	
+PS-BD-002	BD_진단API	성공	GET 상세	기능	P0	기록 재조회	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	POST 생성 id 로 GET /api/diagnoses/{id}	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	200 + 동일 id/결과값	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java	
+PS-BD-003	BD_진단API	성공	최근	기능	P1	최근 기록 목록	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /api/diagnoses	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	200 + 최대 10건, id 내림차순	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java	
+PS-BD-004	BD_진단API	필드 유효성	정상 경계	경계	P1	"lifeStage=""family"" 경계값"	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 lifeStage=""family"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	family 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-005	BD_진단API	필드 유효성	정상 경계	경계	P1	"lifeStage=""senior"" 경계값"	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 lifeStage=""senior"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	senior 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-006	BD_진단API	필드 유효성	정상 경계	경계	P1	"houseType=""officetel"" 경계값"	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 houseType=""officetel"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	officetel 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-007	BD_진단API	필드 유효성	정상 경계	경계	P1	"houseType=""house"" 경계값"	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 houseType=""house"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	house 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-008	BD_진단API	필드 유효성	정상 경계	경계	P1	"houseType=""villa"" 경계값"	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 houseType=""villa"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	villa 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-009	BD_진단API	필드 유효성	정상 경계	경계	P1	areaM2=5.0001 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 areaM2=5.0001	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	5 초과 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-010	BD_진단API	필드 유효성	정상 경계	경계	P1	areaM2=300 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 areaM2=300	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	300 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-011	BD_진단API	필드 유효성	정상 경계	경계	P1	buildingAge=0 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 buildingAge=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0년 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-012	BD_진단API	필드 유효성	정상 경계	경계	P1	buildingAge=60 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 buildingAge=60	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	60년 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-013	BD_진단API	필드 유효성	정상 경계	경계	P1	floor=0 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 floor=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0층 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-014	BD_진단API	필드 유효성	정상 경계	경계	P1	floor=80 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 floor=80	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	80층 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-015	BD_진단API	필드 유효성	정상 경계	경계	P1	monthlyIncome=0.01 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 monthlyIncome=0.01	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0 초과 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-016	BD_진단API	필드 유효성	정상 경계	경계	P1	deposit=0 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 deposit=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-017	BD_진단API	필드 유효성	정상 경계	경계	P1	monthlyRent=0 경계값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 monthlyRent=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	0 수락; AI 서버와 DB 저장 단계까지 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-018	BD_진단API	필드 유효성	거절	예외	P1	lifeStage 비허용 입력: 허용된 세 단계 외	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 lifeStage=""teen"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-019	BD_진단API	필드 유효성	거절	예외	P1	houseType 비허용 입력: 허용된 네 주택 유형 외	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 houseType=""tower"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-020	BD_진단API	필드 유효성	거절	예외	P0	areaM2 비허용 입력: 면적 하한 포함 불가	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 areaM2=5	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-021	BD_진단API	필드 유효성	거절	예외	P0	areaM2 비허용 입력: 음수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 areaM2=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-022	BD_진단API	필드 유효성	거절	예외	P0	areaM2 비허용 입력: 면적 상한 초과	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 areaM2=300.01	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-023	BD_진단API	필드 유효성	거절	예외	P1	buildingAge 비허용 입력: 음수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 buildingAge=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-024	BD_진단API	필드 유효성	거절	예외	P1	buildingAge 비허용 입력: 건물 나이 상한 초과	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 buildingAge=61	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-025	BD_진단API	필드 유효성	거절	예외	P1	floor 비허용 입력: 음수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 floor=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-026	BD_진단API	필드 유효성	거절	예외	P1	floor 비허용 입력: 층 상한 초과	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 floor=81	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-027	BD_진단API	필드 유효성	거절	예외	P0	monthlyIncome 비허용 입력: 소득 0	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 monthlyIncome=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-028	BD_진단API	필드 유효성	거절	예외	P0	monthlyIncome 비허용 입력: 소득 음수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 monthlyIncome=-3	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-029	BD_진단API	필드 유효성	거절	예외	P1	deposit 비허용 입력: 보증금 음수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 deposit=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-030	BD_진단API	필드 유효성	거절	예외	P1	monthlyRent 비허용 입력: 월세 음수	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 monthlyRent=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-031	BD_진단API	필드 유효성	거절	예외	P1	district 비허용 입력: 공백 자치구	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"기본 JSON에서 district="""""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 + errorCode=VALIDATION_ERROR + 필드별 안내; AI 미호출·미저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-032	BD_진단API	필드 누락	필수여부	예외	P1	lifeStage 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'lifeStage' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 시 기본값/허용 정책 확인; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-033	BD_진단API	필드 누락	필수여부	예외	P1	houseType 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'houseType' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 시 기본값/허용 정책 확인; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-034	BD_진단API	필드 누락	필수여부	예외	P1	district 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'district' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-035	BD_진단API	필드 누락	필수여부	예외	P1	areaM2 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'areaM2' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-036	BD_진단API	필드 누락	필수여부	예외	P1	monthlyIncome 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'monthlyIncome' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-037	BD_진단API	필드 누락	필수여부	예외	P1	deposit 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'deposit' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-038	BD_진단API	필드 누락	필수여부	예외	P1	monthlyRent 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'monthlyRent' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-039	BD_진단API	필드 누락	필수여부	예외	P1	buildingAge 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'buildingAge' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-040	BD_진단API	필드 누락	필수여부	예외	P1	floor 필드 제거	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	기본 JSON에서 'floor' 키 삭제	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필수 필드 누락은 HTTP 400이어야 함; 저장/AI 계산 결과의 의도치 않은 0/NULL 검증	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	primitive 숫자·@Pattern null 처리와 FastAPI 기본값이 달라질 수 있음
+PS-BD-041	BD_진단API	타입 유효성	문자 입력	예외	P1	areaM2 문자열 타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"areaM2=""invalid"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON 또는 유효성 오류; 500 아님	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-042	BD_진단API	타입 유효성	문자 입력	예외	P1	buildingAge 문자열 타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"buildingAge=""invalid"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON 또는 유효성 오류; 500 아님	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-043	BD_진단API	타입 유효성	문자 입력	예외	P1	floor 문자열 타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"floor=""invalid"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON 또는 유효성 오류; 500 아님	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-044	BD_진단API	타입 유효성	문자 입력	예외	P1	monthlyIncome 문자열 타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"monthlyIncome=""invalid"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON 또는 유효성 오류; 500 아님	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-045	BD_진단API	타입 유효성	문자 입력	예외	P1	deposit 문자열 타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"deposit=""invalid"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON 또는 유효성 오류; 500 아님	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-046	BD_진단API	타입 유효성	문자 입력	예외	P1	monthlyRent 문자열 타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"monthlyRent=""invalid"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON 또는 유효성 오류; 500 아님	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-047	BD_진단API	요청 형식	JSON	예외	P0	깨진 JSON	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	{ broken	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON; 서버 오류 노출 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-048	BD_진단API	요청 형식	헤더	예외	P2	Content-Type 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	text/plain 요청	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	지원 미디어 타입 오류(4xx), 불필요한 DB 기록 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/controller/DiagnosisController.java	
+PS-BD-049	BD_진단API	요청 형식	본문	예외	P1	빈 JSON 본문	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	POST body 없음	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 INVALID_JSON	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	
+PS-BD-050	BD_진단API	자치구	유효 서울 구	조합	P1	25구 각각 진단	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	district=서울25개구 순차 요청	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서울 25개 구 입력이 일관되게 처리	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	
+PS-BD-051	BD_진단API	자치구	서울 외	예외	P1	서울 밖 지역 문자열	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	district=부산진구	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	비지원 지역에 대해 4xx 또는 정책 명시; 조용한 평균값 추정/저장 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java; ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/dto/DiagnosisRequest.java	@NotBlank만 있으므로 자치구 목록 검증 여부 점검
+PS-BD-052	BD_진단API	응답계약	명명규칙	기능	P0	Java camelCase → AI snake_case 매핑	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=59, houseType=apartment, monthlyIncome=300	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	AI 요청 area_m2/house_type/monthly_income로 정확히 변환	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-053	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 id 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 id이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-054	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 lifeStage 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 lifeStage이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-055	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 district 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 district이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-056	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 houseType 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 houseType이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-057	BD_진단API	응답계약	필드 매핑	계약	P1	진단 응답 monthlyCost 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 monthlyCost이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-058	BD_진단API	응답계약	필드 매핑	계약	P1	진단 응답 rirPercent 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 rirPercent이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-059	BD_진단API	응답계약	필드 매핑	계약	P1	진단 응답 status 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 status이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-060	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 redZone 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 redZone이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-061	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 mlPrice 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 mlPrice이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-062	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 dlPrice 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 dlPrice이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-063	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 marketPrice 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 marketPrice이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-064	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 priceGapPercent 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 priceGapPercent이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-065	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 districtMedianCost 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 districtMedianCost이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-066	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 auditCount 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 auditCount이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-067	BD_진단API	응답계약	필드 매핑	계약	P1	진단 응답 explanation 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 explanation이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-068	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 explanationSource 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 explanationSource이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
+PS-BD-069	BD_진단API	응답계약	필드 매핑	계약	P2	진단 응답 createdAt 존재/타입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정상 POST 결과	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	필드 createdAt이(가) 엔티티 스키마와 동일한 타입·이름으로 직렬화	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java; back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/service/DiagnosisService.java	
