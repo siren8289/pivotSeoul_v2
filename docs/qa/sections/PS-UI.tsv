@@ -1,0 +1,61 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-UI-001	UI_공통화면	초기 진입	홈 /	UI/UX	P1	'/' 직접 접근	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	URL=/	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	진단 입력 화면과 공통 헤더 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-002	UI_공통화면	페이지 전환	메뉴	UI/UX	P2	진단→추천 이동	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	메뉴 자치구 추천 클릭	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	/recommend 페이지에 추천 입력폼 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-003	UI_공통화면	페이지 전환	메뉴	UI/UX	P2	추천→진단 이동	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	메뉴 내 주거비 진단 클릭	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	/ 페이지에 진단 입력폼 표시	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-004	UI_공통화면	직접 URL	추천	UI/UX	P2	URL 새로고침	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	/recommend 직접 접근 후 F5	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	메뉴와 추천 입력폼 유지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-005	UI_공통화면	직접 URL	결과	UI/UX	P2	URL 직접 접근	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	/diagnoses/1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	GET 조회 후 결과 렌더링 또는 명확한 조회 실패	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-006	UI_공통화면	잘못된 URL	404	UI/UX	P1	정의되지 않은 라우트	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	/not-a-page	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	빈 화면 대신 404 또는 홈 이동으로 안내	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-007	UI_공통화면	공통 선택	생애단계	UI/UX	P2	생애단계 옵션 일치	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	청년/신혼·육아 가구/중장년·노년	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	3개 항목이 값 youth/family/senior로 매핑	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-008	UI_공통화면	공통 선택	주택 유형	UI/UX	P2	주택 유형 옵션 일치	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	아파트/오피스텔/단독·다가구/연립·다세대	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	4개 주택유형 코드가 화면과 API에서 일치	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-009	UI_공통화면	공통 선택	자치구	UI/UX	P2	25개 서울 자치구 누락·중복 점검	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	서울시 25구 옵션 전체 검사	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	정확히 25개이고 중복·오탈자 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-010	UI_공통화면	표시 단위	금액	UI/UX	P2	만원 단위 안내	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	진단 화면 안내문	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	보증금·소득·월세 모두 '만원' 안내	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-011	UI_공통화면	라우팅	브라우저 뒤로	UI/UX	P2	추천→진단→뒤로	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	내부 링크로 2회 이동 후 뒤로	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	브라우저 히스토리대로 복귀	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-012	UI_공통화면	라우팅	브라우저 앞으로	UI/UX	P2	뒤로→앞으로	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	뒤로 동작 후 앞으로	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	정상 화면 복귀	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-013	UI_공통화면	레이아웃	작은 화면	UI/UX	P2	375px에서 화면 깨짐	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	375×812 viewport	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	내용이 가로 스크롤 없이 사용 가능	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-014	UI_공통화면	레이아웃	중간 화면	UI/UX	P2	768px 레이아웃	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	768×1024 viewport	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	텍스트/입력 요소 겹침 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-015	UI_공통화면	레이아웃	큰 화면	UI/UX	P2	1440px 레이아웃	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	1440×900 viewport	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	컨텐츠 중앙 정렬 및 읽기 좋은 폭 유지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-016	UI_공통화면	접근성	메뉴 키보드	UI/UX	P2	Tab→Enter로 이동	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	키보드만 사용	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	모든 메뉴에 포커스·이동 가능	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-017	UI_공통화면	접근성	시각적 포커스	UI/UX	P2	현재 포커스 인식	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	Tab 연속 입력	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	포커스 위치 시각적으로 구분	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-018	UI_공통화면	접근성	시맨틱 구조	UI/UX	P2	main/header 구조	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	DOM 접근성 트리	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	header/main/레이블 등 논리 구조	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-019	UI_공통화면	테마	기본 스타일	UI/UX	P2	Tailwind 스타일 렌더링	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	CSS 로딩 정상	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	여백·텍스트·버튼 색상 반영	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
+PS-UI-020	UI_공통화면	모바일	헤더	UI/UX	P1	좁은 화면 헤더 넘침	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	320px viewport	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	메뉴 잘리지 않거나 대체 메뉴 지원	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	front/src/App.tsx; front/src/components/options.ts	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/front/src/App.tsx	
