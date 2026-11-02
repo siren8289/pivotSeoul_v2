@@ -1,0 +1,115 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-BR-001	BR_추천API	성공	추천	기능	P0	POST 추천 정상 응답	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	POST /api/recommendations 기본 유효 JSON	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200, budget/within_budget_count/recommendations/all_districts 포함	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java; back/src/main/java/com/pivotseoul/recommend/service/RecommendService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	
+PS-BR-002	BR_추천API	응답계약	구 수	기능	P0	서울 25구 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	all_districts	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	개수=25, 구 이름 중복 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/service/RecommendService.java; ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/service/RecommendService.java	
+PS-BR-003	BR_추천API	응답계약	정렬	기능	P1	예측 주거비 오름차순	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	all_districts[*].predicted_cost	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	인접 값이 이전 값 이상	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-004	BR_추천API	응답계약	상위5	기능	P1	상위 추천	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	recommendations	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	기본 5개이며 all_districts의 첫 5개와 동일	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-005	BR_추천API	응답계약	예산 수치	기능	P0	30% 예산	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=400	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	budget=120.0 (만원)	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-006	BR_추천API	응답계약	적합 건수	기능	P0	within_budget	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	25개 행 + count	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	within_budget가 true인 행 개수=within_budget_count	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-007	BR_추천API	요청 검증	유효	경계	P1	lifeStage 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"lifeStage=""youth"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-008	BR_추천API	요청 검증	비허용	예외	P1	lifeStage 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"lifeStage=""undefined"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-009	BR_추천API	요청 검증	유효	경계	P1	houseType 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"houseType=""apartment"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-010	BR_추천API	요청 검증	비허용	예외	P1	houseType 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	"houseType=""condo"""	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-011	BR_추천API	요청 검증	유효	경계	P1	areaM2 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=5.1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-012	BR_추천API	요청 검증	비허용	예외	P1	areaM2 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=5	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-013	BR_추천API	요청 검증	유효	경계	P1	areaM2 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=300	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-014	BR_추천API	요청 검증	비허용	예외	P1	areaM2 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	areaM2=301	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-015	BR_추천API	요청 검증	유효	경계	P1	buildingAge 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-016	BR_추천API	요청 검증	비허용	예외	P1	buildingAge 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-017	BR_추천API	요청 검증	유효	경계	P1	buildingAge 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=60	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-018	BR_추천API	요청 검증	비허용	예외	P1	buildingAge 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	buildingAge=61	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-019	BR_추천API	요청 검증	유효	경계	P1	floor 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-020	BR_추천API	요청 검증	비허용	예외	P1	floor 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-021	BR_추천API	요청 검증	유효	경계	P1	floor 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=80	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-022	BR_추천API	요청 검증	비허용	예외	P1	floor 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	floor=81	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-023	BR_추천API	요청 검증	유효	경계	P1	monthlyIncome 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-024	BR_추천API	요청 검증	비허용	예외	P1	monthlyIncome 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-025	BR_추천API	요청 검증	유효	경계	P1	monthlyIncome 경계 정상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=100	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 200 및 유효한 추천 응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/recommend/controller/RecommendController.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-026	BR_추천API	요청 검증	비허용	예외	P1	monthlyIncome 경계 거부	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyIncome=-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 VALIDATION_ERROR; AI 미호출	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; back/src/main/java/com/pivotseoul/global/exception/GlobalExceptionHandler.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-027	BR_추천API	요청 검증	누락	예외	P1	lifeStage 필드 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	요청에서 lifeStage 제거	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 기본값 허용 여부를 FastAPI/Bean Validation 일치로 확인; 의도치 않은 0 생성 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-028	BR_추천API	요청 검증	누락	예외	P1	houseType 필드 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	요청에서 houseType 제거	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 기본값 허용 여부를 FastAPI/Bean Validation 일치로 확인; 의도치 않은 0 생성 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-029	BR_추천API	요청 검증	누락	예외	P1	areaM2 필드 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	요청에서 areaM2 제거	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 기본값 허용 여부를 FastAPI/Bean Validation 일치로 확인; 의도치 않은 0 생성 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-030	BR_추천API	요청 검증	누락	예외	P1	buildingAge 필드 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	요청에서 buildingAge 제거	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 기본값 허용 여부를 FastAPI/Bean Validation 일치로 확인; 의도치 않은 0 생성 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-031	BR_추천API	요청 검증	누락	예외	P1	floor 필드 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	요청에서 floor 제거	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 기본값 허용 여부를 FastAPI/Bean Validation 일치로 확인; 의도치 않은 0 생성 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-032	BR_추천API	요청 검증	누락	예외	P1	monthlyIncome 필드 누락	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	요청에서 monthlyIncome 제거	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생략 기본값 허용 여부를 FastAPI/Bean Validation 일치로 확인; 의도치 않은 0 생성 금지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	정책확인	back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java; ai/src/api/main.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/dto/RecommendRequest.java	
+PS-BR-033	BR_추천API	응답계약	각 구 필드	계약	P1	구별 상세값	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	all_districts[0]	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	district,predicted_cost,rir_percent,status,is_red_zone,within_budget,deal_count,audit_count가 올바른 타입	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-034	BR_추천API	응답계약	RIR	계약	P1	개별 구 비율	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	predicted_cost=90, monthlyIncome=300	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	rir_percent=30.0	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-035	BR_추천API	응답계약	예산경계	경계	P1	예산과 동일한 집	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	predicted_cost=90, monthlyIncome=300	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	within_budget=true	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-036	BR_추천API	응답계약	예산경계	경계	P1	예산 0.1만원 초과	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	predicted_cost=90.1, budget=90	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	within_budget=false	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-037	BR_추천API	응답계약	통계 결측	예외	P2	중앙값 없는 구	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	통계 JSON에 구·유형 조합 없음	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	deal_count/audit_count가 null로 반환되어도 전체 추천 성공	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/service.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/service.py	
+PS-BR-038	BR_추천API	연동	매핑	계약	P0	camelCase→snake_case	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	lifeStage=senior, houseType=villa	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	AI 입력 life_stage=senior,house_type=villa	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/recommend/service/RecommendService.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/recommend/service/RecommendService.java	
