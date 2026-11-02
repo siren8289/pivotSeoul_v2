@@ -41,3 +41,11 @@
 - 줄번호: 20
 - RISK_ID: 
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-035924-45a7 QA-API-CONTRACT-001
+
+- TC_ID: QA-API-CONTRACT-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: Schemathesis급 독립 경로로 OpenAPI 스키마 검증 사용 | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_api_contract.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/openapi_check.py` static_routes=8 controllers=3 findings=0 | 두 도구 PASS

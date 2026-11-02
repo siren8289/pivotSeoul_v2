@@ -41,3 +41,11 @@
 - 줄번호: 25
 - RISK_ID: RISK-V3-PLAYWRIGHT
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-035924-45a7 QA-E2E-FLOW-001
+
+- TC_ID: QA-E2E-FLOW-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: Playwright 목표. 현재는 독립 HTTP 루프백 이중 경로. | A `node --test front/tests/e2e_flow.test.mjs` node --test exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/e2e_flow_check.py` loopback HTTP E2E flow (health, create 201, get 200, 404, 400, recommend 25 districts) held | 두 도구 PASS
