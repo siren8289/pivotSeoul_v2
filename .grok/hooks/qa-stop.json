@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python qa/hooks/stop_qa.py",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python qa/hooks/stop_qa.py",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}
