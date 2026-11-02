@@ -33,3 +33,35 @@
 - 줄번호: 6
 - ISSUE_ID: 
 - 근거: front/package.json에 test 스크립트가 없다. 프론트 테스트는 실행하지 않았다.
+
+## R20261102-225309-bc64 RISK-QA-001
+
+- RISK_ID: RISK-QA-001
+- TC_ID: QA-UNIT-FRONT-001
+- 실행시각: 2026-11-02T22:53:09+09:00
+- 심각도: MEDIUM
+- 발생가능성: LOW
+- 영향: front/package.json에 test 스크립트를 구성하고 node --test와 front_check.py 두 도구로 교차 검증을 완료했다.
+- 처리상태: CLOSED
+- 권장조치: 완료 (2개 도구 교차 검증 상시 실행).
+- 파일: front/package.json
+- 함수: DISTRICTS
+- 줄번호: 10
+- ISSUE_ID: 
+- 근거: node --test front/tests/front_unit.test.mjs 및 qa/tools/front_check.py 모두 PASS.
+
+## R20261102-225401-7abf RISK-QA-001
+
+- RISK_ID: RISK-QA-001
+- TC_ID: QA-UNIT-FRONT-001
+- 실행시각: 2026-11-02T22:54:01+09:00
+- 심각도: MEDIUM
+- 발생가능성: LOW
+- 영향: front/package.json에 test 스크립트를 구성하고 node --test와 front_check.py 두 도구로 교차 검증을 완료했다.
+- 처리상태: CLOSED
+- 권장조치: 완료 (2개 도구 교차 검증 상시 실행).
+- 파일: front/package.json
+- 함수: DISTRICTS
+- 줄번호: 10
+- ISSUE_ID: 
+- 근거: node --test front/tests/front_unit.test.mjs 및 qa/tools/front_check.py 모두 PASS.
