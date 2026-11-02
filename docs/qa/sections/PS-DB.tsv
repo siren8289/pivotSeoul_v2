@@ -1,0 +1,76 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-DB-001	DB_저장조회	영속성/조회	정상 저장	통합	P1	정상 저장 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	POST 생성 후 id 조회	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	생성한 입력·결과가 테이블에 1건 저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-002	DB_저장조회	영속성/조회	ID 증가	통합	P1	ID 증가 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	연속 3건 POST	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	ID 중복 없이 순차 생성	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-003	DB_저장조회	영속성/조회	삭제 없는 이력	통합	P1	삭제 없는 이력 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	10건 POST	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	모두 DB에 기록, 최근 목록은 그중 10건	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-004	DB_저장조회	영속성/조회	최근 10개	통합	P1	최근 10개 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	15건 POST, GET 목록	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	목록은 최신 10건	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-005	DB_저장조회	영속성/조회	정렬	통합	P1	정렬 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	ID 11,12,13	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	13→12→11 순서	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-006	DB_저장조회	영속성/조회	결과 재현	통합	P1	결과 재현 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	동일 ID GET 3회	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	저장값 불변	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-007	DB_저장조회	영속성/조회	잘못된 ID	통합	P1	잘못된 ID 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /api/diagnoses/999999999	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 404, 기록 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-008	DB_저장조회	영속성/조회	id=0	통합	P1	id=0 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /api/diagnoses/0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 404	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-009	DB_저장조회	영속성/조회	음수 ID	통합	P1	음수 ID 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /api/diagnoses/-1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 404	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-010	DB_저장조회	영속성/조회	비정수 ID	통합	P1	비정수 ID 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /api/diagnoses/abc	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 계열	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-011	DB_저장조회	영속성/조회	소수 ID	통합	P1	소수 ID 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /api/diagnoses/1.5	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	HTTP 400 계열	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-012	DB_저장조회	영속성/조회	부동소수 보존	통합	P1	부동소수 보존 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	monthlyCost=100.1	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	재조회값 유효 자릿수 보존	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-013	DB_저장조회	영속성/조회	nullable RIR	통합	P1	nullable RIR 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	rirPercent=null 모의 AI 응답	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	nullable Double 컬럼으로 null 보존	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-014	DB_저장조회	영속성/조회	nullable 중앙값	통합	P1	nullable 중앙값 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	districtMedianCost=null	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	null로 저장/조회	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-015	DB_저장조회	영속성/조회	nullable 감사	통합	P1	nullable 감사 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	auditCount=null	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	null로 저장/조회	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-016	DB_저장조회	영속성/조회	설명 2000자	통합	P1	설명 2000자 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	explanation 2000자	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	저장 및 재조회 성공	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-017	DB_저장조회	영속성/조회	설명 2001자	통합	P2	설명 2001자 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	explanation 2001자	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	컬럼 길이 초과 시 안전한 오류/길이 정책	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-018	DB_저장조회	영속성/조회	한글/특수문자	통합	P1	한글/특수문자 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	explanation='서울 전세 30% & / 🎯'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	인코딩 손실 없이 저장/재조회	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-019	DB_저장조회	영속성/조회	createdAt	통합	P1	createdAt 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	POST 신규 요청	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	createdAt 생성·응답	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-020	DB_저장조회	영속성/조회	동시 저장	통합	P1	동시 저장 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	10회 병렬 POST	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	ID 중복/누락 없이 10건 저장	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-021	DB_저장조회	영속성/조회	중복 제출	통합	P2	중복 제출 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	동일 요청 연속 2회	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	중복 저장 허용 여부/멱등성 정책 검토	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-022	DB_저장조회	영속성/조회	트랜잭션	통합	P1	트랜잭션 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	AI 응답 후 DB 예외	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	데이터 불완전 상태 방지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
+PS-DB-023	DB_저장조회	영속성/조회	재배포 지속	통합	P1	재배포 지속 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	Compose 재시작 후 GET	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	PostgreSQL 볼륨 자료 유지	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml; back/src/main/resources/application.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-DB-024	DB_저장조회	영속성/조회	개발 환경 초기화	통합	P1	개발 환경 초기화 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	H2 메모리 DB 재시작	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	개발 H2 기록은 재시작하면 사라짐	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	compose.yaml; back/src/main/resources/application.yml	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/compose.yaml	
+PS-DB-025	DB_저장조회	영속성/조회	DB 일관성	통합	P1	DB 일관성 확인	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	AI 반환 결과 ↔ 저장 필드 비교	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	모든 수치·상태·출처가 누락 없이 동일	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java; back/src/main/java/com/pivotseoul/diagnosis/repository/DiagnosisRepository.java	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/back/src/main/java/com/pivotseoul/diagnosis/entity/Diagnosis.java	
