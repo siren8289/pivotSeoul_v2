@@ -1,0 +1,97 @@
+테스트ID	영역	대분류	중분류	유형	우선순위	시나리오	사전조건	입력값	절차	기대결과	판정기준	실행상태	예비1	예비2	권고	근거	대상소스	참조URL	비고
+PS-RG-001	RG_RAG안내	기본 요청	guidance 정상	RAG/통합	P1	guidance 정상: user.monthly_income=200,query='청년 월세 지원'	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	user.monthly_income=200,query='청년 월세 지원'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	200 + user_summary/rir_analysis/recommended_policies/explanation/citations/harness_meta/disclaimer	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-002	RG_RAG안내	기본 요청	질문 생략	RAG/통합	P1	질문 생략: query=null,life_stage=youth,monthly_rent=50	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	query=null,life_stage=youth,monthly_rent=50	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	청년 월세지원 기본 검색 질의로 분기	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-003	RG_RAG안내	기본 요청	전세 질문 생략	RAG/통합	P1	전세 질문 생략: query=null,life_stage=youth,monthly_rent=0	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	query=null,life_stage=youth,monthly_rent=0	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	청년 전세·보증금 지원으로 분기	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-004	RG_RAG안내	기본 요청	가족 질문 생략	RAG/통합	P1	가족 질문 생략: query=null,life_stage=family	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	query=null,life_stage=family	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	신혼/가족 정책 기본 검색 질의	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-005	RG_RAG안내	기본 요청	시니어 질문 생략	RAG/통합	P1	시니어 질문 생략: query=null,life_stage=senior	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	query=null,life_stage=senior	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	고령자 주거 보조 기본 검색 질의	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-006	RG_RAG안내	기본 요청	사용자 질문	RAG/통합	P1	사용자 질문: query='청년 버팀목 대출'	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	query='청년 버팀목 대출'	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	직접 문의 질의 우선 사용	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-007	RG_RAG안내	기본 요청	빈 질문	RAG/통합	P1	빈 질문: query='  '	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	query='  '	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	기본 질의 생성	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-008	RG_RAG안내	RIR 결합	포함=true	RAG/통합	P1	포함=true: include_rir_diagnosis=true	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	include_rir_diagnosis=true	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	rir_analysis 숫자·등급 포함	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-009	RG_RAG안내	RIR 결합	포함=false	RAG/통합	P1	포함=false: include_rir_diagnosis=false	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	include_rir_diagnosis=false	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	rir_analysis=null, 정책 안내는 반환	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-010	RG_RAG안내	워크플로우	단계1 의도	RAG/통합	P1	단계1 의도: node_branch_intent	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	node_branch_intent	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	intent_category/search_query 설정	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-011	RG_RAG안내	워크플로우	단계2 검색	RAG/통합	P1	단계2 검색: node_retrieve_documents	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	node_retrieve_documents	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	검색 결과와 원본 정책 매핑	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-012	RG_RAG안내	워크플로우	단계3 자격	RAG/통합	P1	단계3 자격: node_verify_eligibility	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	node_verify_eligibility	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	정책별 eligibility 부착	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-013	RG_RAG안내	워크플로우	단계4 설명	RAG/통합	P1	단계4 설명: node_generate_guidance	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	node_generate_guidance	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	설명 및 citations 생성	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-014	RG_RAG안내	워크플로우	LangGraph 사용	RAG/통합	P1	LangGraph 사용: is_langgraph_installed=True	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	is_langgraph_installed=True	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	StateGraph 경로 결과와 순차 경로 동일	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-015	RG_RAG안내	워크플로우	내장 폴백	RAG/통합	P1	내장 폴백: LangGraph 미설치	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	LangGraph 미설치	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	경량 순차 경로 성공	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-016	RG_RAG안내	워크플로우	LangGraph 오류	RAG/통합	P1	LangGraph 오류: StateGraph 실행 중 예외	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	StateGraph 실행 중 예외	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	순차 폴백으로 안내 정상 생성	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-017	RG_RAG안내	추천 정책	우선순위	RAG/통합	P1	우선순위: ELIGIBLE_PROBABLE/CONDITIONAL/INELIGIBLE/EXPIRED	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	ELIGIBLE_PROBABLE/CONDITIONAL/INELIGIBLE/EXPIRED	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	해당 순서로 정렬	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-018	RG_RAG안내	추천 정책	중복 방지	RAG/통합	P1	중복 방지: 동일 정책 청크 여러 개	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	동일 정책 청크 여러 개	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	policy_id 기준 한 정책 한 번 추천	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-019	RG_RAG안내	추천 정책	검색 결과 없음	RAG/통합	P1	검색 결과 없음: search_results=[]	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	search_results=[]	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	정책 0건과 안전한 안내문	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/orchestration/workflow.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/orchestration/workflow.py	
+PS-RG-020	RG_RAG안내	출처	단일 출처	RAG/통합	P1	단일 출처: 추천 정책 1건	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	추천 정책 1건	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	source_url 포함 citation 1건	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-021	RG_RAG안내	출처	중복 제거	RAG/통합	P1	중복 제거: 같은 source_url 정책 2건	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	같은 source_url 정책 2건	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	출처 URL 중복 없이 1건	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-022	RG_RAG안내	출처	실제 출처	RAG/통합	P0	실제 출처: 추천 정책 2건	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	추천 정책 2건	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	모든 출처 URL이 추천 정책과 연결	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-023	RG_RAG안내	출처	미검증 링크	RAG/통합	P1	미검증 링크: source_url가 죽은 링크	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	source_url가 죽은 링크	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	운영 전 공식 최신 공고 URL 유효성 검사	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-024	RG_RAG안내	설명	Gemini 성공	RAG/통합	P1	Gemini 성공: GEMINI_API_KEY 있고 호출 성공	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GEMINI_API_KEY 있고 호출 성공	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	정책·소득·RIR 문맥이 반영된 설명	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-025	RG_RAG안내	설명	Gemini 실패	RAG/통합	P1	Gemini 실패: Gemini 500	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	Gemini 500	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	규칙 기반 안내문으로 폴백	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-026	RG_RAG안내	설명	정책 없음	RAG/통합	P1	정책 없음: recommended_policies=[]	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	recommended_policies=[]	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	'일치하는 활성 정책을 찾지 못함' 안내	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-027	RG_RAG안내	설명	위험 단계	RAG/통합	P1	위험 단계: rir >40%	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	rir >40%	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Red Zone 경고 문구 포함	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-028	RG_RAG안내	설명	공고 확인	RAG/통합	P1	공고 확인: 정책 1건 이상	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	정책 1건 이상	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	공식 출처 확인하라는 안내	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/housing_guidance/service.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/housing_guidance/service.py	
+PS-RG-029	RG_RAG안내	응답	자동 신청	RAG/통합	P0	자동 신청: 어떤 요청이든	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	어떤 요청이든	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	자동 신청 실행·주장 금지 및 disclaimer 존재	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-030	RG_RAG안내	응답	민감정보 누출	RAG/통합	P0	민감정보 누출: 질문에 이메일/전화번호 삽입	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	질문에 이메일/전화번호 삽입	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	설명·trace·로그에 원문 PII 없음	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-031	RG_RAG안내	응답	평가 지표	RAG/통합	P1	평가 지표: GET /evaluation	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	GET /evaluation	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	Recall@K, Citation Accuracy, eligibility accuracy, expired error 반환	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	구현기반	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
+PS-RG-032	RG_RAG안내	응답	RAG API 접근 통제	RAG/통합	P1	RAG API 접근 통제: RAG 라우트 Spring `/api` 프록시로 호출	서비스/의존성이 정상 가동되거나 명시된 테스트 더블을 준비	RAG 라우트 Spring `/api` 프록시로 호출	"1. 해당 테스트의 사전조건을 준비한다.
+2. 입력값으로 기능 또는 API를 실행한다.
+3. 응답·화면·로그·저장값을 기대결과와 대조한다."	서비스 경계/접근인증 정책을 명확히 확인	기대결과 충족 / 결과·응답코드·수치·보안 동작 확인	미실행			권장	개선제안	ai/src/features/housing_rag_001/router.py; ai/src/features/housing_rag_001/schemas.py	https://github.com/siren8289/pivotSeoul_v2/blob/7d159a95f914ae276e2167df9531d50c3875cd00/ai/src/features/housing_rag_001/router.py	
