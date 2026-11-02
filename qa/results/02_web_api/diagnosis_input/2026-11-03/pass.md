@@ -49,3 +49,23 @@
 - 도구A: PASS
 - 도구B: PASS
 - 실제결과: Playwright 목표. 현재는 독립 HTTP 루프백 이중 경로. | A `node --test front/tests/e2e_flow.test.mjs` node --test exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/e2e_flow_check.py` loopback HTTP E2E flow (health, create 201, get 200, 404, 400, recommend 25 districts) held | 두 도구 PASS
+
+## R20261103-040635-325a QA-E2E-FLOW-001
+
+- TC_ID: QA-E2E-FLOW-001
+- FEATURE_ID: FEAT-E2E-DIAG
+- REQUIREMENT_ID: REQ-E2E-FLOW
+- 실행시각: 2026-11-03T04:08:57+09:00 ~ 2026-11-03T04:09:14+09:00
+- area: 02_web_api
+- section: diagnosis_input
+- 도구A: node-e2e / PASS / node --test front/tests/e2e_flow.test.mjs
+- 도구B: e2e-flow-check / PASS / /Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/e2e_flow_check.py
+- 기대결과: 진단 생성·조회·추천·오류 여정이 Node E2E와 Python 루프백에서 통과
+- 실제결과: Playwright 목표. 현재는 독립 HTTP 루프백 이중 경로. | A `node --test front/tests/e2e_flow.test.mjs` node --test exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/e2e_flow_check.py` loopback HTTP E2E flow (health, create 201, get 200, 404, 400, recommend 25 districts) held | 두 도구 PASS
+- 증거: qa/results/02_web_api/diagnosis_input/2026-11-03
+- GitCommit: d494050
+- 파일: front/src/pages/DiagnosePage.tsx
+- 함수: handleSubmit
+- 줄번호: 25
+- RISK_ID: RISK-V3-PLAYWRIGHT
+- 검증목적: 서로 다른 두 경로의 필수 단언 통과

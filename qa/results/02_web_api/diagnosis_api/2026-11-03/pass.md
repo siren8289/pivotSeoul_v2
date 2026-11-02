@@ -49,3 +49,23 @@
 - 도구A: PASS
 - 도구B: PASS
 - 실제결과: Schemathesis급 독립 경로로 OpenAPI 스키마 검증 사용 | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_api_contract.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/openapi_check.py` static_routes=8 controllers=3 findings=0 | 두 도구 PASS
+
+## R20261103-040635-325a QA-API-CONTRACT-001
+
+- TC_ID: QA-API-CONTRACT-001
+- FEATURE_ID: FEAT-API-CONTRACT
+- REQUIREMENT_ID: REQ-API-RIR
+- 실행시각: 2026-11-03T04:08:47+09:00 ~ 2026-11-03T04:08:57+09:00
+- area: 02_web_api
+- section: diagnosis_api
+- 도구A: pytest / PASS / /Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_api_contract.py -q --tb=line
+- 도구B: openapi-check / PASS / /Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/openapi_check.py
+- 기대결과: RIR/계약 pytest와 FastAPI OpenAPI·Controller 표면 검증이 모두 통과
+- 실제결과: Schemathesis급 독립 경로로 OpenAPI 스키마 검증 사용 | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_api_contract.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/openapi_check.py` static_routes=8 controllers=3 findings=0 | 두 도구 PASS
+- 증거: qa/results/02_web_api/diagnosis_api/2026-11-03
+- GitCommit: d494050
+- 파일: ai/src/api/main.py
+- 함수: app
+- 줄번호: 20
+- RISK_ID: 
+- 검증목적: 서로 다른 두 경로의 필수 단언 통과

@@ -49,3 +49,23 @@
 - 도구A: PASS
 - 도구B: PASS
 - 실제결과: 기록기 단위·게이트 교차 검증 | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_record.py qa/tests/test_gate.py qa/tests/test_stop.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/record_selfcheck.py` append, BOM, PASS rule, and HIGH gate held | 두 도구 PASS
+
+## R20261103-040635-325a QA-UNIT-RECORD-001
+
+- TC_ID: QA-UNIT-RECORD-001
+- FEATURE_ID: FEAT-QA-RECORD
+- REQUIREMENT_ID: REQ-QA-V3
+- 실행시각: 2026-11-03T04:07:31+09:00 ~ 2026-11-03T04:07:44+09:00
+- area: 01_unit_integration
+- section: qa_recorder
+- 도구A: pytest / PASS / /Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_record.py qa/tests/test_gate.py qa/tests/test_stop.py -q --tb=line
+- 도구B: record-selfcheck / PASS / /Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/record_selfcheck.py
+- 기대결과: results.tsv 누적·BOM·PASS 규칙·HIGH 게이트가 두 경로에서 통과
+- 실제결과: 기록기 단위·게이트 교차 검증 | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_record.py qa/tests/test_gate.py qa/tests/test_stop.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/record_selfcheck.py` append, BOM, PASS rule, and HIGH gate held | 두 도구 PASS
+- 증거: qa/results/01_unit_integration/qa_recorder/2026-11-03
+- GitCommit: d494050
+- 파일: qa/record.py
+- 함수: append_results
+- 줄번호: 125
+- RISK_ID: 
+- 검증목적: 서로 다른 두 경로의 필수 단언 통과
