@@ -41,3 +41,11 @@
 - 줄번호: 125
 - RISK_ID: 
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-035418-0890 QA-UNIT-RECORD-001
+
+- TC_ID: QA-UNIT-RECORD-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: 기록기 단위·게이트 교차 검증 | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_record.py qa/tests/test_gate.py qa/tests/test_stop.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/record_selfcheck.py` append, BOM, PASS rule, and HIGH gate held | 두 도구 PASS

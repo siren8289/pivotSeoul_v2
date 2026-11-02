@@ -41,3 +41,11 @@
 - 줄번호: 23
 - RISK_ID: 
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-035418-0890 QA-UNIT-DATA-001
+
+- TC_ID: QA-UNIT-DATA-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: 1차 pytest(단위) / 2차 invariant 블랙박스. Testcontainers 비적용(순수 변환 로직). | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest data/tests -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/invariant_check.py` 9 invariants held | 두 도구 PASS

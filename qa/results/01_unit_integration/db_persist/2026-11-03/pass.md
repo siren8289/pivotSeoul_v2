@@ -41,3 +41,11 @@
 - 줄번호: 32
 - RISK_ID: 
 - 검증목적: 서로 다른 두 경로의 필수 단언 통과
+
+## R20261103-035418-0890 QA-INT-PIPELINE-001
+
+- TC_ID: QA-INT-PIPELINE-001
+- 최종상태: PASS
+- 도구A: PASS
+- 도구B: PASS
+- 실제결과: 통합 블랙박스. Testcontainers DB는 Spring 테스트에 위임. | A `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python -m pytest qa/tests/test_integration_pipeline.py -q --tb=line` pytest exit 0 | B `/Users/jeong-yelim/orca/pivotSeoul_v2/.venv/bin/python qa/tools/integration_check.py` Data-AI-Back-Front 25 districts, conversion rate, and schema mapping aligned | 두 도구 PASS

@@ -143,9 +143,27 @@ def main(argv: list[str] | None = None) -> int:
         for (area, section), entries in by_section.items():
             directory = RESULTS / area / section / day
             rows = [e[0] for e in entries]
-            passes = fails = risks = []
-            # markdown kept brief; detailed suite risks appended below with catalog
-            write_day(directory, rows, [], [], [])
+            passes: list[str] = []
+            fails: list[str] = []
+            risks: list[str] = []
+            for row, item in entries:
+                heading = f"## {run_id} {item.check.tc_id}"
+                body = [
+                    heading,
+                    "",
+                    f"- TC_ID: {item.check.tc_id}",
+                    f"- 최종상태: {item.final}",
+                    f"- 도구A: {item.tool_a.status}",
+                    f"- 도구B: {item.tool_b.status}",
+                    f"- 실제결과: {item.note}",
+                ]
+                if item.final == "PASS":
+                    passes.append("\n".join(body))
+                else:
+                    fails.append("\n".join(body))
+                if item.risk_md:
+                    risks.append(item.risk_md.replace("{run_id}", run_id).replace("{when}", when))
+            write_day(directory, rows, passes, fails, risks)
             append_history(HISTORY, rows)
             for row, item in entries:
                 print(f"SUITE {row['TC_ID']} {row['final_status']} {area}/{section}")
